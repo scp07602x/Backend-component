@@ -7,13 +7,17 @@
       class="w-full mx-autp items-center flex justify-between md:flex-no-wrap flex-wrap md:px-10 px-4"
     >
       <!-- Brand -->
-      <a
+      <!-- <a
         class="text-white text-sm uppercase hidden lg:inline-block font-semibold"
         href="javascript:void(0)"
       >
         Dashboard
-      </a>
+      </a> -->
       <!-- Form -->
+
+      <!-- 這邊可以埋麵包屑嗎 -->
+      <BreadCrumb />
+      
       <form
         class="md:flex hidden flex-row flex-wrap items-center lg:ml-auto mr-3"
       >
@@ -41,10 +45,12 @@
 
 <script>
 import UserDropdown from "@/components/Dropdowns/UserDropdown.vue";
+import BreadCrumb from "@/components/Breadcrumb/Breadcrumb.vue";
 
 export default {
   components: {
     UserDropdown,
+    BreadCrumb,
   },
 };
 </script>

@@ -18,7 +18,8 @@
         class="md:block text-left md:pb-2 text-gray-700 mr-0 inline-block whitespace-no-wrap text-sm uppercase font-bold p-4 px-0"
         to="/"
       >
-        Vue Notus
+       後台版型
+       
       </router-link>
       <!-- User -->
       <ul class="md:hidden items-center flex flex-wrap list-none">
@@ -75,12 +76,12 @@
         <h6
           class="md:min-w-full text-gray-600 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
         >
-          Admin Layout Pages
+          管理者設定介面
         </h6>
         <!-- Navigation -->
 
         <ul class="md:flex-col md:min-w-full flex flex-col list-none">
-          <li class="items-center">
+          <!-- <li class="items-center">
             <router-link
               to="/admin/dashboard"
               v-slot="{ href, route, navigate, isActive }"
@@ -102,7 +103,7 @@
                 Dashboard
               </a>
             </router-link>
-          </li>
+          </li> -->
 
           <li class="items-center">
             <router-link
@@ -123,7 +124,7 @@
                   class="fas fa-tools mr-2 text-sm"
                   :class="[isActive ? 'opacity-75' : 'text-gray-400']"
                 ></i>
-                Settings
+                設定
               </a>
             </router-link>
           </li>
@@ -152,7 +153,7 @@
             </router-link>
           </li>
 
-          <li class="items-center">
+          <!-- <li class="items-center">
             <router-link
               to="/admin/maps"
               v-slot="{ href, route, navigate, isActive }"
@@ -174,6 +175,30 @@
                 Maps
               </a>
             </router-link>
+          </li> -->
+
+          <li class="items-center">
+            <router-link
+              to="/admin/editor"
+              v-slot="{ href, route, navigate, isActive }"
+            >
+              <a
+                :href="href"
+                @click="navigate"
+                class="text-xs uppercase py-3 font-bold block"
+                :class="[
+                  isActive
+                    ? 'text-green-500 hover:text-green-600'
+                    : 'text-gray-800 hover:text-gray-600',
+                ]"
+              >
+                <i
+                  class="fas fa-edit mr-2 text-sm"
+                  :class="[isActive ? 'opacity-75' : 'text-gray-400']"
+                ></i>
+                Editor
+              </a>
+            </router-link>
           </li>
         </ul>
 
@@ -183,7 +208,29 @@
         <h6
           class="md:min-w-full text-gray-600 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
         >
-          Auth Layout Pages
+          後台設定
+        </h6>
+        <!-- Navigation -->
+
+        <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
+          <li class="items-center">
+            <router-link
+              class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block"
+              to="/setting/user"
+            >
+              <i class="fas fa-fingerprint text-gray-400 mr-2 text-sm"></i>
+              後台管理者
+            </router-link>
+          </li>
+        </ul>
+
+        <!-- Divider -->
+        <hr class="my-4 md:min-w-full" />
+        <!-- Heading -->
+        <h6
+          class="md:min-w-full text-gray-600 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
+        >
+          後台使用者
         </h6>
         <!-- Navigation -->
 
@@ -247,7 +294,7 @@
         <h6
           class="md:min-w-full text-gray-600 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
         >
-          Documentation
+          參考文件
         </h6>
         <!-- Navigation -->
         <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
@@ -273,7 +320,7 @@
             </a>
           </li>
 
-          <li class="inline-flex">
+          <!-- <li class="inline-flex">
             <a
               href="https://www.creative-tim.com/learning-lab/tailwind/angular/overview/notus"
               target="_blank"
@@ -315,9 +362,9 @@
               <i class="fab fa-react mr-2 text-gray-400 text-base"></i>
               React
             </a>
-          </li>
+          </li> -->
 
-          <li class="inline-flex">
+          <!-- <li class="inline-flex">
             <a
               href="https://www.creative-tim.com/learning-lab/tailwind/svelte/overview/notus"
               target="_blank"
@@ -326,7 +373,7 @@
               <i class="fas fa-link mr-2 text-gray-400 text-base"></i>
               Svelte
             </a>
-          </li>
+          </li> -->
 
           <li class="inline-flex">
             <a

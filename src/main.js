@@ -14,6 +14,7 @@ import App from "@/App.vue";
 
 import Admin from "@/layouts/Admin.vue";
 import Auth from "@/layouts/Auth.vue";
+import Setting from "@/layouts/Setting.vue";
 
 // views for Admin layout
 
@@ -21,6 +22,11 @@ import Dashboard from "@/views/admin/Dashboard.vue";
 import Settings from "@/views/admin/Settings.vue";
 import Tables from "@/views/admin/Tables.vue";
 import Maps from "@/views/admin/Maps.vue";
+import Editor from "@/views/admin/Editor.vue";
+
+// views for Setting Layout
+
+import User from "@/views/setting/User.vue";
 
 // views for Auth layout
 
@@ -31,23 +37,34 @@ import Register from "@/views/auth/Register.vue";
 
 import Landing from "@/views/Landing.vue";
 import Profile from "@/views/Profile.vue";
-import Index from "@/views/Index.vue";
+// import Index from "@/views/Index.vue";
 
 // routes
 
-const routes = [
-  {
+const routes = [{
     path: "/admin",
     redirect: "/admin/dashboard",
     component: Admin,
-    children: [
-      {
+    children: [{
         path: "/admin/dashboard",
         component: Dashboard,
+        meta: {
+          breadcrumb: [{
+            name: "首頁",
+          }],
+        }
       },
       {
         path: "/admin/settings",
         component: Settings,
+        meta: {
+          breadcrumb: [{
+            name: "首頁",
+            link: "/admin/dashboard",
+          }, {
+            name: "設定",
+          }],
+        }
       },
       {
         path: "/admin/tables",
@@ -57,14 +74,34 @@ const routes = [
         path: "/admin/maps",
         component: Maps,
       },
+      {
+        path: "/admin/editor",
+        component: Editor,
+        meta: {
+          breadcrumb: [{
+            name: "首頁",
+            link: Dashboard,
+          }, {
+            name: "",
+          }],
+        }
+      },
     ],
+  },
+  {
+    path: "/setting",
+    redirect: "/setting/user",
+    component: Setting,
+    children: [{
+      path: "/setting/user",
+      component: User,
+    }, ],
   },
   {
     path: "/auth",
     redirect: "/auth/login",
     component: Auth,
-    children: [
-      {
+    children: [{
         path: "/auth/login",
         component: Login,
       },
@@ -84,9 +121,13 @@ const routes = [
   },
   {
     path: "/",
-    component: Index,
+    redirect: "/admin/dashboard",
+    component: Admin,
   },
-  { path: "*", redirect: "/" },
+  {
+    path: "*",
+    redirect: "/"
+  },
 ];
 
 // app config
