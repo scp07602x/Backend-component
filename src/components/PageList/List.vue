@@ -146,7 +146,9 @@ export default {
   created() {
     let listLength = this.$route.meta.breadcrumb;
     this.title = listLength[listLength.length - 1].name;
-    console.log(this.$axios.fetch());
+
+    // example
+    this.$axios.fetch('/user').then(data => this.$store.state.pageList.list = data);
   },
 
   mounted() {

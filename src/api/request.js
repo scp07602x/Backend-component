@@ -1,8 +1,10 @@
 import axios from 'axios';
 
 const Service = axios.create({
-  baseURL: 'https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=1jwoEGx68VsG',
-  timeout: 5000 // 請求超時設置
+  baseURL: 'http://localhost/laravel/public',
+  timeout: 5000, // 請求超時設置
+  'Content-Type': 'application/json;charset=utf-8',
+  'Access-Control-Allow-Origin': '*',
 })
 
 // request攔截器
