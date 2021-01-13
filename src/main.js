@@ -22,23 +22,20 @@ import Dashboard from "@/views/admin/Dashboard.vue";
 import Settings from "@/views/admin/Settings.vue";
 import Tables from "@/views/admin/Tables.vue";
 import Maps from "@/views/admin/Maps.vue";
-import Editor from "@/views/admin/Editor.vue";
 
 // views for Setting Layout
 
 import User from "@/views/setting/User.vue";
+import Editor from "@/views/setting/Editor.vue";
+import AdPage from "@/views/setting/AdPage.vue";
 
 // views for Auth layout
 
 import Login from "@/views/auth/Login.vue";
 import Register from "@/views/auth/Register.vue";
-
-// views without layouts
-
-import Landing from "@/views/Landing.vue";
-import Profile from "@/views/Profile.vue";
-// import Index from "@/views/Index.vue";
-
+import store from './store';
+import axios from './api';
+// Vue.use(axios);
 // routes
 
 const routes = [{
@@ -74,18 +71,6 @@ const routes = [{
         path: "/admin/maps",
         component: Maps,
       },
-      {
-        path: "/admin/editor",
-        component: Editor,
-        meta: {
-          breadcrumb: [{
-            name: "首頁",
-            link: Dashboard,
-          }, {
-            name: "",
-          }],
-        }
-      },
     ],
   },
   {
@@ -93,9 +78,61 @@ const routes = [{
     redirect: "/setting/user",
     component: Setting,
     children: [{
-      path: "/setting/user",
-      component: User,
-    }, ],
+        path: "/setting/user",
+        component: User,
+        meta: {
+          breadcrumb: [{
+            name: "首頁",
+            link: "/admin/dashboard",
+          }, {
+            name: "管理者",
+          }],
+        }
+      }, {
+        path: "/setting/adpage",
+        component: AdPage,
+        meta: {
+          breadcrumb: [{
+            name: "首頁",
+            link: "/admin/dashboard",
+          }, {
+            name: "廣告頁面列表",
+          }],
+        },
+      }, {
+        path: "/setting/adpage/editor",
+        component: Editor,
+        meta: {
+          breadcrumb: [{
+              name: "首頁",
+              link: "/admin/dashboard",
+            }, {
+              name: "廣告頁面列表",
+              link: "/setting/adpage",
+            },
+            {
+              name: "編輯器",
+            }
+          ],
+        }
+      }, {
+        path: "/setting/adpage/editor/:id",
+        component: Editor,
+        meta: {
+          breadcrumb: [{
+              name: "首頁",
+              link: "/admin/dashboard",
+            }, {
+              name: "廣告頁面列表",
+              link: "/setting/adpage",
+            },
+            {
+              name: "編輯器",
+            }
+          ],
+        }
+      },
+    ],
   },
   {
     path: "/auth",
@@ -112,14 +149,6 @@ const routes = [{
     ],
   },
   {
-    path: "/landing",
-    component: Landing,
-  },
-  {
-    path: "/profile",
-    component: Profile,
-  },
-  {
     path: "/",
     redirect: "/admin/dashboard",
     component: Admin,
@@ -129,8 +158,6 @@ const routes = [{
     redirect: "/"
   },
 ];
-
-// app config
 
 Vue.config.productionTip = false;
 
@@ -142,5 +169,7 @@ const router = new VueRouter({
 
 new Vue({
   router,
-  render: (h) => h(App),
+  store,
+  axios,
+  render: (h) => h(App)
 }).$mount("#app");

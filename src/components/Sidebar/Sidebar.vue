@@ -15,11 +15,10 @@
       </button>
       <!-- Brand -->
       <router-link
-        class="md:block text-left md:pb-2 text-gray-700 mr-0 inline-block whitespace-no-wrap text-sm uppercase font-bold p-4 px-0"
+        class="md:block text-left md:pb-2 text-gray-700 mr-0 inline-block whitespace-no-wrap text-base uppercase font-bold p-4 px-0"
         to="/"
       >
-       後台版型
-       
+        後台版型
       </router-link>
       <!-- User -->
       <ul class="md:hidden items-center flex flex-wrap list-none">
@@ -42,7 +41,7 @@
           <div class="flex flex-wrap">
             <div class="w-6/12">
               <router-link
-                class="md:block text-left md:pb-2 text-gray-700 mr-0 inline-block whitespace-no-wrap text-sm uppercase font-bold p-4 px-0"
+                class="md:block text-left md:pb-2 text-gray-700 mr-0 inline-block whitespace-no-wrap text-base uppercase font-bold p-4 px-0"
                 to="/"
               >
                 Vue Notus
@@ -74,7 +73,7 @@
         <hr class="my-4 md:min-w-full" />
         <!-- Heading -->
         <h6
-          class="md:min-w-full text-gray-600 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
+          class="md:min-w-full text-gray-600 text-sm uppercase font-bold block pt-1 pb-4 no-underline"
         >
           管理者設定介面
         </h6>
@@ -89,7 +88,7 @@
               <a
                 :href="href"
                 @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
+                class="text-sm uppercase py-3 font-bold block"
                 :class="[
                   isActive
                     ? 'text-green-500 hover:text-green-600'
@@ -97,7 +96,7 @@
                 ]"
               >
                 <i
-                  class="fas fa-tv mr-2 text-sm"
+                  class="fas fa-tv mr-2 text-base"
                   :class="[isActive ? 'opacity-75' : 'text-gray-400']"
                 ></i>
                 Dashboard
@@ -108,12 +107,12 @@
           <li class="items-center">
             <router-link
               to="/admin/settings"
-              v-slot="{ href, route, navigate, isActive }"
+              v-slot="{ href, navigate, isActive }"
             >
               <a
                 :href="href"
                 @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
+                class="text-sm uppercase py-3 font-bold block"
                 :class="[
                   isActive
                     ? 'text-green-500 hover:text-green-600'
@@ -121,7 +120,7 @@
                 ]"
               >
                 <i
-                  class="fas fa-tools mr-2 text-sm"
+                  class="fas fa-tools mr-2 text-base"
                   :class="[isActive ? 'opacity-75' : 'text-gray-400']"
                 ></i>
                 設定
@@ -132,12 +131,12 @@
           <li class="items-center">
             <router-link
               to="/admin/tables"
-              v-slot="{ href, route, navigate, isActive }"
+              v-slot="{ href, navigate, isActive }"
             >
               <a
                 :href="href"
                 @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
+                class="text-sm uppercase py-3 font-bold block"
                 :class="[
                   isActive
                     ? 'text-green-500 hover:text-green-600'
@@ -145,7 +144,7 @@
                 ]"
               >
                 <i
-                  class="fas fa-table mr-2 text-sm"
+                  class="fas fa-table mr-2 text-base"
                   :class="[isActive ? 'opacity-75' : 'text-gray-400']"
                 ></i>
                 Tables
@@ -156,12 +155,12 @@
           <!-- <li class="items-center">
             <router-link
               to="/admin/maps"
-              v-slot="{ href, route, navigate, isActive }"
+              v-slot="{ href, navigate, isActive }"
             >
               <a
                 :href="href"
                 @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
+                class="text-sm uppercase py-3 font-bold block"
                 :class="[
                   isActive
                     ? 'text-green-500 hover:text-green-600'
@@ -169,23 +168,37 @@
                 ]"
               >
                 <i
-                  class="fas fa-map-marked mr-2 text-sm"
+                  class="fas fa-map-marked mr-2 text-base"
                   :class="[isActive ? 'opacity-75' : 'text-gray-400']"
                 ></i>
                 Maps
               </a>
             </router-link>
           </li> -->
+        </ul>
 
-          <li class="items-center">
-            <router-link
-              to="/admin/editor"
-              v-slot="{ href, route, navigate, isActive }"
-            >
+        <!-- Divider -->
+        <hr class="my-4 md:min-w-full" />
+        <!-- Heading -->
+        <h6
+          class="md:min-w-full text-gray-600 text-sm uppercase font-bold block pt-1 pb-4 no-underline"
+        >
+          後台設定
+        </h6>
+        <!-- Navigation -->
+
+        <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
+          
+
+          
+           <li class="items-center">
+            <router-link 
+            v-slot="{ href, navigate, isActive }"
+            to="/setting/user">
               <a
                 :href="href"
                 @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
+                class="text-sm uppercase py-3 font-bold block"
                 :class="[
                   isActive
                     ? 'text-green-500 hover:text-green-600'
@@ -193,42 +206,66 @@
                 ]"
               >
                 <i
-                  class="fas fa-edit mr-2 text-sm"
+                  class="fas fa-users-cog mr-2 text-base"
+                  :class="[isActive ? 'opacity-75' : 'text-gray-400']"
+                ></i>
+                後台管理者
+              </a>
+            </router-link>
+          </li>
+
+          <li class="items-center">
+            <router-link 
+            v-slot="{ href, navigate, isActive }"
+            to="/setting/adpage">
+              <a
+                :href="href"
+                @click="navigate"
+                class="text-sm uppercase py-3 font-bold block"
+                :class="[
+                  isActive
+                    ? 'text-green-500 hover:text-green-600'
+                    : 'text-gray-800 hover:text-gray-600',
+                ]"
+              >
+                <i
+                  class="fas fa-ad mr-2 text-base"
+                  :class="[isActive ? 'opacity-75' : 'text-gray-400']"
+                ></i>
+                廣告頁面
+              </a>
+            </router-link>
+          </li>
+
+          <!-- <li class="items-center">
+            <router-link 
+            v-slot="{ href, navigate, isActive }"
+            to="/setting/editor">
+              <a
+                :href="href"
+                @click="navigate"
+                class="text-sm uppercase py-3 font-bold block"
+                :class="[
+                  isActive
+                    ? 'text-green-500 hover:text-green-600'
+                    : 'text-gray-800 hover:text-gray-600',
+                ]"
+              >
+                <i
+                  class="fas fa-edit mr-2 text-base"
                   :class="[isActive ? 'opacity-75' : 'text-gray-400']"
                 ></i>
                 Editor
               </a>
             </router-link>
-          </li>
+          </li> -->
         </ul>
 
         <!-- Divider -->
         <hr class="my-4 md:min-w-full" />
         <!-- Heading -->
         <h6
-          class="md:min-w-full text-gray-600 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
-        >
-          後台設定
-        </h6>
-        <!-- Navigation -->
-
-        <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-          <li class="items-center">
-            <router-link
-              class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block"
-              to="/setting/user"
-            >
-              <i class="fas fa-fingerprint text-gray-400 mr-2 text-sm"></i>
-              後台管理者
-            </router-link>
-          </li>
-        </ul>
-
-        <!-- Divider -->
-        <hr class="my-4 md:min-w-full" />
-        <!-- Heading -->
-        <h6
-          class="md:min-w-full text-gray-600 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
+          class="md:min-w-full text-gray-600 text-sm uppercase font-bold block pt-1 pb-4 no-underline"
         >
           後台使用者
         </h6>
@@ -237,20 +274,20 @@
         <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
           <li class="items-center">
             <router-link
-              class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block"
+              class="text-gray-800 hover:text-gray-600 text-sm uppercase py-3 font-bold block"
               to="/auth/login"
             >
-              <i class="fas fa-fingerprint text-gray-400 mr-2 text-sm"></i>
+              <i class="fas fa-fingerprint text-gray-400 mr-2 text-base"></i>
               Login
             </router-link>
           </li>
 
           <li class="items-center">
             <router-link
-              class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block"
+              class="text-gray-800 hover:text-gray-600 text-sm uppercase py-3 font-bold block"
               to="/auth/register"
             >
-              <i class="fas fa-clipboard-list text-gray-400 mr-2 text-sm"></i>
+              <i class="fas fa-clipboard-list text-gray-400 mr-2 text-base"></i>
               Register
             </router-link>
           </li>
@@ -259,40 +296,40 @@
         <!-- Divider -->
         <hr class="my-4 md:min-w-full" />
         <!-- Heading -->
-        <h6
-          class="md:min-w-full text-gray-600 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
+        <!-- <h6
+          class="md:min-w-full text-gray-600 text-sm uppercase font-bold block pt-1 pb-4 no-underline"
         >
           No Layout Pages
-        </h6>
+        </h6> -->
         <!-- Navigation -->
 
-        <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
+        <!-- <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
           <li class="items-center">
             <router-link
-              class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block"
+              class="text-gray-800 hover:text-gray-600 text-sm uppercase py-3 font-bold block"
               to="/landing"
             >
-              <i class="fas fa-newspaper text-gray-400 mr-2 text-sm"></i>
+              <i class="fas fa-newspaper text-gray-400 mr-2 text-base"></i>
               Landing Page
             </router-link>
           </li>
 
           <li class="items-center">
             <router-link
-              class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block"
+              class="text-gray-800 hover:text-gray-600 text-sm uppercase py-3 font-bold block"
               to="/profile"
             >
-              <i class="fas fa-user-circle text-gray-400 mr-2 text-sm"></i>
+              <i class="fas fa-user-circle text-gray-400 mr-2 text-base"></i>
               Profile Page
             </router-link>
           </li>
-        </ul>
+        </ul> -->
 
         <!-- Divider -->
         <hr class="my-4 md:min-w-full" />
         <!-- Heading -->
         <h6
-          class="md:min-w-full text-gray-600 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
+          class="md:min-w-full text-gray-600 text-sm uppercase font-bold block pt-1 pb-4 no-underline"
         >
           參考文件
         </h6>
@@ -302,7 +339,7 @@
             <a
               href="https://www.creative-tim.com/learning-lab/tailwind/vue/colors/notus"
               target="_blank"
-              class="text-gray-800 hover:text-gray-600 text-sm block mb-4 no-underline font-semibold"
+              class="text-gray-800 hover:text-gray-600 text-base block mb-4 no-underline font-semibold"
             >
               <i class="fas fa-paint-brush mr-2 text-gray-400 text-base"></i>
               Styles
@@ -313,7 +350,7 @@
             <a
               href="https://www.creative-tim.com/learning-lab/tailwind/vue/alerts/notus"
               target="_blank"
-              class="text-gray-800 hover:text-gray-600 text-sm block mb-4 no-underline font-semibold"
+              class="text-gray-800 hover:text-gray-600 text-base block mb-4 no-underline font-semibold"
             >
               <i class="fab fa-css3-alt mr-2 text-gray-400 text-base"></i>
               CSS Components
@@ -324,7 +361,7 @@
             <a
               href="https://www.creative-tim.com/learning-lab/tailwind/angular/overview/notus"
               target="_blank"
-              class="text-gray-800 hover:text-gray-600 text-sm block mb-4 no-underline font-semibold"
+              class="text-gray-800 hover:text-gray-600 text-base block mb-4 no-underline font-semibold"
             >
               <i class="fab fa-angular mr-2 text-gray-400 text-base"></i>
               Angular
@@ -335,7 +372,7 @@
             <a
               href="https://www.creative-tim.com/learning-lab/tailwind/js/overview/notus"
               target="_blank"
-              class="text-gray-800 hover:text-gray-600 text-sm block mb-4 no-underline font-semibold"
+              class="text-gray-800 hover:text-gray-600 text-base block mb-4 no-underline font-semibold"
             >
               <i class="fab fa-js-square mr-2 text-gray-400 text-base"></i>
               Javascript
@@ -346,7 +383,7 @@
             <a
               href="https://www.creative-tim.com/learning-lab/tailwind/nextjs/overview/notus"
               target="_blank"
-              class="text-gray-800 hover:text-gray-600 text-sm block mb-4 no-underline font-semibold"
+              class="text-gray-800 hover:text-gray-600 text-base block mb-4 no-underline font-semibold"
             >
               <i class="fab fa-react mr-2 text-gray-400 text-base"></i>
               NextJS
@@ -357,7 +394,7 @@
             <a
               href="https://www.creative-tim.com/learning-lab/tailwind/react/overview/notus"
               target="_blank"
-              class="text-gray-800 hover:text-gray-600 text-sm block mb-4 no-underline font-semibold"
+              class="text-gray-800 hover:text-gray-600 text-base block mb-4 no-underline font-semibold"
             >
               <i class="fab fa-react mr-2 text-gray-400 text-base"></i>
               React
@@ -368,7 +405,7 @@
             <a
               href="https://www.creative-tim.com/learning-lab/tailwind/svelte/overview/notus"
               target="_blank"
-              class="text-gray-800 hover:text-gray-600 text-sm block mb-4 no-underline font-semibold"
+              class="text-gray-800 hover:text-gray-600 text-base block mb-4 no-underline font-semibold"
             >
               <i class="fas fa-link mr-2 text-gray-400 text-base"></i>
               Svelte
@@ -379,10 +416,30 @@
             <a
               href="https://www.creative-tim.com/learning-lab/tailwind/vue/overview/notus"
               target="_blank"
-              class="text-gray-800 hover:text-gray-600 text-sm block mb-4 no-underline font-semibold"
+              class="text-gray-800 hover:text-gray-600 text-base block mb-4 no-underline font-semibold"
             >
               <i class="fab fa-vuejs mr-2 text-gray-400 text-base"></i>
               VueJS
+            </a>
+          </li>
+          <li class="inline-flex">
+            <a
+              href="https://tailwindcss.com/"
+              target="_blank"
+              class="text-gray-800 hover:text-gray-600 text-base block mb-4 no-underline font-semibold"
+            >
+              <i class="fab fa-css3-alt mr-2 text-gray-400 text-base"></i>
+              tailwindcss
+            </a>
+          </li>
+          <li class="inline-flex">
+            <a
+              href="https://fontawesome.com/"
+              target="_blank"
+              class="text-gray-800 hover:text-gray-600 text-base block mb-4 no-underline font-semibold"
+            >
+              <i class="fab fa-font-awesome mr-2 text-gray-400 text-base"></i>
+              Font Awesome
             </a>
           </li>
         </ul>
