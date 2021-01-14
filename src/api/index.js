@@ -1,7 +1,7 @@
 import Service from '@/api/request';
 
 export default {
-  fetch(url, params = {}) {
+  get(url, params = {}) {
     return new Promise((resolve, reject) => {
       Service
         .get(url, {
@@ -29,7 +29,7 @@ export default {
     });
   },
 
-  remove(url, data = {}) {
+  delete(url, data = {}) {
     return new Promise((resolve, reject) => {
       Service.delete(url, data).then(
         response => {

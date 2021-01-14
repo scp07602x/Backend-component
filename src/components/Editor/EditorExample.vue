@@ -35,7 +35,7 @@ export default {
 
   watch: {
     editorHtml: function () {
-      this.$emit("editorHtml", this.editorHtml);
+      this.$emit("editor", this.editorHtml);
     },
   },
 
