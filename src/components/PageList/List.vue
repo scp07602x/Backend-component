@@ -11,9 +11,8 @@
             {{ title }}
           </h3>
         </div>
-
         <router-link
-          class="text-green-500 bg-transparent border border-solid border-green-500 hover:bg-green-500 hover:text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 inline-block"
+          class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
           to="/setting/adpage/editor"
         >
           新增
@@ -134,6 +133,8 @@ export default {
     return {
       title: "",
       pageId: "",
+      test: "",
+      test2: "",
     };
   },
 
@@ -148,13 +149,21 @@ export default {
     this.title = listLength[listLength.length - 1].name;
 
     // example
-    this.$axios.fetch('/user').then(data => this.$store.state.pageList.list = data);
   },
 
   mounted() {
     if (this.pageId == "") {
       this.pageId = uuidv1();
     }
+
+    // 封裝方法一:將$axios宣告為全域函式，使用this.$axios.get().then()
+    this.$axios
+      .get("/user")
+      // .then((data) => (this.$store.state.pageList.list = data));
+      .then((data) => (this.test = data));
+
+    // 封裝方法二:將所有api寫在./api/store.js中，並將$api宣告為全域函式，使用this.$api.getAdPageList().then();
+    this.$api.getAdPageList().then((data) => (this.test2 = data));
   },
 
   methods: {},

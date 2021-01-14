@@ -14,7 +14,8 @@ import Tables from "@/views/admin/Tables.vue";
 
 // views for Setting Layout
 import User from "@/views/setting/User.vue";
-import Editor from "@/views/setting/Editor.vue";
+import Editor from "@/views/setting/adpage/PageEdit.vue";
+// import Editor from "@/views/setting/Editor.vue";
 import AdPage from "@/views/setting/AdPage.vue";
 
 // views for Auth layout
@@ -97,7 +98,7 @@ const routes = [{
                         link: "/setting/adpage",
                     },
                     {
-                        name: "編輯器",
+                        name: "編輯廣告頁面內容",
                     }
                 ],
             }
@@ -113,7 +114,7 @@ const routes = [{
                         link: "/setting/adpage",
                     },
                     {
-                        name: "編輯器",
+                        name: "編輯廣告頁面內容",
                     }
                 ],
             }
