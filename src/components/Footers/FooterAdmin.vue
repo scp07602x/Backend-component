@@ -14,7 +14,7 @@
               href="https://www.creative-tim.com?ref=vn-footer-admin"
               class="text-gray-600 hover:text-gray-800 text-sm font-semibold py-1"
             >
-              Creative Tim
+              大樹醫藥股份有限公司
             </a>
           </div>
         </div>

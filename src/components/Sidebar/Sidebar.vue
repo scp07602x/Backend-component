@@ -232,7 +232,7 @@
                   class="fas fa-ad mr-2 text-base"
                   :class="[isActive ? 'opacity-75' : 'text-gray-400']"
                 ></i>
-                廣告頁面
+                活動頁面
               </a>
             </router-link>
           </li>

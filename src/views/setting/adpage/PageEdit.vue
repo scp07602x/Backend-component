@@ -20,7 +20,7 @@
               頁面基本設定
             </h6>
             <div class="flex">
-              <div class="flex flex-wrap lg:w-6/12 border">
+              <div class="flex flex-wrap lg:w-6/12">
                 <div class="w-full lg:w-12 px-4">
                   <div class="relative w-full mb-3">
                     <label
@@ -36,14 +36,6 @@
                     />
                   </div>
                 </div>
-                <!-- <div class="w-full lg:w-6/12 px-4">
-                <span
-                  class="block uppercase text-gray-700 text-xs font-bold mb-2"
-                >
-                  活動連結
-                </span>
-                <a href="https://www.google.com/">https://www.google.com/</a>
-              </div> -->
                 <div class="w-full lg:w-12 px-4">
                   <div class="relative w-full mb-3">
                     <span
@@ -65,52 +57,127 @@
                   </div>
                 </div>
               </div>
-              <div class="flex flex-wrap lg:w-6/12 border">
-                <div class="w-full lg:w-6/12 px-4">
+              <div class="flex flex-wrap lg:w-6/12">
+                <div class="w-full lg:w-12 px-4">
                   <div class="relative w-full mb-3">
                     <label
                       class="block uppercase text-gray-700 text-xs font-bold mb-2"
                       htmlFor="grid-password"
                     >
-                      首圖說明
+                      頁首說明
                     </label>
                     <textarea
                       type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                      rows="10"
-                      placeholder="請輸入首圖說明"
+                      rows="5"
+                      placeholder="請輸入頁首說明"
                     >
                     </textarea>
                   </div>
-                </div>
-                <div class="w-full lg:w-6/12 px-4">
                   <div class="relative w-full mb-3">
-                    <label
+                    <span
                       class="block uppercase text-gray-700 text-xs font-bold mb-2"
-                      htmlFor="grid-password"
                     >
-                      首圖
-                    </label>
-                    <input
-                      type="text"
-                      class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                      placeholder="請輸入頁面url"
-                      v-model="indexImg"
-                    />
-                  </div>
-
-                  <!-- 圖片未完成 -->
-                  <!-- -------------------------------------------------------------------------------------------------------------------- -->
-                  <div class="w-full px-4 flex justify-center border">
-                    <div>
-                      <img
-                        alt="廣告首圖"
-                        :src="indexImg"
-                        class="shadow-xl rounded-full h-auto align-middle border-none absolute max-w-150-px"
-                      />
+                      前台顯示
+                    </span>
+                    <div class="flex justify-start items-center">
+                      <div class="lg:w-32	">
+                        <input
+                          id="radioTrue"
+                          type="radio"
+                          class="inline-block"
+                          value="true"
+                          v-model="isCorrect"
+                        />
+                        <label
+                          for="radioTrue"
+                          class="inline-block uppercase text-gray-700 text-base font-bold ml-2 mr-4"
+                          >顯示</label
+                        >
+                      </div>
+                      <div class="lg:w-32	">
+                        <input
+                          id="radioFalse"
+                          type="radio"
+                          class="inline-block"
+                          value="false"
+                          v-model="isCorrect"
+                        />
+                        <label
+                          for="radioFalse"
+                          class="inline-block uppercase text-gray-700 text-base font-bold m-2"
+                          >不顯示</label
+                        >
+                      </div>
                     </div>
                   </div>
-                  <!-- -------------------------------------------------------------------------------------------------------------------- -->
+                </div>
+              </div>
+            </div>
+            <hr class="mt-6 border-b-1 border-gray-400" />
+
+            <h6 class="text-gray-500 text-sm mt-3 mb-6 font-bold uppercase">
+              頁首圖片
+            </h6>
+            <div class="flex flex-wrap">
+              <div class="w-full lg:w-12 px-4">
+                <div class="relative w-full mb-3">
+                  <div class="flex justify-between content-center items-center">
+                    <span
+                      class="inline-block uppercase text-gray-700 text-xs font-bold mb-2"
+                    >
+                      圖片連結
+                    </span>
+                    <button
+                      class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 mb-2"
+                      type="button"
+                      @click="pushImg()"
+                    >
+                      增加
+                    </button>
+                  </div>
+                  <input
+                    type="text"
+                    class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
+                    placeholder="請輸入頁面url"
+                    v-model="imgPath"
+                  />
+                </div>
+              </div>
+              <div class="w-full lg:w-12 px-4">
+                <div class="relative w-full mb-3" v-if="image.length > 0">
+                  <span
+                    class="block uppercase text-gray-700 text-xs font-bold mb-2"
+                  >
+                    URL
+                  </span>
+                  <ul class="flex flex-wrap">
+                    <li
+                      v-for="item in image"
+                      :key="item.id"
+                      class="w-full lg:w-3/12 relative px-3"
+                    >
+                      <a
+                        :href="item.path"
+                        class="text-gray-700 hover:text-gray-900 text-sm font-semibold inline-block"
+                        target="_blank"
+                      >
+                        <img
+                          class="w-full h-56 object-cover object-center"
+                          :src="item.path"
+                          alt="avatar"
+                        />
+                        {{ item.path }}
+                      </a>
+                      <div
+                        class="absolute bg-white top-0 w-10 h-10 flex items-center justify-center rounded-full shadow-lg cursor-pointer border"
+                        style="top: -0.75rem; right: -0.25rem"
+                        @click="removeImg(item.id)"
+                      >
+                        <i class="far fa-trash-alt"></i>
+                      </div>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -173,74 +240,6 @@
             </div>
           </form>
         </div>
-
-        <!-- <div class="block w-full overflow-x-auto">
-          <div class="flex flex-wrap">
-            <div class="w-full px-4">
-              <div
-                class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 rounded"
-              >
-                <div class="flex items-center ml-3">
-                  <div
-                    class="md:block text-left text-gray-700 whitespace-no-wrap text-base uppercase font-bold px-0"
-                  >
-                    活動名稱 :
-                  </div>
-                  <div class="pt-0 pr-3 pl-3 mt-3">
-                    <input
-                      type="text"
-                      placeholder="請輸入活動名稱"
-                      class="px-3 py-3 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm border border-gray-400 outline-none focus:outline-none focus:shadow-outline"
-                    />
-                  </div>
-                </div>
-                <div class="flex items-center ml-3">
-                  <div
-                    class="md:block text-left text-gray-700 whitespace-no-wrap text-base uppercase font-bold px-0"
-                  >
-                    開始日期 :
-                  </div>
-                  <div class="pt-0 p-3 mt-3">
-                    <DatePicker v-on:date="beforeDate" />
-                  </div>
-                </div>
-                <div class="flex items-center ml-3">
-                  <div
-                    class="md:block text-left text-gray-700 whitespace-no-wrap text-base uppercase font-bold px-0"
-                  >
-                    結束日期 :
-                  </div>
-                  <div class="pt-0 p-3 mt-3">
-                    <DatePicker v-on:date="afterDate" />
-                  </div>
-                </div>
-                <div class="pr-4 pl-4 pb-4">
-                  <div
-                    class="md:block text-left text-gray-700 whitespace-no-wrap text-base uppercase font-bold px-0"
-                  >
-                    HTML :
-                  </div>
-                  <EditorExample v-on:editor="htmlContent" ref="htmlEditor" />
-                </div>
-                <div class="w-full px-4 text-right">
-                  <button
-                    @click="clear()"
-                    class="flex-1 m-4 bg-red-500 text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                  >
-                    清空
-                  </button>
-                  <button
-                    @click="send()"
-                    class="flex-1 m-4 bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                  >
-                    送出
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div> -->
       </div>
     </div>
   </div>
@@ -262,7 +261,9 @@ export default {
       cssString: "",
       beforeDateTime: "",
       afterDateTime: "",
-      indexImg: "",
+      imgPath: "",
+      image: [],
+      isCorrect: "",
     };
   },
 
@@ -301,6 +302,30 @@ export default {
       this.editorHtml = "";
       this.$refs.htmlEditor.clearEditor(this.editorHtml);
     },
+
+    pushImg() {
+      let timeStamp = Math.floor(Date.now());
+      if (this.imgPath !== "") {
+        this.image.push({ id: timeStamp, path: this.imgPath.trim() });
+        this.imgPath = "";
+      }
+    },
+
+    removeImg(id) {
+      this.image = this.image.filter((data) => data.id != id);
+      console.log(this.image);
+    },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+input {
+  &valid {
+    border: 2px solid green;
+  }
+  &invalid {
+    border: 2px solid red;
+  }
+}
+</style>

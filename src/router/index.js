@@ -85,7 +85,7 @@ const routes = [{
                     name: "首頁",
                     link: "/admin/dashboard",
                 }, {
-                    name: "廣告頁面列表",
+                    name: "活動頁面列表",
                 }],
             },
         }, {
@@ -96,11 +96,11 @@ const routes = [{
                         name: "首頁",
                         link: "/admin/dashboard",
                     }, {
-                        name: "廣告頁面列表",
+                        name: "活動頁面列表",
                         link: "/setting/adpage",
                     },
                     {
-                        name: "編輯廣告頁面內容",
+                        name: "編輯活動頁面內容",
                     }
                 ],
             }
@@ -112,11 +112,11 @@ const routes = [{
                         name: "首頁",
                         link: "/admin/dashboard",
                     }, {
-                        name: "廣告頁面列表",
+                        name: "活動頁面列表",
                         link: "/setting/adpage",
                     },
                     {
-                        name: "編輯廣告頁面內容",
+                        name: "編輯活動頁面內容",
                     }
                 ],
             }
@@ -148,6 +148,7 @@ const routes = [{
 ];
 
 const router = new VueRouter({
+    mode:'history',
     routes
 })
 
