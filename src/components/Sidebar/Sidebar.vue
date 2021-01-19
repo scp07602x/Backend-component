@@ -194,7 +194,7 @@
            <li class="items-center">
             <router-link 
             v-slot="{ href, navigate, isActive }"
-            to="/setting/user">
+            to="/setting/managers">
               <a
                 :href="href"
                 @click="navigate"

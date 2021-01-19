@@ -32,23 +32,23 @@
             <th
               class="px-6 align-middle border border-solid py-3 text-sm uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200"
             >
-              活動名稱
+              帳號
             </th>
             <th
               class="px-6 align-middle border border-solid py-3 text-sm uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200"
             >
-              活動連結
+              姓名
             </th>
 
             <th
               class="px-6 align-middle border border-solid py-3 text-sm uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200"
             >
-              啟用時間
+              群組
             </th>
             <th
               class="px-6 align-middle border border-solid py-3 text-sm uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200"
             >
-              結束時間
+              帳號啟用日期
             </th>
             <th
               class="px-6 align-middle border border-solid py-3 text-sm uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200"
@@ -76,26 +76,22 @@
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-4"
             >
+              {{ item.account }}
+            </td>
+            <td
+              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-4"
+            >
               {{ item.name }}
             </td>
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-4"
             >
-              <a
-                :href="item.url"
-                class="text-gray-600 hover:text-green-600 text-sm block mb-4 no-underline font-semibold"
-                >{{ item.url }}</a
-              >
+              {{ item.group }}
             </td>
-            <td
+             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-4"
             >
               {{ item.start }}
-            </td>
-            <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-4"
-            >
-              {{ item.end }}
             </td>
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-4"
@@ -131,7 +127,6 @@ import uuidv1 from "uuid/v1";
 export default {
   data() {
     return {
-      editPath: "",
       title: "",
       pageId: "",
       test: "",
@@ -141,14 +136,15 @@ export default {
 
   computed: {
     list() {
-      return this.$store.state.pageList.list;
+      return this.$store.state.manageList.list;
     },
   },
 
   created() {
     let listLength = this.$route.meta.breadcrumb;
     this.title = listLength[listLength.length - 1].name;
-    // this.editPath = this.$route.meta.editPath;
+
+    // example
   },
 
   mounted() {

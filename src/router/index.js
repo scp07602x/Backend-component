@@ -13,7 +13,7 @@ import Tables from "@/views/admin/Tables.vue";
 // import Maps from "@/views/admin/Maps.vue";
 
 // views for Setting Layout
-import User from "@/views/setting/User.vue";
+import Managers from "@/views/setting/managers/Managers.vue";
 
 
 import AdPage from "@/views/setting/adpage/AdPage.vue";
@@ -56,25 +56,21 @@ const routes = [{
                 path: "/admin/tables",
                 component: Tables,
             },
-            // {
-            //     path: "/admin/maps",
-            //     component: Maps,
-            // },
         ],
     },
     {
         path: "/setting",
-        redirect: "/setting/user",
+        redirect: "/setting/managers",
         component: Setting,
         children: [{
-            path: "/setting/user",
-            component: User,
+            path: "/setting/managers",
+            component: Managers,
             meta: {
                 breadcrumb: [{
                     name: "首頁",
                     link: "/admin/dashboard",
                 }, {
-                    name: "管理者",
+                    name: "後台管理者列表",
                 }],
             }
         }, {
@@ -87,6 +83,7 @@ const routes = [{
                 }, {
                     name: "活動頁面列表",
                 }],
+                editpath: "/setting/adpage/editor",
             },
         }, {
             path: "/setting/adpage/editor",
@@ -148,7 +145,7 @@ const routes = [{
 ];
 
 const router = new VueRouter({
-    mode:'history',
+    mode: 'history',
     routes
 })
 

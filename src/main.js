@@ -2,9 +2,14 @@ import Vue from "vue";
 import App from "@/App.vue";
 import router from './router';
 import store from './store';
+
+// api
 import axios from './api';
 import api from './api/store';
-// import VueTailwindPicker from "vue-tailwind-picker";
+
+
+// form vaildate
+import validate from './validate';
 
 // styles
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -20,5 +25,6 @@ new Vue({
   store,
   axios,
   api,
+  validate,
   render: (h) => h(App)
 }).$mount("#app");
