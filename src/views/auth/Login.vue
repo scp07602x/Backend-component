@@ -15,7 +15,7 @@
             <form>
               <div class="relative w-full mb-3">
                 <validation-provider
-                  rules="required|secret"
+                  rules="required"
                   v-slot="{ errors }"
                   name="帳號"
                 >
@@ -56,7 +56,8 @@
                   <span class="text-gray-700 text-xs font-bold mb-2">{{ errors[0] }}</span>
                 </validation-provider>
               </div>
-              <div>
+               <hr class="mt-6 border-b-1 border-gray-400" />
+              <!-- <div>
                 <label class="inline-flex items-center cursor-pointer">
                   <input
                     id="customCheckLogin"
@@ -68,7 +69,7 @@
                     記住我
                   </span>
                 </label>
-              </div>
+              </div> -->
 
               <div class="text-center mt-6">
                 <button
@@ -98,7 +99,7 @@ export default {
       loginForm: {
         username: "",
         password: "",
-        remember: "",
+        // remember: "",
       },
     };
   },
