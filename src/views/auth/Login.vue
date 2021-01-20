@@ -12,75 +12,45 @@
             <hr class="mt-6 border-b-1 border-gray-400" />
           </div>
           <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-            <form>
-              <div class="relative w-full mb-3">
-                <validation-provider
-                  rules="required"
-                  v-slot="{ errors }"
-                  name="帳號"
-                >
-                  <label
+            <!-- handleSubmit為套件函式不可變更 -->
+            <ValidationObserver v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(signIn)">
+                <div class="relative w-full mb-3">
+                  <span
                     class="block uppercase text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="grid-password"
                   >
                     *帳號
-                  </label>
-                  <input
-                    type="text"
-                    class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                    placeholder="請輸入帳號"
+                  </span>
+                  <TextInput
                     v-model="loginForm.username"
+                    name="帳號"
+                    rules="required"
                   />
-                  <span class="text-red-700 text-xs font-bold mb-2">{{ errors[0] }}</span>
-                </validation-provider>
-              </div>
-
-              <div class="relative w-full mb-3">
-                <validation-provider
-                  rules="required|secret"
-                  v-slot="{ errors }"
-                  name="密碼"
-                >
-                  <label
+                </div>
+                <div class="relative w-full mb-3">
+                  <span
                     class="block uppercase text-gray-700 text-xs font-bold mb-2"
                     htmlFor="grid-password"
                   >
                     *密碼
-                  </label>
-                  <input
-                    type="password"
-                    class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                    placeholder="請輸入密碼"
-                    v-model="loginForm.password"
-                  />
-                  <span class="text-gray-700 text-xs font-bold mb-2">{{ errors[0] }}</span>
-                </validation-provider>
-              </div>
-               <hr class="mt-6 border-b-1 border-gray-400" />
-              <!-- <div>
-                <label class="inline-flex items-center cursor-pointer">
-                  <input
-                    id="customCheckLogin"
-                    type="checkbox"
-                    class="form-checkbox text-gray-800 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                    v-model="loginForm.remember"
-                  />
-                  <span class="ml-2 text-sm font-semibold text-gray-700">
-                    記住我
                   </span>
-                </label>
-              </div> -->
-
-              <div class="text-center mt-6">
-                <button
-                  class="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                  type="button"
-                  @click="signIn()"
-                >
-                  Sign In
-                </button>
-              </div>
-            </form>
+                  <TextInput
+                    v-model="loginForm.password"
+                    name="密碼"
+                    rules="required|secret"
+                  />
+                </div>
+                <hr class="mt-6 border-b-1 border-gray-400" />
+                <div class="text-center mt-6">
+                  <button
+                    class="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                    type="submit"
+                  >
+                    Sign In
+                  </button>
+                </div>
+              </form>
+            </ValidationObserver>
           </div>
         </div>
         <div class="flex flex-wrap mt-6 relative">
@@ -93,24 +63,27 @@
   </div>
 </template>
 <script>
+import TextInput from "@/components/ValidateField/TextValidate.vue";
+
 export default {
+  components: {
+    TextInput,
+  },
+
   data() {
     return {
       loginForm: {
         username: "",
         password: "",
-        // remember: "",
       },
     };
   },
 
-  // created() {
-  //   console.log(this.$validate);
-  // },
-
   methods: {
     signIn() {
-      console.log(this.loginForm);
+      if (this.loginForm.username !== "" || this.loginForm.password !== "") {
+        console.log("驗證成功");
+      }
     },
   },
 };
