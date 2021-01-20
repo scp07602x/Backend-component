@@ -1,14 +1,22 @@
 import axios from 'axios';
+import router from '../router';
 
 const Service = axios.create({
-  baseURL: 'http://localhost/laravel/public',
+  baseURL: 'https://eipapi.greattree.com.tw:300',
   timeout: 5000, // 請求超時設置
-  'Content-Type': 'application/json;charset=utf-8',
-  'Access-Control-Allow-Origin': '*',
+  headers: {
+    'Content-Type': 'application/json;charset=utf-8',
+  }
 })
 
 // request攔截器
 Service.interceptors.request.use(config => {
+  // 如果有token每一個請求都加上token;
+  let token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = token;
+  }
+
   return config;
 }, error => {
   return Promise.reject(error);
@@ -16,14 +24,19 @@ Service.interceptors.request.use(config => {
 
 // response攔截器
 Service.interceptors.response.use(response => {
-  return response;
+  if (response.data.StatusCode !== 200) {
+    errorHandle(response.data.StatusCode, response.data.Message);
+  } else {
+    return response;
+  }
+
 }, error => {
   const {
     response
   } = error;
 
   if (response) {
-    errorHandle(response.ststus, response.data.error);
+    errorHandle(response.status, response.data.error);
     return Promise.reject(error);
   } else {
     return Promise.reject(error);
@@ -33,7 +46,12 @@ Service.interceptors.response.use(response => {
 const errorHandle = (status, msg) => {
   switch (status) {
     case 400:
-      console.log(msg);
+      // 如果接回來是400就清除token跟登出
+      localStorage.removeItem('token');
+      router.replace({
+        path: '/auth/login',
+      })
+
       break;
     case 401:
       console.log(msg);

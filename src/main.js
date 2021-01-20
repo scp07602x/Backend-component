@@ -17,6 +17,8 @@ import "@/assets/styles/tailwind.css";
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
 Vue.prototype.$api = api;
+Vue.prototype.$routerList = router.routes;
+
 
 new Vue({
   router,
@@ -26,3 +28,4 @@ new Vue({
   validate,
   render: (h) => h(App)
 }).$mount("#app");
+

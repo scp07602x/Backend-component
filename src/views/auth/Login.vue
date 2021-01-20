@@ -65,6 +65,29 @@
 <script>
 import TextInput from "@/components/ValidateField/TextValidate.vue";
 
+// // layouts
+// import Admin from "@/layouts/Admin.vue";
+// import Auth from "@/layouts/Auth.vue";
+// import Setting from "@/layouts/Setting.vue";
+
+// // views for Admin layout
+// import Dashboard from "@/views/admin/Dashboard.vue";
+// import Settings from "@/views/admin/Settings.vue";
+// import Tables from "@/views/admin/Tables.vue";
+// // import Maps from "@/views/admin/Maps.vue";
+
+// // views for Setting Layout
+// import Managers from "@/views/setting/managers/Managers.vue";
+
+// import AdPage from "@/views/setting/adpage/AdPage.vue";
+// import PageEdit from "@/views/setting/adpage/PageEdit.vue";
+// // import Editor from "@/views/setting/Editor.vue";
+
+// // views for Auth layout
+// import Login from "@/views/auth/Login.vue";
+// import Register from "@/views/auth/Register.vue";
+// // import axios from "axios";
+
 export default {
   components: {
     TextInput,
@@ -82,7 +105,46 @@ export default {
   methods: {
     signIn() {
       if (this.loginForm.username !== "" || this.loginForm.password !== "") {
-        console.log("驗證成功");
+        this.$axios
+          .post("/login", {
+            su_uid: this.loginForm.username,
+            su_pass: this.loginForm.password,
+          })
+          .then((response) => {
+            if (response.StatusCode == 200) {
+              localStorage.token = response.Data.send_str;
+              console.log(this.$router.options.routes);
+
+              // 登入的時候依照data給路由
+              let data1 = [
+                {
+                  path: "/",
+                  redirect: "/admin/dashboard",
+                },
+                {
+                  path: "*",
+                  redirect: "/",
+                },
+              ];
+              localStorage.setItem("routers", JSON.stringify(data1));
+
+              // this.$router.addRoutes([
+              //   {
+              //     path: "/",
+              //     redirect: "/admin/dashboard",
+              //     component: () => import("@/layouts/Admin.vue"),
+              //   },
+              //   {
+              //     path: "*",
+              //     redirect: "/",
+              //   },
+              // ]);
+              console.log(this.$router.options.routes);
+              this.$router.replace({
+                path: "/admin/dashboard",
+              });
+            }
+          });
       }
     },
   },
