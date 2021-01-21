@@ -163,31 +163,25 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     if (to.meta.requireAuth) { //是否需要登入許可權
-        // localStorage.removeItem('token');
         let token = localStorage.getItem('token');
 
         if (token) {
-
-            // 處理這邊
-            console.log(store);
-            let test = JSON.parse(store.state.routers);
-            if(localStorage.getItem('routers')){
-                router.addRoutes(test);
-                test.forEach(element => {
-                     router.options.routes.push(element);
-                     console.log(router.options.routes);
+            // 如果store.state.routers代表重新整理頁面，要再重加一次路由
+            if ((store.state.routers).length == 0) {
+                // 先將storage路由放進store
+                store.state.routers = localStorage.routers;
+                // 再將路由取出來
+                let test1 = JSON.parse(store.state.routers);
+                test1.forEach(element => {
+                    // 再將路由推上去
+                    router.options.routes.push(element);
                 });
-                localStorage.removeItem('routers');
             }
-
 
             next();
         } else {
             next({
                 path: '/auth/login',
-                // query: {
-                //     redirect: to.fullPath
-                // }
             })
         }
     } else {

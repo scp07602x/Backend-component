@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    routers: localStorage.getItem('routers'),
+    routers: [],
     pageList: {
       list: [{
           "id": "8ustq9wu",

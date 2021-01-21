@@ -102,6 +102,18 @@ export default {
     };
   },
 
+  created() {
+    // console.log(this.$router);
+    let token = localStorage.getItem("token");
+    // 如果有token就判斷token是否過期
+    if (token) {
+      // 這邊判斷token有沒有過期，如果沒有過期仍有效就導向首頁
+      this.$router.replace({
+        path: "/admin/dashboard",
+      });
+    }
+  },
+
   methods: {
     signIn() {
       if (this.loginForm.username !== "" || this.loginForm.password !== "") {
@@ -113,33 +125,25 @@ export default {
           .then((response) => {
             if (response.StatusCode == 200) {
               localStorage.token = response.Data.send_str;
-              console.log(this.$router.options.routes);
 
               // 登入的時候依照data給路由
-              let data1 = [
+              let testrouter = JSON.stringify([
                 {
-                  path: "/",
-                  redirect: "/admin/dashboard",
+                  "path": "/test",
+                  "children": [
+                    { "path": "/test/a", "name": "我是A" },
+                    { "path": "/test/b", "name": "我是B" },
+                  ],
                 },
-                {
-                  path: "*",
-                  redirect: "/",
-                },
-              ];
-              localStorage.setItem("routers", JSON.stringify(data1));
+              ]);
 
-              // this.$router.addRoutes([
-              //   {
-              //     path: "/",
-              //     redirect: "/admin/dashboard",
-              //     component: () => import("@/layouts/Admin.vue"),
-              //   },
-              //   {
-              //     path: "*",
-              //     redirect: "/",
-              //   },
-              // ]);
-              console.log(this.$router.options.routes);
+              // 先將路由存在storage
+              localStorage.routers = testrouter;
+              // 再將路由存在store
+              this.$store.state.routers = testrouter;
+              // 然後添加路由進去，但是畫面重新整理後路由會不見，所以必須到在路由index中加入他加入完就清除
+              this.$router.addRoutes(testrouter);
+
               this.$router.replace({
                 path: "/admin/dashboard",
               });
