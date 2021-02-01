@@ -10,13 +10,15 @@ import PageList from "@/components/PageList/PageList.vue";
 
 export default {
   components: {
-   PageList,
+    PageList,
   },
 
   methods: {
-    getAdPageList(){
-      this.$axios.get('/api/menu?action=get_sidebar_menu').then(data => console.log(data));
-    }
+    getAdPageList() {
+      this.$axios
+        .get("/api/menu?action=get_sidebar_menu")
+        .then((data) => console.log(data));
+    },
   },
 
   created() {

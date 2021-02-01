@@ -164,14 +164,15 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     if (to.meta.requireAuth) { //是否需要登入許可權
         let token = localStorage.getItem('token');
+        let routers = localStorage.getItem('routers');
 
-        if (token) {
+        if (token && routers) {
             // 如果store.state.routers代表重新整理頁面，要再重加一次路由
-            if ((store.state.routers).length == 0) {
+            if ((store.state.loginStore.routers).length == 0) {
                 // 先將storage路由放進store
-                store.state.routers = localStorage.routers;
+                store.commit('loginStore/routerList', localStorage.routers);
                 // 再將路由取出來
-                let test1 = JSON.parse(store.state.routers);
+                let test1 = JSON.parse(store.state.loginStore.routers);
                 test1.forEach(element => {
                     // 再將路由推上去
                     router.options.routes.push(element);

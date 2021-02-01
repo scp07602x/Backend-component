@@ -38,6 +38,7 @@
                     v-model="loginForm.password"
                     name="密碼"
                     rules="required|secret"
+                    type="password"
                   />
                 </div>
                 <hr class="mt-6 border-b-1 border-gray-400" />
@@ -65,29 +66,6 @@
 <script>
 import TextInput from "@/components/ValidateField/TextValidate.vue";
 
-// // layouts
-// import Admin from "@/layouts/Admin.vue";
-// import Auth from "@/layouts/Auth.vue";
-// import Setting from "@/layouts/Setting.vue";
-
-// // views for Admin layout
-// import Dashboard from "@/views/admin/Dashboard.vue";
-// import Settings from "@/views/admin/Settings.vue";
-// import Tables from "@/views/admin/Tables.vue";
-// // import Maps from "@/views/admin/Maps.vue";
-
-// // views for Setting Layout
-// import Managers from "@/views/setting/managers/Managers.vue";
-
-// import AdPage from "@/views/setting/adpage/AdPage.vue";
-// import PageEdit from "@/views/setting/adpage/PageEdit.vue";
-// // import Editor from "@/views/setting/Editor.vue";
-
-// // views for Auth layout
-// import Login from "@/views/auth/Login.vue";
-// import Register from "@/views/auth/Register.vue";
-// // import axios from "axios";
-
 export default {
   components: {
     TextInput,
@@ -103,7 +81,6 @@ export default {
   },
 
   created() {
-    // console.log(this.$router);
     let token = localStorage.getItem("token");
     // 如果有token就判斷token是否過期
     if (token) {
@@ -117,38 +94,7 @@ export default {
   methods: {
     signIn() {
       if (this.loginForm.username !== "" || this.loginForm.password !== "") {
-        this.$axios
-          .post("/login", {
-            su_uid: this.loginForm.username,
-            su_pass: this.loginForm.password,
-          })
-          .then((response) => {
-            if (response.StatusCode == 200) {
-              localStorage.token = response.Data.send_str;
-
-              // 登入的時候依照data給路由
-              let testrouter = JSON.stringify([
-                {
-                  "path": "/test",
-                  "children": [
-                    { "path": "/test/a", "name": "我是A" },
-                    { "path": "/test/b", "name": "我是B" },
-                  ],
-                },
-              ]);
-
-              // 先將路由存在storage
-              localStorage.routers = testrouter;
-              // 再將路由存在store
-              this.$store.state.routers = testrouter;
-              // 然後添加路由進去，但是畫面重新整理後路由會不見，所以必須到在路由index中加入他加入完就清除
-              this.$router.addRoutes(testrouter);
-
-              this.$router.replace({
-                path: "/admin/dashboard",
-              });
-            }
-          });
+        this.$store.dispatch("loginStore/loginIn", this.loginForm);
       }
     },
   },

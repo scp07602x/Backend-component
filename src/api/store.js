@@ -4,6 +4,4 @@ export default {
     getAdPageList() {
         return api.get("/user");
     }
-
-
 }
