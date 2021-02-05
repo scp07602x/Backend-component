@@ -21,11 +21,7 @@
                   >
                     *帳號
                   </span>
-                  <TextInput
-                    v-model="loginForm.username"
-                    name="帳號"
-                    rules="required"
-                  />
+                  <TextInput v-model="loginForm.username" name="帳號" />
                 </div>
                 <div class="relative w-full mb-3">
                   <span
@@ -37,7 +33,6 @@
                   <TextInput
                     v-model="loginForm.password"
                     name="密碼"
-                    rules="required|secret"
                     type="password"
                   />
                 </div>
@@ -65,6 +60,8 @@
 </template>
 <script>
 import TextInput from "@/components/ValidateField/TextValidate.vue";
+import routerUtil from '@/utils/routerUtil.js';
+import sidebarUtil from '@/utils/sidebarUtil.js';
 
 export default {
   components: {
@@ -74,27 +71,30 @@ export default {
   data() {
     return {
       loginForm: {
-        username: "",
-        password: "",
+        username: "root",
+        password: "a123456789",
       },
     };
   },
 
-  created() {
-    let token = localStorage.getItem("token");
-    // 如果有token就判斷token是否過期
-    if (token) {
-      // 這邊判斷token有沒有過期，如果沒有過期仍有效就導向首頁
+  methods: {
+    rediretIndex() {
       this.$router.replace({
         path: "/admin/dashboard",
       });
-    }
-  },
+    },
 
-  methods: {
-    signIn() {
+    async signIn() {
       if (this.loginForm.username !== "" || this.loginForm.password !== "") {
-        this.$store.dispatch("loginStore/loginIn", this.loginForm);
+        let loginStatus = await this.$store.dispatch(
+          "loginStore/login",
+          this.loginForm
+        );
+        if (loginStatus === true) {
+          await routerUtil.routerHandler();
+          await sidebarUtil.sidebarHandler();
+          this.rediretIndex();
+        }
       }
     },
   },

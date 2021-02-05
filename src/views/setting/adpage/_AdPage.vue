@@ -14,15 +14,15 @@ export default {
   },
 
   methods: {
-    getAdPageList() {
-      this.$axios
-        .get("/api/menu?action=get_sidebar_menu")
-        .then((data) => console.log(data));
-    },
+    // getAdPageList() {
+    //   this.$axios
+    //     .get("/api/menu?action=get_sidebar_menu")
+    //     .then((data) => console.log(data));
+    // },
   },
 
   created() {
-    this.getAdPageList();
+    // this.getAdPageList();
   },
 };
 </script>

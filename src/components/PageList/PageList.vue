@@ -13,7 +13,7 @@
         </div>
         <router-link
           class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-          to="/setting/adpage/editor"
+          to="/front/adpage/adpageEdit"
         >
           新增
         </router-link>
@@ -113,7 +113,7 @@
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-4 text-left"
             >
-              <router-link :to="`/setting/adpage/editor/${item.id}`">
+              <router-link :to="`/front/adpage/adpageEdit/${item.id}`">
                 <i class="far fa-edit text-green-500 m-2 text-base"></i>
               </router-link>
 

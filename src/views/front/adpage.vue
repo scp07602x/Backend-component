@@ -1,16 +1,22 @@
 <template>
   <div class="flex flex-wrap">
     <div class="w-full mb-12 px-4">
-      <List />
+      <PageList />
     </div>
   </div>
 </template>
 <script>
-import List from "@/components/PageList/List.vue";
+import PageList from "@/components/PageList/PageList.vue";
 
 export default {
   components: {
-   List,
+    PageList,
+  },
+
+  methods: {
+  },
+
+  created() {
   },
 };
 </script>

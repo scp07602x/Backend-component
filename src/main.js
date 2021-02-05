@@ -10,6 +10,9 @@ import api from './api/store';
 // form vaildate
 import * as validate from './validate';
 
+// utils
+import * as utils from './utils';
+
 // styles
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "@/assets/styles/tailwind.css";
@@ -25,6 +28,7 @@ new Vue({
   store,
   axios,
   api,
+  utils,
   validate,
   render: (h) => h(App)
 }).$mount("#app");

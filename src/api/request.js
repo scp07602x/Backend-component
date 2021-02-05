@@ -2,7 +2,8 @@ import axios from 'axios';
 import router from '../router';
 
 const Service = axios.create({
-  baseURL: 'https://eipapi.greattree.com.tw:300',
+  // baseURL: 'http://base.laraveldev.com/api/user',
+  baseURL: 'http://172.31.9.88/test-api/public/api',
   timeout: 5000, // 請求超時設置
   headers: {
     'Content-Type': 'application/json;charset=utf-8',
@@ -24,12 +25,7 @@ Service.interceptors.request.use(config => {
 
 // response攔截器
 Service.interceptors.response.use(response => {
-  if (response.data.StatusCode !== 200) {
-    errorHandle(response.data.StatusCode, response.data.Message);
-  } else {
     return response;
-  }
-
 }, error => {
   const {
     response

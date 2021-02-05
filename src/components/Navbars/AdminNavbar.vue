@@ -17,7 +17,7 @@
 
       <!-- 這邊可以埋麵包屑嗎 -->
       <BreadCrumb />
-      
+      <button @click="signout()">登出</button>
       <form
         class="md:flex hidden flex-row flex-wrap items-center lg:ml-auto mr-3"
       >
@@ -34,6 +34,7 @@
           />
         </div>
       </form>
+
       <!-- User -->
       <ul class="flex-col md:flex-row list-none items-center hidden md:flex">
         <user-dropdown />
@@ -51,6 +52,16 @@ export default {
   components: {
     UserDropdown,
     BreadCrumb,
+  },
+
+  methods: {
+    signout() {
+      localStorage.removeItem("token");
+
+      this.$router.replace({
+        path: "/auth/login",
+      });
+    },
   },
 };
 </script>
