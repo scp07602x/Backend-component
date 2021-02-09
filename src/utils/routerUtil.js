@@ -49,11 +49,11 @@ export default {
             }];
           }
 
-          let viewsfile = `@/views${(child.path).replace("/:id", "")}.vue`;
+          let viewsfile = `views${(child.path).replace("/:id", "")}.vue`;
 
           return {
             path: child.path,
-            component: () => import(`${viewsfile}`),
+            component: () => import(`@/${viewsfile}`),
             meta: {
               requireAuth: true,
               breadcrumb: child.breadcrumb,
@@ -74,6 +74,7 @@ export default {
       routes.forEach(element => {
         router.options.routes.push(element);
       });
+      router.addRoutes(routes);
 
       return "setRouter";
     });
