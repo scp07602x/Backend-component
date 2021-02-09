@@ -1,4 +1,21 @@
 // vue.config.js
+const path = require('path');
+
 module.exports = {
-  runtimeCompiler: true,
-};
+  chainWebpack: config => {
+    const oneOfsMap = config.module.rule('scss').oneOfs.store
+    oneOfsMap.forEach(item => {
+      item
+        .use('sass-resources-loader')
+        .loader('sass-resources-loader')
+        .options({
+          // 單隻檔案引入
+          resources: [path.resolve(__dirname, './src/assets/styles/layout.scss')],
+
+          // 多檔案引入
+          // resources: ['./path/to/vars.scss', './path/to/mixins.scss']
+        })
+        .end()
+    })
+  }
+}

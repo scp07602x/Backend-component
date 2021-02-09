@@ -16,6 +16,8 @@ import * as utils from './utils';
 // styles
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "@/assets/styles/tailwind.css";
+import "@/assets/styles/layout.scss";
+
 
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;

@@ -1,0 +1,26 @@
+@mixin absolute($top, $right, $bottom, $left) {
+  position: absolute;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}
+
+@mixin border($px, $style, $color) {
+  border: $px $style $color;
+}
+
+@mixin wh($width, $height) {
+  width: $width;
+  height: $height;
+}
+
+$colorList:(red, blue, green, white, black, purple, yellow);
+
+@each $item in $colorList {
+  @for $i from 1 through 3 {
+    .bdr-#{$item}-#{$i} {
+      border: #{$i}px solid #{$item};
+    }
+  }
+}
