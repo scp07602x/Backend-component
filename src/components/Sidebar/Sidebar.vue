@@ -77,7 +77,7 @@
             >
               <router-link
                 v-slot="{ href, navigate, isActive }"
-                :to="`/${item.path}/${tag.path}`"
+                :to="`/${tag.category_route}`"
               >
                 <a
                   :href="href"

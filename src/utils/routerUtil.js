@@ -1,83 +1,53 @@
 import router from '@/router'
-import axios from '@/api';
 import store from '@/store';
 
 export default {
-  routerHandler() {
-    return axios.post('./router').then((response) => {
-      let routeList = response.result;
+  routerHandler(result) {
+    // 將接收到的值處理成route需要的格式
+    let routes = result.map((element) => {
+      let subroutes = (element.children).map(child => {
+        
+        // 判斷檔案是否存在，如果不存在就顯示建置中頁面
+        let filePath = `${child.category_route}.vue`;
+        try {
+          require(`@/views/${filePath}`);
+        } catch (e) {
+          filePath = `error/building.vue`;
+        }
 
-      let routes = routeList.map((element) => {
-        let rchildren = element.children;
-        rchildren.forEach(child => {
-          if (child.edit === true) {
-            rchildren.push({
-              "name": `編輯${child.name}`,
-              "parent": `/${element.path}/${child.path}`,
-              "path": `${child.path}/${child.path}Edit`,
-              "edit": "self",
-            });
-            rchildren.push({
-              "name": `編輯${child.name}`,
-              "parent": `/${element.path}/${child.path}`,
-              "path": `${child.path}/${child.path}Edit/:id`,
-              "edit": "self",
-            })
-          }
-        });
-
-        let subroutes = rchildren.map(child => {
-          child.path = `/${element.path}/${child.path}`;
-          if (child.edit == "self") {
-            child.breadcrumb = [{
-                name: "首頁",
-                link: "/admin/dashboard",
-              },
-              {
-                name: (child.name).replace("編輯", ""),
-                link: `${child.parent}`
-              }, {
-                name: child.name,
-              }
-            ]
-          } else {
-            child.breadcrumb = [{
+        return {
+          name: child.id,
+          path: `/${child.category_route}`,
+          component: () => import(`@/views/${filePath}`),
+          meta: {
+            requireAuth: true,
+            breadcrumb: [{
               name: "首頁",
               link: "/admin/dashboard",
             }, {
               name: child.name,
-            }];
+            }],
           }
-
-          let viewsfile = `views${(child.path).replace("/:id", "")}.vue`;
-
-          return {
-            path: child.path,
-            component: () => import(`@/${viewsfile}`),
-            meta: {
-              requireAuth: true,
-              breadcrumb: child.breadcrumb,
-            }
-          };
-        });
-
-        return {
-          path: `${(element.children)[0].path}`,
-          redirect: `${(element.children)[0].path}`,
-          component: () => import("@/layouts/Setting.vue"),
-          children: subroutes,
-        }
+        };
       });
 
-      store.commit('loginStore/setRouter', routes);
-
-      routes.forEach(element => {
-        router.options.routes.push(element);
-      });
-      router.addRoutes(routes);
-
-      return "setRouter";
+      return {
+        name: element.id,
+        path: `/${(element.children)[0].category_route}`,
+        redirect: `/${(element.children)[0].category_route}`,
+        component: () => import("@/layouts/Setting.vue"),
+        children: subroutes,
+      }
     });
 
+    // 路由塞進store
+    store.commit('loginStore/setRouter', routes);
+    // 添加路由
+    routes.forEach(element => {
+      router.options.routes.push(element);
+    });
+    router.addRoutes(routes);
+    // 回傳一個值，便於async、await運用
+    return "setRouter";
   }
 }

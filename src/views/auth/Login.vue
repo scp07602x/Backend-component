@@ -60,8 +60,10 @@
 </template>
 <script>
 import TextInput from "@/components/ValidateField/TextValidate.vue";
-import routerUtil from '@/utils/routerUtil.js';
-import sidebarUtil from '@/utils/sidebarUtil.js';
+import defaultProgram from '@/utils/default';
+
+// import utils from '@/utils';
+// import sidebarUtil from '@/utils/sidebarUtil.js';
 
 export default {
   components: {
@@ -71,8 +73,8 @@ export default {
   data() {
     return {
       loginForm: {
-        username: "root",
-        password: "a123456789",
+        username: "",
+        password: "",
       },
     };
   },
@@ -91,8 +93,8 @@ export default {
           this.loginForm
         );
         if (loginStatus === true) {
-          await routerUtil.routerHandler();
-          await sidebarUtil.sidebarHandler();
+          await defaultProgram.getRouteAndSidebar();
+          // await sidebarUtil.sidebarHandler();
           this.rediretIndex();
         }
       }

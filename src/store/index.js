@@ -5,12 +5,14 @@ import Vuex from 'vuex'
 import loginStore from './loginStore'
 import adpageStore from './adpageStore'
 import managerStore from './managerStore'
+import menuStore from './menuStore'
 
 Vue.use(Vuex);
 // Vue.prototype.$axios = axios;
 
 export default new Vuex.Store({
-  state:{
+  state: {
+    isLoading: true,
     manageList: {
       list: [{
           "id": "8ustq9wu",
@@ -172,9 +174,22 @@ export default new Vuex.Store({
       ],
     },
   },
+
+  mutations: {
+    isLoading(state, status) {
+      state.isLoading = status;
+    }
+  },
+  actions: {
+    isLoading(context, status) {
+      context.commit('isLoading', status);
+    }
+  },
+
   modules: {
     loginStore,
     adpageStore,
-    managerStore
+    managerStore,
+    menuStore,
   }
 });

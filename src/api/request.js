@@ -2,8 +2,8 @@ import axios from 'axios';
 import router from '../router';
 
 const Service = axios.create({
-  // baseURL: 'http://base.laraveldev.com/api/user',
-  baseURL: 'http://172.31.9.88/test-api/public/api',
+  baseURL: 'http://base.laraveldev.com/',
+  // baseURL: 'http://172.31.9.88/test-api/public/api',
   timeout: 5000, // 請求超時設置
   headers: {
     'Content-Type': 'application/json;charset=utf-8',

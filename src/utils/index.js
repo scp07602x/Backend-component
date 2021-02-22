@@ -1,8 +1,5 @@
-import router from './routerUtil';
-import sidebar from './sidebarUtil';
+import defaultProgram from './default';
 
-if(localStorage.token){
-  router.routerHandler();
-  sidebar.sidebarHandler();
+if (localStorage.token) {
+  defaultProgram.getRouteAndSidebar();
 }
- 

@@ -9,6 +9,12 @@
         <footer-admin />
       </div>
     </div>
+    <VLoading
+      :active.sync="isLoading"
+      loader="bars"
+      color="rgb(56,161,105)"
+      ref="loading"
+    ></VLoading>
   </div>
 </template>
 <script>
@@ -22,7 +28,14 @@ export default {
     AdminNavbar,
     Sidebar,
     Header,
-    FooterAdmin
+    FooterAdmin,
+  },
+
+  computed: {
+    isLoading(){
+      return this.$store.state.isLoading;
+    }
+
   },
 };
 </script>

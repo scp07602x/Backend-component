@@ -3,12 +3,16 @@ import axios from '@/api';
 export default {
   namespaced: true,
   state: {
+    token: "",
     loginForm: "",
     routes: [],
     sidebar: [],
   },
 
   mutations: {
+    token(state, resultToken) {
+      state.token = resultToken;
+    },
     login(state, loginForm) {
       state.loginForm = loginForm;
     },
@@ -23,15 +27,16 @@ export default {
   actions: {
     login(context, loginForm) {
       context.commit('login', loginForm);
-      return axios.post("/login", {
-          name: loginForm.username,
+      return axios.post("service/login", {
+          account: loginForm.username,
           password: loginForm.password
         })
         .then((response) => {
           if (response.status == 'success') {
             let resultToken = `Bearer ${response.result.token}`;
-            localStorage.token = resultToken;
+            context.commit('token', resultToken);
             context.commit('login', loginForm);
+            localStorage.token = resultToken;
 
             return true;
           }
