@@ -31,5 +31,13 @@ export default {
     CardPageVisits,
     CardSocialTraffic,
   },
+
+  mounted() {
+    // this.$store.dispatch("isLoading", true);
+  },
+
+  // beforeDestroy() {
+  //   this.$store.dispatch("isLoading", false);
+  // },
 };
 </script>

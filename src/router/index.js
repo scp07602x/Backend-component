@@ -2,46 +2,30 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 // layouts
-import Admin from "@/layouts/Admin.vue";
-import Auth from "@/layouts/Auth.vue";
+import staticRoute from "./staticRoute";
 
-// views for Auth layout
-import Login from "@/views/auth/Login.vue";
 
 // routes
 Vue.use(VueRouter);
 
-const routes = [{
-    name: "index",
-    path: "/",
-    redirect: "/admin/dashboard",
-    component: Admin,
-    children: [{
-        path: "/admin/dashboard",
-        component: () => import("@/views/admin/Dashboard.vue"),
-        meta: {
-            requireAuth: true,
-            breadcrumb: [{
-                name: "首頁",
-            }],
-        }
-    }, ],
+const defaultEditPath = [{
+    path: "/new",
+    filePath: "/category_new"
 }, {
-    name: "auth",
-    path: "/auth",
-    redirect: "/auth/login",
-    component: Auth,
-    children: [{
-        name: "auth.login",
-        path: "/auth/login",
-        component: Login,
-    }, ],
-}, ];
-
+    path: "/edit",
+    filePath: "/category_edit"
+}, {
+    path: "/:id/new",
+    filePath: "/child_edit"
+}, {
+    path: "/:id/edit",
+    filePath: "/child_edit"
+}];
 
 const router = new VueRouter({
     mode: 'history',
-    routes
+    routes: staticRoute,
+    defaultEditPath
 });
 
 router.beforeEach((to, from, next) => {
@@ -62,6 +46,6 @@ router.beforeEach((to, from, next) => {
         }
         next();
     }
-
 });
+
 export default router;

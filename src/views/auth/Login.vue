@@ -60,10 +60,7 @@
 </template>
 <script>
 import TextInput from "@/components/ValidateField/TextValidate.vue";
-import defaultProgram from '@/utils/default';
-
-// import utils from '@/utils';
-// import sidebarUtil from '@/utils/sidebarUtil.js';
+import defaultProgram from '@/utility';
 
 export default {
   components: {
@@ -89,12 +86,11 @@ export default {
     async signIn() {
       if (this.loginForm.username !== "" || this.loginForm.password !== "") {
         let loginStatus = await this.$store.dispatch(
-          "loginStore/login",
+          "login/login",
           this.loginForm
         );
         if (loginStatus === true) {
           await defaultProgram.getRouteAndSidebar();
-          // await sidebarUtil.sidebarHandler();
           this.rediretIndex();
         }
       }

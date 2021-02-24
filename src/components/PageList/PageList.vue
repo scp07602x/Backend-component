@@ -141,7 +141,7 @@ export default {
 
   computed: {
     list() {
-      return this.$store.state.pageList.list;
+      return this.$store.state.adpage.pageList.list;
     },
   },
 

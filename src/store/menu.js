@@ -3,12 +3,12 @@ import api from '@/api/store';
 export default {
   namespaced: true,
   state: {
-    menu: [],
+    menuList: [],
   },
 
   mutations: {
     getMenu(state, menu) {
-      state.menu = menu;
+      state.menuList = menu;
     }
   },
 

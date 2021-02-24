@@ -14,13 +14,3 @@
   width: $width;
   height: $height;
 }
-
-// $colorList:(red, blue, green, white, black, purple, yellow);
-
-// @each $item in $colorList {
-//   @for $i from 1 through 3 {
-//     .bdr-#{$item}-#{$i} {
-//       border: #{$i}px solid #{$item};
-//     }
-//   }
-// }
