@@ -188,7 +188,7 @@ export default {
 
   computed: {
     sidebar: function () {
-      return this.$store.state.login.sidebar;
+      return this.$store.state.sidebar.list;
     },
   },
 

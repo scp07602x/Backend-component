@@ -6,11 +6,22 @@
     :vid="vid"
     v-slot="{ errors }"
   >
-    <input
+    <select
       :type="type"
-      v-model="currentValue"
-      class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-32 ease-linear transition-all duration-150"
-    />
+      v-model="selectType"
+      class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-40 ease-linear transition-all duration-150"
+    >
+      <option value="" disabled selected hidden>{{ select.title }}</option>
+      <option
+        class="text-sm py-2 px-4 font-normal block w-40 whitespace-no-wrap bg-transparent text-gray-800"
+        v-for="option in select.options"
+        :key="option.type"
+        :value="option.type"
+      >
+        {{ option.description }}
+      </option>
+    </select>
+
     <span
       class="text-xs font-bold mx-4"
       style="color: rgba(249, 32, 32, 0.7)"
@@ -18,16 +29,16 @@
     >
   </ValidationProvider>
 </template>
-
 <script>
 import { ValidationProvider } from "vee-validate";
 
 export default {
-  name: "TextInput",
+  name: "defaultDropdown",
   components: {
     ValidationProvider,
   },
   props: {
+    select: Object,
     value: {
       type: [String, Number],
       default: "",
@@ -49,20 +60,21 @@ export default {
       default: "text",
     },
   },
+
   data() {
     return {
-      currentValue: "",
+      selectType: "",
     };
   },
 
   mounted() {
-    this.currentValue = this.value;
+    this.selectType = this.value;
   },
+
   watch: {
-    currentValue(val) {
+    selectType(val) {
       this.$emit("input", val);
     },
   },
 };
 </script>
-

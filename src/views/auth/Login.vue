@@ -14,14 +14,14 @@
           <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
             <!-- handleSubmit為套件函式不可變更 -->
             <ValidationObserver v-slot="{ handleSubmit }">
-              <form @submit.prevent="handleSubmit(signIn)">
+              <form @submit.prevent="handleSubmit(login)">
                 <div class="relative w-full mb-3">
                   <span
                     class="block uppercase text-gray-700 text-xs font-bold mb-2"
                   >
                     *帳號
                   </span>
-                  <TextInput v-model="loginForm.username" name="帳號" />
+                  <TextInput v-model="account" name="帳號" />
                 </div>
                 <div class="relative w-full mb-3">
                   <span
@@ -30,11 +30,7 @@
                   >
                     *密碼
                   </span>
-                  <TextInput
-                    v-model="loginForm.password"
-                    name="密碼"
-                    type="password"
-                  />
+                  <TextInput v-model="password" name="密碼" type="password" />
                 </div>
                 <hr class="mt-6 border-b-1 border-gray-400" />
                 <div class="text-center mt-6">
@@ -60,7 +56,7 @@
 </template>
 <script>
 import TextInput from "@/components/ValidateField/TextValidate.vue";
-import defaultProgram from '@/utility';
+// import defaultProgram from '@/utility';
 
 export default {
   components: {
@@ -69,30 +65,32 @@ export default {
 
   data() {
     return {
-      loginForm: {
-        username: "",
-        password: "",
-      },
+      account: "System",
+      password: "System123",
     };
   },
 
   methods: {
-    rediretIndex() {
-      this.$router.replace({
-        path: "/admin/dashboard",
-      });
-    },
-
-    async signIn() {
-      if (this.loginForm.username !== "" || this.loginForm.password !== "") {
-        let loginStatus = await this.$store.dispatch(
-          "login/login",
-          this.loginForm
-        );
-        if (loginStatus === true) {
-          await defaultProgram.getRouteAndSidebar();
-          this.rediretIndex();
-        }
+    login() {
+      if (this.account !== "" || this.password !== "") {
+        this.$api
+          .serviceLogin(
+            this.account.replace(/\s*/g, ""),
+            this.password.replace(/\s*/g, "")
+          )
+          .then((response) => {
+            let token = `Bearer ${response.token}`;
+            this.$storage.setitem("token", token);
+            this.$store.dispatch("common/token", token);
+          })
+          .finally(async () => {
+            if (this.$storage.getitem("token")) {
+              this.$utility.necessaryParams();
+              this.$router.replace({
+                path: "/",
+              });
+            }
+          });
       }
     },
   },

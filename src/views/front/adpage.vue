@@ -1,16 +1,16 @@
 <template>
   <div class="flex flex-wrap">
     <div class="w-full mb-12 px-4">
-      <PageList />
+      <!-- <PageList /> -->
     </div>
   </div>
 </template>
 <script>
-import PageList from "@/components/PageList/PageList.vue";
+// import PageList from "@/components/PageList/PageList.vue";
 
 export default {
   components: {
-    PageList,
+    // PageList,
   },
 
   methods: {

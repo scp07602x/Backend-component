@@ -1,34 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
-// 引入modules
-import login from './login'
-import adpage from './adpage'
-import manager from './manager'
-import menu from './menu'
-
 Vue.use(Vuex);
 
+// 引入modules
+import common from './modules/common'
+import routers from './modules/routers'
+import sidebar from './modules/sidebar'
+import menu from './modules/system/menu'
+
+const modules = {
+  common,
+  routers,
+  sidebar,
+  menu
+}
+
 export default new Vuex.Store({
-  state: {
-    isLoading: false,
-  },
-
-  mutations: {
-    isLoading(state, status) {
-      state.isLoading = status;
-    }
-  },
-  actions: {
-    isLoading(context, status) {
-      context.commit('isLoading', status);
-    }
-  },
-
-  modules: {
-    login,
-    adpage,
-    manager,
-    menu,
-  }
+  modules,
 });

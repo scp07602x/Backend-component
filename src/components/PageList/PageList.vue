@@ -140,9 +140,9 @@ export default {
   },
 
   computed: {
-    list() {
-      return this.$store.state.adpage.pageList.list;
-    },
+    // list() {
+    //   return this.$store.state.adpage.pageList.list;
+    // },
   },
 
   created() {

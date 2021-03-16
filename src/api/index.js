@@ -1,14 +1,20 @@
-import Service from '@/api/request';
+import service from '@/api/request';
 
 export default {
+  resultProcessing(data) {
+    if (data.status == "success") {
+      return data.result;
+    }
+  },
+
   get(url, params = {}) {
     return new Promise((resolve, reject) => {
-      Service
+      service
         .get(url, {
           params: params
         })
         .then(response => {
-          resolve(response.data);
+          resolve(this.resultProcessing(response.data));
         })
         .catch(err => {
           reject(err);
@@ -18,9 +24,9 @@ export default {
 
   post(url, data = {}) {
     return new Promise((resolve, reject) => {
-      Service.post(url, data).then(
+      service.post(url, data).then(
         response => {
-          resolve(response.data);
+          resolve(this.resultProcessing(response.data));
         },
         err => {
           reject(err);
@@ -31,9 +37,9 @@ export default {
 
   delete(url, data = {}) {
     return new Promise((resolve, reject) => {
-      Service.delete(url, data).then(
+      service.delete(url, data).then(
         response => {
-          resolve(response.data);
+          resolve(this.resultProcessing(response.data));
         },
         err => {
           reject(err);
@@ -44,9 +50,22 @@ export default {
 
   put(url, data = {}) {
     return new Promise((resolve, reject) => {
-      Service.put(url, data).then(
+      service.put(url, data).then(
         response => {
-          resolve(response.data);
+          resolve(this.resultProcessing(response.data));
+        },
+        err => {
+          reject(err);
+        }
+      );
+    });
+  },
+
+  patch(url, data = {}) {
+    return new Promise((resolve, reject) => {
+      service.patch(url, data).then(
+        response => {
+          resolve(this.resultProcessing(response.data));
         },
         err => {
           reject(err);

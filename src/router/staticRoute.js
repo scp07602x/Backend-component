@@ -8,12 +8,10 @@ const staticRoute = [{
   component: Admin,
   children: [{
     path: "/admin/dashboard",
+    name: "後台首頁",
     component: () => import("@/views/admin/Dashboard.vue"),
     meta: {
       requireAuth: true,
-      breadcrumb: [{
-        name: "首頁",
-      }],
     }
   }, ],
 }, {
@@ -22,7 +20,7 @@ const staticRoute = [{
   redirect: "/auth/login",
   component: Auth,
   children: [{
-    name: "auth.login",
+    name: "後台登入",
     path: "/auth/login",
     component: () => import("@/views/auth/Login.vue"),
   }, ],

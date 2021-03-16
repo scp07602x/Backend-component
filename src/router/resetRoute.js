@@ -3,7 +3,7 @@ import router from '@/router'
 import staticRoute from './staticRoute' //静态路由
 
 export default {
- index() {
+ reset() {
    const newRouter = new Router({
      routes: staticRoute
     });

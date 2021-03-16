@@ -1,35 +1,26 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 
 // layouts
-import staticRoute from "./staticRoute";
+import staticRoute from './staticRoute';
 
+import storage from '@/utility/storage';
 
 // routes
 Vue.use(VueRouter);
 
-const defaultEditPath = [{
-    path: "/new",
-    filePath: "/category_new"
-}, {
-    path: "/edit",
-    filePath: "/category_edit"
-}, {
-    path: "/:id/new",
-    filePath: "/child_edit"
-}, {
-    path: "/:id/edit",
-    filePath: "/child_edit"
-}];
-
 const router = new VueRouter({
     mode: 'history',
     routes: staticRoute,
-    defaultEditPath
 });
 
 router.beforeEach((to, from, next) => {
-    let getToken = localStorage.getItem('token');
+    let getToken = storage.getitem('token');
+    if (to.matched.length === 0) {
+        next({
+            path: '/auth/login',
+        })
+    }
     if (to.meta.requireAuth) { //是否需要登入許可權
         if (getToken) {
             next();
