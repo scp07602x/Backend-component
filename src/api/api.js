@@ -45,6 +45,10 @@ export default {
         return ajax.patch(`/service/menu/${id}/edit`, params);
     },
 
+    serviceMenuIdCategoryIndex(id) {
+        return ajax.post(`/service/menu/${id}/category/index`);
+    },
+
     serviceMenuIdCategoryAdd(id, params) {
         return ajax.put(`/service/menu/${id}/category/add`, params);
     },

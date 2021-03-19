@@ -21,7 +21,7 @@
                   >
                     *帳號
                   </span>
-                  <TextInput v-model="account" name="帳號" />
+                  <TextInput v-model="account" name="帳號" classStyle="w-full" />
                 </div>
                 <div class="relative w-full mb-3">
                   <span
@@ -30,7 +30,7 @@
                   >
                     *密碼
                   </span>
-                  <TextInput v-model="password" name="密碼" type="password" />
+                  <TextInput v-model="password" name="密碼" type="password" classStyle="w-full"/>
                 </div>
                 <hr class="mt-6 border-b-1 border-gray-400" />
                 <div class="text-center mt-6">

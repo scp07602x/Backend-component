@@ -45,6 +45,13 @@
                   >{{ menu.name }}</span
                 >
               </div>
+              <button
+                type="button"
+                class="w-28 bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 text-center"
+                @click="goSubCategory(menu.id, menu)"
+              >
+                {{ menu.name }}清單
+              </button>
               <router-link
                 class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                 :to="`/system/menu/${menu.id}/category/add`"
@@ -179,8 +186,7 @@
                 >
                   <router-link
                     class="text-orange-500 bg-transparent border border-solid border-orange-500 active:bg-orange-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                    type="button"
-                    :to="`/system/menu/${data.id}/category`"
+                    :to="`/system/menu/category/${data.id}/tab`"
                   >
                     <i class="far fa-edit text-orange-500 text-base"></i>
                     查閱子頁面
@@ -235,6 +241,13 @@ export default {
       this.$api.serviceMenu().then((response) => {
         this.$store.dispatch("menu/list", response);
         this.$store.dispatch("common/isLoading", false);
+      });
+    },
+
+    goSubCategory(id, data) {
+      this.$store.dispatch("menu/subCategory", data);
+      this.$router.replace({
+        path: `/system/menu/${id}/category`,
       });
     },
 

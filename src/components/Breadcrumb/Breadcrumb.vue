@@ -19,6 +19,7 @@ export default {
     return {
       defaultbreadcrumbs: [{ name: "後台首頁", path: "/admin/dashboard" }],
       breadcrumbs: [],
+      labelId: [],
     };
   },
   mounted() {
@@ -31,21 +32,53 @@ export default {
     },
   },
 
+  computed: {
+    mapBreads() {
+      return this.$store.state.common.breadcrumbs;
+    },
+
+    pathId() {
+      return this.$route.params.id;
+    },
+  },
+
   methods: {
     updateBreadcrumbsList() {
-      if (this.$route.meta.navId !== undefined) {
-        this.$api.serviceNavId(this.$route.meta.navId).then((response) => {
-          let subBreadcrumbs = response.map((element) => {
-            // console.log(element.category_route.replace(':id',element.id))
-            // console.log(element.id)
-            return {
-              name: element.name.split("-").first(),
-              path: `/${element.category_route}`,
-            };
-          });
-          this.breadcrumbs = [...this.defaultbreadcrumbs, ...subBreadcrumbs];
+      this.labelId = [];
+      if (this.$route.meta.breadcrumbs !== undefined) {
+        if (this.pathId !== undefined) {
+          this.findParentId(this.$route.params.id);
+        }
+
+        let breadIds = this.labelId.reverse();
+        let num = 0;
+        let breads = this.$route.meta.breadcrumbs.map((element) => {
+          if (element.path.match(":") !== null) {
+            let pathWithId = element.path.strReplace("/", ":", breadIds[num]);
+            num++;
+            return { path: pathWithId, name: element.name };
+          } else {
+            return element;
+          }
         });
+
+        this.breadcrumbs = [...this.defaultbreadcrumbs, ...breads];
       }
+    },
+
+    findParentId(id) {
+      this.mapBreads.forEach((v, k) => {
+        if (id == k) {
+          this.labelId.push(k);
+          if (v.parent_id !== null) {
+            this.mapBreads.forEach((vv, kk) => {
+              if (v.parent_id == vv.combine_id) {
+                this.findParentId(kk);
+              }
+            });
+          }
+        }
+      });
     },
   },
 };

@@ -9,7 +9,8 @@
     <input
       :type="type"
       v-model="currentValue"
-      class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-32 ease-linear transition-all duration-150"
+      class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline ease-linear transition-all duration-150"
+      :class="[styleClass]"
     />
     <span
       class="text-xs font-bold mx-4"
@@ -48,16 +49,23 @@ export default {
       type: String,
       default: "text",
     },
+    classStyle: {
+      type: String,
+      default: "w-32",
+    },
   },
   data() {
     return {
       currentValue: "",
+      styleClass: "",
     };
   },
 
   mounted() {
     this.currentValue = this.value;
+    this.styleClass = this.classStyle;
   },
+  
   watch: {
     currentValue(val) {
       this.$emit("input", val);

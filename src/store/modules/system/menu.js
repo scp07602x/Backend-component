@@ -3,6 +3,7 @@ export default {
   state: {
     list: [],
     subPath: "",
+    subCategory: {},
   },
 
   mutations: {
@@ -13,6 +14,10 @@ export default {
     subPagePath(state, subPath) {
       state.subPath = subPath;
     },
+
+    subCategory(state, data) {
+      state.subCategory = data;
+    },
   },
 
   actions: {
@@ -22,6 +27,10 @@ export default {
 
     subPagePath(context, subPath) {
       context.commit('subPagePath', subPath);
-    }
+    },
+
+    subCategory(context, data) {
+      context.commit('subCategory', data);
+    },
   }
 }

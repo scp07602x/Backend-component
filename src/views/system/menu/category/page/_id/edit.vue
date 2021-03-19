@@ -321,7 +321,6 @@ export default {
         .serviceMenuTabPageIdEdit(this.$route.params.id, params)
         .then(() => {
           this.getMenuWithId(this.$route.params.id);
-          // this.$store.dispatch("common/isLoading", false);
           alert("更新成功");
         });
     },

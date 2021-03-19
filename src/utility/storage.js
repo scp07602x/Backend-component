@@ -11,7 +11,7 @@ export default {
     return this.space().setItem(key, value);
   },
 
-  removeItem(key) {
+  removeitem(key) {
     return this.space().removeItem(key);
   }
 }

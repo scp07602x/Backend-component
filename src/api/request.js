@@ -36,8 +36,6 @@ Service.interceptors.response.use(response => {
   }
 })
 
-
-
 const errorHandle = (status, msg) => {
   switch (status) {
     // case 400:

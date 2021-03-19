@@ -8,13 +8,9 @@
     >
       <div class="items-center flex">
         <span
-          class="w-12 h-12 text-sm text-white bg-gray-300 inline-flex items-center justify-center rounded-full"
+          class="w-12 h-12 text-sm text-black bg-white inline-flex items-center justify-center rounded-full"
         >
-          <img
-            alt="..."
-            class="w-full rounded-full align-middle border-none shadow-lg"
-            :src="image"
-          />
+          {{ userInfo.name }}
         </span>
       </div>
     </a>
@@ -26,31 +22,20 @@
         block: dropdownPopoverShow,
       }"
     >
-      <a
+      <span
         href="javascript:void(0);"
         class="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-gray-800"
       >
-        Action
-      </a>
-      <a
-        href="javascript:void(0);"
-        class="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-gray-800"
-      >
-        Another action
-      </a>
-      <a
-        href="javascript:void(0);"
-        class="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-gray-800"
-      >
-        Something else here
-      </a>
+        登入帳號 : {{ userInfo.account }}
+      </span>
       <div class="h-0 my-2 border border-solid border-gray-200" />
-      <a
-        href="javascript:void(0);"
-        class="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-gray-800"
+      <span
+        type="button"
+        class="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-gray-800 text-left cursor-pointer"
+        @click="logout()"
       >
-        Seprated link
-      </a>
+        登出
+      </span>
     </div>
   </div>
 </template>
@@ -67,7 +52,27 @@ export default {
       image: image,
     };
   },
+
+  computed: {
+    userInfo() {
+      return this.$store.state.common.loginInfomation;
+    },
+  },
+
+  mounted() {
+    document.addEventListener("click", this.bodyCloseMenus);
+  },
+
   methods: {
+    bodyCloseMenus(e) {
+      let _this = this;
+      if (this.$refs.popoverDropdownRef && !this.$refs.btnDropdownRef.contains(e.target)) {
+        if (_this.dropdownPopoverShow == true) {
+          _this.dropdownPopoverShow = false;
+        }
+      }
+    },
+
     toggleDropdown: function (event) {
       event.preventDefault();
       if (this.dropdownPopoverShow) {
@@ -78,6 +83,14 @@ export default {
           placement: "bottom-start",
         });
       }
+    },
+
+    logout() {
+      this.$storage.removeitem("token");
+      this.$router.replace({
+        path: "/auth/login",
+      });
+      this.$router.go(0);
     },
   },
 };
