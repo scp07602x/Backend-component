@@ -662,6 +662,7 @@ export default {
     },
 
     groupEdit() {
+      this.$store.dispatch("common/isLoading", true);
       let formData = new FormData();
       formData.append("meta_title", this.websiteData.meta_title);
       formData.append("meta_subject ", this.websiteData.meta_subject);
@@ -701,10 +702,10 @@ export default {
       //   logo: this.$refs.logo.files[0],
       // };
 
-      this.$api.serviceWebsiteEdit(formData).then((response) => {
-        this.websiteData = response;
+      this.$api.serviceWebsiteEdit(formData).then(() => {
         this.$store.dispatch("common/isLoading", false);
         alert("更新成功");
+        this.getWebsiteBasic();
       });
     },
 

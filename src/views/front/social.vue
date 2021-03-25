@@ -162,7 +162,7 @@ export default {
         value: data.value,
       };
 
-      this.$api.serviceWebsiteSocialIdEdit(id, params).then((response) => {
+      this.$api.serviceWebsiteSocialIdEdit(id, params).then(() => {
         this.getWebsiteSocial();
       });
     },
