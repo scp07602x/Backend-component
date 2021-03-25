@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+// import store from '@/store';
 
 // layouts
 import staticRoute from './staticRoute';
-
 import storage from '@/utility/storage';
 
 // routes
@@ -16,11 +16,13 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     let getToken = storage.getitem('token');
-    if (to.matched.length === 0) {
-        next({
-            path: '/auth/login',
-        })
-    }
+    
+    // if (to.matched.length === 0) {
+    //     next({
+    //         path: '/auth/login',
+    //     })
+    // }
+
     if (to.meta.requireAuth) { //是否需要登入許可權
         if (getToken) {
             next();

@@ -21,7 +21,7 @@
         </div>
         <div>
           <ValidationObserver v-slot="{ handleSubmit }">
-            <form @submit.prevent="handleSubmit(menuEdit)">
+            <form @submit.prevent="handleSubmit(groupEdit)">
               <div class="block w-full overflow-x-auto px-6 pb-6">
                 <div class="rounded-t mb-0 px-4 py-3 border bg-gray-300">
                   <div class="flex flex-wrap items-center justify-between">
@@ -30,11 +30,10 @@
                     >
                       <span
                         class="align-middle py-1 text-sm uppercase border-l-0 border-r-0 font-semibold text-left text-gray-600 border-gray-200 text-center"
-                        >主分類id</span
+                        >群組代碼</span
                       >
                       <span class="px-2 text-red-500 text-xs font-bold">
-                        *對應欄位 : subject_id ;
-                        英文字母小寫，不可與其他主分類重複。
+                        *對應欄位 : group_code ;
                       </span>
                     </div>
                   </div>
@@ -48,15 +47,15 @@
                     <span
                       class="inline-block uppercase text-gray-700 text-xs font-bold mb-2"
                     >
-                      分類id :
+                      群組代碼 :
                     </span>
                     <TextInput
                       class="inline-block px-4"
-                      v-model="menu.subject_id"
-                      :value="menu.subject_id"
-                      name="分類id"
+                      v-model="groups.group_code"
+                      name="群組代碼"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-full"
                     />
                   </div>
                 </div>
@@ -69,10 +68,10 @@
                     >
                       <span
                         class="align-middle py-1 text-sm uppercase border-l-0 border-r-0 font-semibold text-left text-gray-600 border-gray-200 text-center"
-                        >主分類名稱</span
+                        >備註說明</span
                       >
                       <span class="px-2 text-red-500 text-xs font-bold">
-                        *對應欄位 : name ; 同階名稱不能重複。
+                        *對應欄位 : memo ;
                       </span>
                     </div>
                   </div>
@@ -86,54 +85,15 @@
                     <span
                       class="inline-block uppercase text-gray-700 text-xs font-bold mb-2"
                     >
-                      分類名稱 :
+                      備註說明 :
                     </span>
                     <TextInput
                       class="inline-block px-4"
-                      v-model="menu.name"
-                      :value="menu.name"
-                      name="分類名稱"
+                      v-model="groups.memo"
+                      name="備註說明"
                       :key="componentKey"
-                      rules="required"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="block w-full overflow-x-auto px-6 pb-6">
-                <div class="rounded-t mb-0 px-4 py-3 border bg-gray-300">
-                  <div class="flex flex-wrap items-center justify-between">
-                    <div
-                      class="relative w-full px-2 max-w-full flex-grow flex-1 inline-block"
-                    >
-                      <span
-                        class="align-middle py-1 text-sm uppercase border-l-0 border-r-0 font-semibold text-left text-gray-600 border-gray-200 text-center"
-                        >排序值</span
-                      >
-                      <span class="px-2 text-red-500 text-xs font-bold">
-                        *對應欄位 : sort ; 僅可輸入數字，可指定排序，預設值為 0
-                        並自動排序。
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="items-center w-full bg-transparent border-collapse border-r border-l border-b"
-                >
-                  <div
-                    class="w-full px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
-                  >
-                    <span
-                      class="inline-block uppercase text-gray-700 text-xs font-bold mb-2"
-                    >
-                      排序值 :
-                    </span>
-                    <TextInput
-                      class="inline-block px-4"
-                      v-model="menu.sort"
-                      :value="menu.sort"
-                      name="排序值"
-                      :key="componentKey"
-                      type="number"
+                      type="text-area"
+                      classStyle="w-full"
                     />
                   </div>
                 </div>
@@ -168,8 +128,7 @@
                     </span>
                     <SelectValidate
                       :select="statusSelect"
-                      v-model="menu.is_useful"
-                      :value="menu.is_useful"
+                      v-model="groups.is_useful"
                       class="inline-block px-4"
                       :key="componentKey"
                       rules="required"
@@ -178,15 +137,12 @@
                   </div>
                 </div>
               </div>
-
               <div class="text-right mb-4 px-6 m w-full">
-                <button
-                  type="button"
+                <router-link
                   class="bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  to="/system/param/group"
+                  >返回系統參數</router-link
                 >
-                  <router-link to="/system/menu">返回功能目錄</router-link>
-                </button>
-
                 <button
                   class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="submit"
@@ -214,15 +170,13 @@ export default {
 
   data() {
     return {
-      menu: {},
+      groups: {},
       componentKey: 0,
     };
   },
 
-  watch: {
-    subject_id() {
-      this.subject_id = this.subject_id.toLowerCase();
-    },
+  beforeMount() {
+    this.getGroupsWithId(this.$route.params.id);
   },
 
   computed: {
@@ -240,43 +194,29 @@ export default {
         ],
       };
     },
-
-    permissionsSelect() {
-      return {
-        title: "請選擇權限類別",
-        options: [
-          { type: "admin", description: "admin" },
-          { type: "system", description: "system" },
-        ],
-      };
-    },
-  },
-
-  beforeMount() {
-    this.getMenuWithId(this.$route.params.id);
   },
 
   methods: {
-    getMenuWithId(id) {
-      this.$api.serviceMenuId(id).then((element) => {
-        this.menu = element;
+    getGroupsWithId(id) {
+      this.$api.serviceParamId(id).then((response) => {
+        this.groups = response;
         this.componentKey++;
+        this.$store.dispatch("common/isLoading", false);
       });
     },
 
-    menuEdit() {
+    groupEdit() {
       this.$store.dispatch("common/isLoading", true);
       let params = {
-        subject_id: this.menu.subject_id,
-        name: this.menu.name,
-        sort: this.menu.sort == "" ? 0 : this.menu.sort,
-        is_useful: this.menu.is_useful,
+        group_code: this.groups.group_code,
+        memo: this.groups.memo,
+        is_useful: this.groups.is_useful,
       };
 
       this.$api
-        .serviceMenuIdEdit(this.$route.params.id, params)
-        .then((element) => {
-          this.menu = element;
+        .serviceParamGroupIdEdit(this.$route.params.id, params)
+        .then((response) => {
+          this.groups = response;
           this.$store.dispatch("common/isLoading", false);
           alert("更新成功");
         });
@@ -288,7 +228,7 @@ export default {
           this[element] = "";
         }
       });
-      this.componentKey++;
+      this.componentKey += 1;
     },
   },
 };

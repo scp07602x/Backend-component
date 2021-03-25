@@ -1,16 +1,17 @@
-import Admin from "@/layouts/Admin.vue";
+import setting from "@/layouts/setting.vue";
 import Auth from "@/layouts/Auth.vue";
 
 const staticRoute = [{
   name: "index",
   path: "/",
   redirect: "/admin/dashboard",
-  component: Admin,
+  component: setting,
   children: [{
     path: "/admin/dashboard",
     name: "後台首頁",
     component: () => import("@/views/admin/Dashboard.vue"),
     meta: {
+      transition: 'fade-in-up',
       requireAuth: true,
     }
   }, ],
@@ -23,7 +24,10 @@ const staticRoute = [{
     name: "後台登入",
     path: "/auth/login",
     component: () => import("@/views/auth/Login.vue"),
-  }, ],
+  }],
+  meta: {
+    transition: 'fade-in-up',
+  }
 }, ];
 
 export default staticRoute;

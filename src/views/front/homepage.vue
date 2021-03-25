@@ -11,12 +11,6 @@
             </div>
           </div>
         </div>
-        <router-link
-          class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-          to="/front/homepage/add"
-        >
-          新增
-        </router-link>
         <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
           <form>
             <topbar :barlist="topbar.left"></topbar>

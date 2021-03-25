@@ -7,12 +7,14 @@ import common from './modules/common'
 import routers from './modules/routers'
 import sidebar from './modules/sidebar'
 import menu from './modules/system/menu'
+import paramGroup from './modules/system/param/group'
 
 const modules = {
   common,
   routers,
   sidebar,
-  menu
+  menu,
+  paramGroup
 }
 
 export default new Vuex.Store({

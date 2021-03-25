@@ -7,8 +7,13 @@ import store from '@/store';
 import axios from '@/api';
 import api from '@/api/api';
 
+import * as VuePageTransition from '@/plugins/vuePageTransition';
+
 // form vaildate
 import * as validate from '@/plugins/validate';
+
+// editor
+import * as tinymce from '@/plugins/tinymce';
 
 // utility
 import * as utility from '@/utility';
@@ -32,16 +37,16 @@ Vue.prototype.$utility = utility;
 Vue.prototype.$common = common;
 Vue.component('VLoading', VLoading);
 
-
-
 new Vue({
   router,
   store,
   axios,
   api,
+  VuePageTransition,
   utility,
   validate,
   storage,
+  tinymce,
   common,
   render: (h) => h(App)
 }).$mount("#app");

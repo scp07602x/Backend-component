@@ -236,7 +236,6 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch("common/isLoading", true);
     this.getMenuCategory(this.$route.params.id);
   },
 
@@ -263,7 +262,6 @@ export default {
         let categoryMap = new Map();
         this.categoryMapProcessing(response, categoryMap);
         this.menus = Array.from(categoryMap.values());
-        this.$store.dispatch("common/isLoading", false);
       });
     },
 

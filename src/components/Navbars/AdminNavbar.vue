@@ -5,7 +5,9 @@
     <div
       class="w-full mx-autp items-center flex justify-between md:flex-no-wrap flex-wrap md:px-10 px-4"
     >
-      <BreadCrumb />
+      <transition name="fade" mode="out-in">
+        <BreadCrumb />
+      </transition>
       <form
         class="md:flex hidden flex-row flex-wrap items-center lg:ml-auto mr-3"
       ></form>

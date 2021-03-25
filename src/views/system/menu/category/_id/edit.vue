@@ -344,7 +344,6 @@ export default {
 
   methods: {
     getMenuWithId(id) {
-      this.$store.dispatch("common/isLoading", true);
       this.$api.serviceMenuId(id).then((element) => {
         element.category_route = element.category_route
           ? element.category_route.replace(`${element.parent_id}/`, "")
@@ -352,7 +351,6 @@ export default {
         this.parentRoute = `${element.parent_id}/`;
         this.menu = element;
         this.componentKey++;
-        this.$store.dispatch("common/isLoading", false);
       });
     },
 
@@ -371,8 +369,7 @@ export default {
         .serviceMenuCategoryIdEdit(this.$route.params.id, params)
         .then(() => {
           this.getMenuWithId(this.$route.params.id);
-          this.$store.dispatch("common/isLoading", false);
-
+          this.$store.dispatch("common/isLoading", false)
           alert("更新成功");
         });
     },

@@ -99,6 +99,7 @@ function recursiveRoute(data, mapRoute, mapBreads) {
       component: () => import(`@/views/${path}`),
       children: (element.children).length == 0 ? [] : recursiveRoute(element.children, mapRoute, mapBreads),
       meta: {
+        transition: 'fade-in-up',
         requireAuth: true,
         id: element.id,
         parent: element.parent_id,

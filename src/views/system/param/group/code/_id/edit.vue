@@ -21,7 +21,7 @@
         </div>
         <div>
           <ValidationObserver v-slot="{ handleSubmit }">
-            <form @submit.prevent="handleSubmit(menuCategoryAdd)">
+            <form @submit.prevent="handleSubmit(codeAdd)">
               <div class="block w-full overflow-x-auto px-6 pb-6">
                 <div class="rounded-t mb-0 px-4 py-3 border bg-gray-300">
                   <div class="flex flex-wrap items-center justify-between">
@@ -30,11 +30,11 @@
                     >
                       <span
                         class="align-middle py-1 text-sm uppercase border-l-0 border-r-0 font-semibold text-left text-gray-600 border-gray-200 text-center"
-                        >主分類id</span
+                        >參數代碼</span
                       >
                       <span class="px-2 text-red-500 text-xs font-bold">
-                        *對應欄位 : subject_id ;
-                        英文字母小寫，不可與其他主分類重複。
+                        *對應欄位 : code ; 分類代碼 a~z _
+                        -，不可與其他分類重複。
                       </span>
                     </div>
                   </div>
@@ -48,14 +48,15 @@
                     <span
                       class="inline-block uppercase text-gray-700 text-xs font-bold mb-2"
                     >
-                      分類id :
+                      參數代碼 :
                     </span>
                     <TextInput
                       class="inline-block px-4"
-                      v-model="subject_id"
-                      name="分類id"
+                      v-model="group.code"
+                      name="參數代碼"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-full"
                     />
                   </div>
                 </div>
@@ -68,10 +69,10 @@
                     >
                       <span
                         class="align-middle py-1 text-sm uppercase border-l-0 border-r-0 font-semibold text-left text-gray-600 border-gray-200 text-center"
-                        >子分類類別</span
+                        >備註說明</span
                       >
                       <span class="px-2 text-red-500 text-xs font-bold">
-                        *對應欄位 : category ; 僅接受index 、 indexTab。
+                        *對應欄位 : memo ; 說明文字 ， 如網站基本設定FB 。
                       </span>
                     </div>
                   </div>
@@ -85,143 +86,16 @@
                     <span
                       class="inline-block uppercase text-gray-700 text-xs font-bold mb-2"
                     >
-                      子分類類別 :
-                    </span>
-                    <SelectValidate
-                      :select="categorySelect"
-                      v-model="category"
-                      class="inline-block px-4"
-                      :key="componentKey"
-                      rules="required"
-                      name="子分類類別"
-                    ></SelectValidate>
-                  </div>
-                </div>
-              </div>
-              <div class="block w-full overflow-x-auto px-6 pb-6">
-                <div class="rounded-t mb-0 px-4 py-3 border bg-gray-300">
-                  <div class="flex flex-wrap items-center justify-between">
-                    <div
-                      class="relative w-full px-2 max-w-full flex-grow flex-1 inline-block"
-                    >
-                      <span
-                        class="align-middle py-1 text-sm uppercase border-l-0 border-r-0 font-semibold text-left text-gray-600 border-gray-200 text-center"
-                        >主分類名稱</span
-                      >
-                      <span class="px-2 text-red-500 text-xs font-bold">
-                        *對應欄位 : name ; 同階名稱不能重複。
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="items-center w-full bg-transparent border-collapse border-r border-l border-b"
-                >
-                  <div
-                    class="w-full px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
-                  >
-                    <span
-                      class="inline-block uppercase text-gray-700 text-xs font-bold mb-2"
-                    >
-                      分類名稱 :
+                      備註說明 :
                     </span>
                     <TextInput
                       class="inline-block px-4"
-                      v-model="name"
-                      name="分類名稱"
+                      v-model="group.memo"
+                      name="備註說明"
                       :key="componentKey"
-                      rules="required"
+                      type="text-area"
+                      classStyle="w-full"
                     />
-                  </div>
-                </div>
-              </div>
-              <div class="block w-full overflow-x-auto px-6 pb-6">
-                <div class="rounded-t mb-0 px-4 py-3 border bg-gray-300">
-                  <div class="flex flex-wrap items-center justify-between">
-                    <div
-                      class="relative w-full px-2 max-w-full flex-grow flex-1 inline-block"
-                    >
-                      <span
-                        class="align-middle py-1 text-sm uppercase border-l-0 border-r-0 font-semibold text-left text-gray-600 border-gray-200 text-center"
-                        >分類路由</span
-                      >
-                      <span class="px-2 text-red-500 text-xs font-bold">
-                        *對應欄位 : category_route ; 後台路徑設定 ，
-                        若欄位為變數則以" :
-                        "為前綴，例如system/menu/:id/category/add，同變數僅可使用一次，若有兩個變數請分開名稱，例
-                        => :id 、 :category。
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="items-center w-full bg-transparent border-collapse border-r border-l border-b"
-                >
-                  <div
-                    class="w-full px-6 align-middle border border-solid py-3 text-xs border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
-                  >
-                    <span
-                      class="inline-block uppercase text-gray-700 text-xs font-bold mb-2"
-                    >
-                      分類路由 :
-                    </span>
-                    <span
-                      class="inline-block text-gray-700 text-xs font-bold px-2"
-                    >
-                      {{ parentRoute }}
-                    </span>
-
-                    <TextInput
-                      class="inline-block"
-                      v-model="category_route"
-                      name="分類路由"
-                      :key="componentKey"
-                      rules="required"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="block w-full overflow-x-auto px-6 pb-6">
-                <div class="rounded-t mb-0 px-4 py-3 border bg-gray-300">
-                  <div class="flex flex-wrap items-center justify-between">
-                    <div
-                      class="relative w-full px-2 max-w-full flex-grow flex-1 inline-block"
-                    >
-                      <span
-                        class="align-middle py-1 text-sm uppercase border-l-0 border-r-0 font-semibold text-left text-gray-600 border-gray-200 text-center"
-                        >分類小圖</span
-                      >
-                      <span class="px-2 text-red-500 text-xs font-bold">
-                        *對應欄位 : icon ; 請填入Font
-                        Awesome對應icon名稱，未輸入則不顯示圖示。
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="items-center w-full bg-transparent border-collapse border-r border-l border-b"
-                >
-                  <div
-                    class="w-full px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
-                  >
-                    <span
-                      class="inline-block uppercase text-gray-700 text-xs font-bold mb-2"
-                    >
-                      icon 名稱 :
-                    </span>
-                    <TextInput
-                      class="inline-block px-4"
-                      v-model="icon"
-                      name="分類小圖"
-                      :key="componentKey"
-                      rules="required"
-                    />
-                    <span
-                      class="inline-block uppercase text-gray-700 text-xs font-bold mb-2"
-                    >
-                      縮圖 :
-                    </span>
-                    <i class="px-4 text-base" :class="[icon]"></i>
                   </div>
                 </div>
               </div>
@@ -255,7 +129,7 @@
                     </span>
                     <TextInput
                       class="inline-block px-4"
-                      v-model="sort"
+                      v-model="group.sort"
                       name="排序值"
                       :key="componentKey"
                       type="number"
@@ -271,11 +145,10 @@
                     >
                       <span
                         class="align-middle py-1 text-sm uppercase border-l-0 border-r-0 font-semibold text-left text-gray-600 border-gray-200 text-center"
-                        >啟用狀態</span
+                        >是否必要</span
                       >
                       <span class="px-2 text-red-500 text-xs font-bold">
-                        *對應欄位 : is_useful ; 0 : 未啟用 、 1 : 啟用 、 2 :
-                        開發中。
+                        *對應欄位 : is_required ; 0 : 非必要 、 1 : 必要 。
                       </span>
                     </div>
                   </div>
@@ -289,25 +162,32 @@
                     <span
                       class="inline-block uppercase text-gray-700 text-xs font-bold mb-2"
                     >
-                      啟用狀態 :
+                      是否必要 :
                     </span>
                     <SelectValidate
                       :select="statusSelect"
-                      v-model="is_useful"
+                      v-model="group.is_required"
                       class="inline-block px-4"
                       :key="componentKey"
                       rules="required"
-                      name="啟用狀態"
+                      name="是否必要"
                     ></SelectValidate>
                   </div>
                 </div>
               </div>
               <div class="text-right mb-4 px-6 m w-full">
                 <button
+                  class="bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  type="button"
+                  @click="goBackPath()"
+                >
+                  返回參數列表
+                </button>
+                <button
                   class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="submit"
                 >
-                  儲存
+                  更新
                 </button>
               </div>
             </form>
@@ -330,26 +210,9 @@ export default {
 
   data() {
     return {
-      subject_id: "",
-      category: "",
-      name: "",
-      category_route: "",
-      icon: "",
-      sort: "",
-      is_useful: "",
-      parentRoute: "",
+      group: {},
       componentKey: 0,
     };
-  },
-
-  watch: {
-    subject_id() {
-      this.subject_id = this.subject_id.toLowerCase();
-    },
-  },
-
-  beforeMount() {
-    this.getMenuWithId(this.$route.params.id);
   },
 
   computed: {
@@ -359,67 +222,58 @@ export default {
 
     statusSelect() {
       return {
-        title: "請選擇啟用狀態",
+        title: "請選擇必要狀態",
         options: [
-          { type: "0", description: "0 : 未啟用" },
-          { type: "1", description: "1 : 啟用" },
-          { type: "2", description: "2 : 開發中" },
-        ],
-      };
-    },
-
-    categorySelect() {
-      return {
-        title: "請選擇子分類",
-        options: [
-          { type: "index", description: "index" },
-          { type: "indexTab", description: "indexTab" },
+          { type: "0", description: "0 : 非必要" },
+          { type: "1", description: "1 : 必要" },
         ],
       };
     },
   },
 
+  mounted() {
+    this.getGroupsWithId();
+  },
+
   methods: {
-    getMenuWithId(id) {
-      this.$api.serviceMenuId(id).then((element) => {
-        this.parentRoute = `${element.subject_id}/`;
+    getGroupsWithId() {
+      this.$api.serviceParamId(this.$route.params.id).then((response) => {
+        this.group = response;
         this.componentKey++;
         this.$store.dispatch("common/isLoading", false);
       });
     },
 
-    menuCategoryAdd() {
+    codeAdd() {
       this.$store.dispatch("common/isLoading", true);
       let params = {
-        subject_id: this.subject_id,
-        category: this.category,
-        name: this.name,
-        category_route: this.parentRoute + this.category_route,
-        icon: this.icon,
-        sort: this.sort == "" ? 0 : this.sort,
-        is_useful: this.is_useful,
+        code: this.group.code,
+        is_required: this.group.is_required,
+        sort: this.group.sort ? this.group.sort : 1,
+        memo: this.group.memo,
       };
 
       this.$api
-        .serviceMenuIdCategoryAdd(this.$route.params.id, params)
+        .serviceParamGroupCodeIdEdit(this.$route.params.id, params)
         .then((element) => {
-          console.log(element);
           if (element) {
-            alert("新增成功");
-            this.$router.replace({
-              path: "/system/menu",
-            });
+            alert("更新成功");
+            this.getGroupsWithId();
           }
         });
     },
 
     clearAdd() {
       Object.keys(this._data).forEach((element) => {
-        if (element !== "componentKey" && element !== "parentRoute") {
+        if (element !== "componentKey") {
           this[element] = "";
         }
       });
-      this.componentKey++;
+      this.componentKey += 1;
+    },
+
+    goBackPath() {
+      this.$router.go(-1);
     },
   },
 };
