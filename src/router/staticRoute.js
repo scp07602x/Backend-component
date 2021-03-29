@@ -1,4 +1,4 @@
-import setting from "@/layouts/setting.vue";
+import setting from "@/layouts/Setting.vue";
 import Auth from "@/layouts/Auth.vue";
 
 const staticRoute = [{

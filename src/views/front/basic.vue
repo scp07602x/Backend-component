@@ -672,9 +672,9 @@ export default {
       formData.append("copyright", this.websiteData.copyright);
       formData.append("customer_email", this.websiteData.customer_email);
       formData.append("cc_email", this.websiteData.cc_email);
-      formData.append("app_icon_pic", this.$refs.app_icon_pic.files[0]);
-      formData.append("favicon_pic", this.$refs.favicon_pic.files[0]);
-      formData.append("logo", this.$refs.logo.files[0]);
+      formData.append("app_icon_pic", this.$refs.app_icon_pic.files.first());
+      formData.append("favicon_pic", this.$refs.favicon_pic.files.first());
+      formData.append("logo", this.$refs.logo.files.first());
       formData.append(
         "system_update_start_date",
         this.websiteData.system_update_start_date
@@ -685,7 +685,7 @@ export default {
       );
       formData.append(
         "system_update_pic",
-        this.$refs.system_update_pic.files[0]
+        this.$refs.system_update_pic.files.first()
       );
 
       // let formData = {

@@ -3,7 +3,7 @@ import router from '@/router';
 import store from '@/store';
 import storage from '@/utility/storage';
 // import common from '@/utility/common';
-import setting from '@/layouts/setting';
+import setting from '@/layouts/Setting';
 
 let token = storage.getitem('token');
 if (token) {
