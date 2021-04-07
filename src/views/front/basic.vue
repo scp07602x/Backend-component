@@ -665,16 +665,16 @@ export default {
       this.$store.dispatch("common/isLoading", true);
       let formData = new FormData();
       formData.append("meta_title", this.websiteData.meta_title);
-      formData.append("meta_subject ", this.websiteData.meta_subject);
+      formData.append("meta_subject", this.websiteData.meta_subject);
       formData.append("meta_description", this.websiteData.meta_description);
       formData.append("meta_keywords", this.websiteData.meta_keywords);
       formData.append("meta_author", this.websiteData.meta_keywords);
       formData.append("copyright", this.websiteData.copyright);
       formData.append("customer_email", this.websiteData.customer_email);
       formData.append("cc_email", this.websiteData.cc_email);
-      formData.append("app_icon_pic", this.$refs.app_icon_pic.files.first());
-      formData.append("favicon_pic", this.$refs.favicon_pic.files.first());
-      formData.append("logo", this.$refs.logo.files.first());
+      formData.append("app_icon_pic", this.$refs.app_icon_pic.files[0]);
+      formData.append("favicon_pic", this.$refs.favicon_pic.files[0]);
+      formData.append("logo", this.$refs.logo.files[0]);
       formData.append(
         "system_update_start_date",
         this.websiteData.system_update_start_date
@@ -685,7 +685,7 @@ export default {
       );
       formData.append(
         "system_update_pic",
-        this.$refs.system_update_pic.files.first()
+        this.$refs.system_update_pic.files[0]
       );
 
       // let formData = {

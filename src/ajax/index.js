@@ -1,4 +1,4 @@
-import service from '@/api/request';
+import service from '@/ajax/request';
 
 export default {
   resultProcessing(data) {
@@ -7,12 +7,10 @@ export default {
     }
   },
 
-  get(url, params = {}) {
+  get(url, data = {}, config = {}) {
     return new Promise((resolve, reject) => {
       service
-        .get(url, {
-          params: params
-        })
+        .get(url, data, config)
         .then(response => {
           resolve(this.resultProcessing(response.data));
         })
@@ -22,9 +20,9 @@ export default {
     });
   },
 
-  post(url, data = {}) {
+  post(url, data = {}, config = {}) {
     return new Promise((resolve, reject) => {
-      service.post(url, data).then(
+      service.post(url, data, config).then(
         response => {
           resolve(this.resultProcessing(response.data));
         },
@@ -35,9 +33,9 @@ export default {
     });
   },
 
-  delete(url, data = {}) {
+  delete(url, data = {}, config = {}) {
     return new Promise((resolve, reject) => {
-      service.delete(url, data).then(
+      service.delete(url, data, config).then(
         response => {
           resolve(this.resultProcessing(response.data));
         },
@@ -48,9 +46,9 @@ export default {
     });
   },
 
-  put(url, data = {}) {
+  put(url, data = {}, config = {}) {
     return new Promise((resolve, reject) => {
-      service.put(url, data).then(
+      service.put(url, data, config).then(
         response => {
           resolve(this.resultProcessing(response.data));
         },
@@ -61,9 +59,10 @@ export default {
     });
   },
 
-  patch(url, data = {}) {
+  patch(url, data = {}, config = {}) {
+    console.log(url, data, config)
     return new Promise((resolve, reject) => {
-      service.patch(url, data).then(
+      service.patch(url, data, config).then(
         response => {
           resolve(this.resultProcessing(response.data));
         },

@@ -1,4 +1,4 @@
-import api from '@/api/api';
+import api from '@/ajax/api';
 import router from '@/router';
 import store from '@/store';
 import storage from '@/utility/storage';
@@ -129,34 +129,3 @@ function checkPathExistsAndTransform(path) {
 export {
   necessaryParams
 };
-
-// function formatRoute(result) {
-//   return result.map(element => {
-//     return {
-//       name: element.combine_id,
-//       path: element.children ? `/${element.children[0].category_route}` : '',
-//       component: setting,
-//       children: recursiveRoute(element.children),
-//       meta: {
-//         requireAuth: true,
-//       }
-//     }
-//   });
-// }
-
-// function recursiveRoute(data) {
-//   return data.map(element => {
-//     let path = checkPathExistsAndTransform(element.category_route);
-//     return {
-//       name: `${element.name}-${element.combine_id}`,
-//       path: element.category == 'tab' ? `/${element.return_route}/${element.subject_id}` : `/${element.category_route}`,
-//       // component: setting,
-//       component: () => import(`@/views/${path}`),
-//       children: (element.children).length == 0 ? [] : recursiveRoute(element.children),
-//       meta: {
-//         requireAuth: true,
-//         breadId:element.id        
-//       }
-//     };
-//   });
-// }

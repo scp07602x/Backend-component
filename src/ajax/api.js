@@ -1,4 +1,4 @@
-import ajax from '@/api';
+import ajax from '@/ajax';
 
 export default {
     // ---------- service ---------- //
@@ -131,7 +131,12 @@ export default {
     },
     // WS2 編輯 website 基本資料
     serviceWebsiteEdit(params) {
-        return ajax.post('service/website/edit', params);
+        const config = {
+            headers: {
+                'X-HTTP-Method-Override': 'PATCH'
+            }
+        };
+        return ajax.post('service/website/edit', params, config);
     },
     // WS3 website 參數列表
     serviceWebsiteSocialIndex() {

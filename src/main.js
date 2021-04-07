@@ -4,8 +4,8 @@ import router from '@/router';
 import store from '@/store';
 
 // api
-import axios from '@/api';
-import api from '@/api/api';
+import axios from '@/ajax';
+import api from '@/ajax/api';
 
 import * as VuePageTransition from '@/plugins/vuePageTransition';
 
