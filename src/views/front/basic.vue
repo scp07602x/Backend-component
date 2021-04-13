@@ -392,9 +392,22 @@
                     </span>
                     <input
                       type="file"
+                      accept="image/*"
                       class="inline-block px-4"
                       ref="app_icon_pic"
                     />
+                    <span
+                      class="inline-block uppercase text-gray-700 text-xs font-bold mb-2"
+                    >
+                      圖片連結 :
+                    </span>
+                    <a :href="websiteData.app_icon_pic" target="_blank"
+                      ><span
+                        class="inline-block uppercase text-gray-700 text-xs font-bold mb-2"
+                      >
+                        {{ websiteData.app_icon_pic }}
+                      </span></a
+                    ><img :src="websiteData.app_icon_pic" alt="" />
                   </div>
                 </div>
               </div>
@@ -427,13 +440,26 @@
                     </span>
                     <input
                       type="file"
+                      accept="image/*"
                       class="inline-block px-4"
                       ref="favicon_pic"
                     />
+                    <span
+                      class="inline-block uppercase text-gray-700 text-xs font-bold mb-2"
+                    >
+                      圖片連結 :
+                    </span>
+                    <a :href="websiteData.favicon_pic" target="_blank"
+                      ><span
+                        class="inline-block uppercase text-gray-700 text-xs font-bold mb-2"
+                      >
+                        {{ websiteData.favicon_pic }}
+                      </span></a
+                    ><img :src="websiteData.favicon_pic" alt="" />
                   </div>
                 </div>
               </div>
-              <div class="block w-full overflow-x-auto px-6 pb-6">
+              <!-- <div class="block w-full overflow-x-auto px-6 pb-6">
                 <div class="rounded-t mb-0 px-4 py-3 border bg-gray-300">
                   <div class="flex flex-wrap items-center justify-between">
                     <div
@@ -463,7 +489,7 @@
                     <input type="file" class="inline-block px-4" ref="logo" />
                   </div>
                 </div>
-              </div>
+              </div> -->
               <div class="block w-full overflow-x-auto px-6 pb-6">
                 <div class="rounded-t mb-0 px-4 py-3 border bg-gray-300">
                   <div class="flex flex-wrap items-center justify-between">
@@ -528,7 +554,7 @@
                     <TextInput
                       class="inline-block px-4"
                       v-model="websiteData.system_update_start_date"
-                      name="網站 logo"
+                      name="起始日期"
                       :key="componentKey"
                       type="datetime-local"
                       classStyle="w-full"
@@ -545,7 +571,7 @@
                     <TextInput
                       class="inline-block px-4"
                       v-model="websiteData.system_update_end_date"
-                      name="網站 logo"
+                      name="結束時間"
                       :key="componentKey"
                       type="datetime-local"
                       classStyle="w-full"
@@ -582,9 +608,22 @@
                     </span>
                     <input
                       type="file"
+                      accept="image/*"
                       class="inline-block px-4"
                       ref="system_update_pic"
                     />
+                    <span
+                      class="inline-block uppercase text-gray-700 text-xs font-bold mb-2"
+                    >
+                      圖片連結 :
+                    </span>
+                    <a :href="websiteData.system_update_pic" target="_blank"
+                      ><span
+                        class="inline-block uppercase text-gray-700 text-xs font-bold mb-2"
+                      >
+                        {{ websiteData.system_update_pic }}
+                      </span></a
+                    ><img :src="websiteData.system_update_pic" alt="" />
                   </div>
                 </div>
               </div>
@@ -672,35 +711,33 @@ export default {
       formData.append("copyright", this.websiteData.copyright);
       formData.append("customer_email", this.websiteData.customer_email);
       formData.append("cc_email", this.websiteData.cc_email);
-      formData.append("app_icon_pic", this.$refs.app_icon_pic.files[0]);
-      formData.append("favicon_pic", this.$refs.favicon_pic.files[0]);
-      formData.append("logo", this.$refs.logo.files[0]);
-      formData.append(
-        "system_update_start_date",
-        this.websiteData.system_update_start_date
-      );
-      formData.append(
-        "system_update_end_date",
-        this.websiteData.system_update_end_date
-      );
-      formData.append(
-        "system_update_pic",
-        this.$refs.system_update_pic.files[0]
-      );
-
-      // let formData = {
-      //   meta_title: this.websiteData.meta_title,
-      //   meta_subject: this.websiteData.meta_subject,
-      //   meta_description: this.websiteData.meta_description,
-      //   meta_keywords: this.websiteData.meta_keywords,
-      //   meta_author: this.websiteData.meta_keywords,
-      //   copyright: this.websiteData.copyright,
-      //   customer_email: this.websiteData.customer_email,
-      //   cc_email: this.websiteData.cc_email,
-      //   app_icon_pic: this.$refs.app_icon_pic.files[0],
-      //   favicon_pic: this.$refs.favicon_pic.files[0],
-      //   logo: this.$refs.logo.files[0],
-      // };
+      if (this.websiteData.system_update_start_date) {
+        formData.append(
+          "system_update_start_date",
+          this.websiteData.system_update_start_date
+        );
+      }
+      if (this.websiteData.system_update_end_date) {
+        formData.append(
+          "system_update_end_date",
+          this.websiteData.system_update_end_date
+        );
+      }
+      if (this.$refs.app_icon_pic.files[0]) {
+        formData.append("app_icon_pic", this.$refs.app_icon_pic.files[0]);
+        this.$refs.app_icon_pic.value = "";
+      }
+      if (this.$refs.favicon_pic.files[0]) {
+        formData.append("favicon_pic", this.$refs.favicon_pic.files[0]);
+        this.$refs.favicon_pic.value = "";
+      }
+      if (this.$refs.system_update_pic.files[0]) {
+        formData.append(
+          "system_update_pic",
+          this.$refs.system_update_pic.files[0]
+        );
+        this.$refs.system_update_pic.value = "";
+      }
 
       this.$api.serviceWebsiteEdit(formData).then(() => {
         this.$store.dispatch("common/isLoading", false);

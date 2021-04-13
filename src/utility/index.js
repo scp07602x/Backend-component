@@ -2,67 +2,74 @@ import api from '@/ajax/api';
 import router from '@/router';
 import store from '@/store';
 import storage from '@/utility/storage';
-// import common from '@/utility/common';
 import setting from '@/layouts/Setting';
+import {
+  resetRoute
+} from '@/router';
+import staticRoute from "@/router/staticRoute";
+import errorRoute from '@/router/errorRoute';
+
 
 let token = storage.getitem('token');
 if (token) {
   store.dispatch('common/token', token);
-  necessaryParams();
+  init();
 }
 
-function necessaryParams() {
-  loginInfomation();
-  madeRouter();
-  madeSidebar();
+function init() {
+  getloginInfomation();
+  getRoute();
+  getSiderbar();
 }
 
-function loginInfomation() {
+function getloginInfomation() {
   api.serviceInfomation().then(response => store.dispatch('common/loginInfomation', response));
 }
 
-function madeRouter() {
+function getRoute() {
   api.serviceRouter().then(response => {
     let routes = formatRoute(response); // 處理加入路由格式
-    router.options.routes = [...router.options.routes, ...routes]; // 加入路由
+    resetRoute();
+    router.options.routes = [...staticRoute, ...routes, ...errorRoute]; // 加入路由
     router.addRoutes(routes);
-    store.dispatch('routers/list', routes) // 路由推到store
+    router.addRoutes(errorRoute);
+    store.dispatch('routers/list', routes); // 路由推到store
   });
 }
 
-function madeSidebar() {
+function getSiderbar() {
   api.serviceSidebar().then(response => store.dispatch('sidebar/list', response));
 }
 
-function formatRoute(result) {
-  let mapRoute = new Map();
-  let mapBreads = new Map();
-  let routes = result.map(element => {
-    mapBreads.set(element.id, element)
-    recursiveRoute(element.children, mapRoute, mapBreads);
-    return {
-      name: element.combine_id,
-      path: element.children ? `/${element.children.first().category_route}` : '',
-      component: setting,
-      meta: {
-        requireAuth: true,
-        id: element.id,
-        parent: element.parent_id,
-      }
+function formatRoute(data) {
+  const routeMap = new Map();
+  const breadMap = new Map();
+  const routes = data.map(element => {
+    breadMap.set(element.id, element);
+    getChildRoute(element.children, routeMap, breadMap);
+
+    const result = {};
+    result.name = element.combine_id;
+    result.path = element.children ? `/${element.children.first().category_route}` : '';
+    result.component = setting;
+    result.meta = {};
+    result.meta.requireAuth = true;
+    if (element.parent_id !== null) {
+      result.meta.parent = element.parent_id;
     }
+
+    return result;
   });
 
-  store.dispatch('common/breadcrumbs', mapBreads);
-
+  store.dispatch('common/breadcrumbs', breadMap);
   routes.forEach(element => {
-    element.children = mapProcessing(mapRoute).filter(element => element.path !== '').filter(subElement => {
-      let breads = [];
-      madeBreadcrumbs(subElement.meta.id, mapBreads, breads);
+    element.children = Array.from(routeMap.values()).filter(element => element.path !== '').filter(subElement => {
+      const breads = [];
+      getBreadcrumbsWithRoute(subElement.meta.id, breadMap, breads);
       subElement.meta.breadcrumbs = breads.reverse();
-
       if ((subElement.path).match(element.name)) {
-        subElement.children = [];
-        return subElement
+        delete subElement.children;
+        return subElement;
       }
     })
   });
@@ -70,8 +77,8 @@ function formatRoute(result) {
   return routes;
 }
 
-function madeBreadcrumbs(id, mapBreads, breads) {
-  mapBreads.forEach((v, k) => {
+function getBreadcrumbsWithRoute(id, breadMap, breads) {
+  breadMap.forEach((v, k) => {
     if (id == k && v.parent_id !== null) {
       if (v.category_route !== null) {
         breads.push({
@@ -80,44 +87,44 @@ function madeBreadcrumbs(id, mapBreads, breads) {
         });
       }
 
-      mapBreads.forEach((vv, kk) => {
+      breadMap.forEach((vv, kk) => {
         if (v.parent_id == vv.combine_id && v.category !== "index" && v.category !== "indexTeb") {
-          madeBreadcrumbs(kk, mapBreads, breads)
+          getBreadcrumbsWithRoute(kk, breadMap, breads);
         }
       })
     }
   })
 }
 
-function recursiveRoute(data, mapRoute, mapBreads) {
+function getChildRoute(data, routeMap, breadMap) {
   return data.map(element => {
-    let path = checkPathExistsAndTransform(element.category_route);
-    path = path.replace(":", "_");
-    let subRoute = {
-      name: `${element.name}-${element.combine_id}`,
-      path: element.category_route ? `/${element.category_route}` : '',
-      component: () => import(`@/views/${path}`),
-      children: (element.children).length == 0 ? [] : recursiveRoute(element.children, mapRoute, mapBreads),
-      meta: {
-        transition: 'fade-in-up',
-        requireAuth: true,
-        id: element.id,
-        parent: element.parent_id,
-      }
-    };
-    mapRoute.set(element.id, subRoute);
-    mapBreads.set(element.id, element)
+    breadMap.set(element.id, element);
+
+    let subRoute = {};
+    subRoute.name = `${element.name}-${element.combine_id}`;
+    subRoute.path = element.category_route ? `/${element.category_route}` : '';
+    if (element.category_route !== null) {
+      let path = checkFileExists(element.category_route);
+      subRoute.component = () => import(`@/views/${path}`);
+    }
+    if (element.children.length > 0) {
+      subRoute.children = getChildRoute(element.children, routeMap, breadMap);
+    }
+    subRoute.meta = {};
+    subRoute.meta.requireAuth = true;
+    subRoute.meta.id = element.id;
+    if (element.parent_id !== null) {
+      subRoute.meta.parent = element.parent_id;
+    }
+    subRoute.meta.transition = 'fade-in-up';
+
+    routeMap.set(element.id, subRoute);
     return subRoute;
   });
 }
 
-function mapProcessing(mapObjects) {
-  return Array.from(mapObjects.values());
-}
-
-function checkPathExistsAndTransform(path) {
-  let filePath = `${path}.vue`;
-  filePath = filePath.replace(":", "_");
+function checkFileExists(path) {
+  let filePath = `${path.replace(":", "_")}.vue`;
   try {
     require(`@/views/${filePath}`);
   } catch (e) {
@@ -127,5 +134,5 @@ function checkPathExistsAndTransform(path) {
 }
 
 export {
-  necessaryParams
+  init
 };

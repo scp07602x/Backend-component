@@ -1,44 +1,22 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-// import store from '@/store';
-
-// layouts
 import staticRoute from './staticRoute';
-import storage from '@/utility/storage';
 
-// routes
 Vue.use(VueRouter);
 
-const router = new VueRouter({
+const createRouter = () => new VueRouter({
     mode: 'history',
     routes: staticRoute,
 });
 
-router.beforeEach((to, from, next) => {
-    let getToken = storage.getitem('token');
-    
-    // if (to.matched.length === 0) {
-    //     next({
-    //         path: '/auth/login',
-    //     })
-    // }
+const router = createRouter();
 
-    if (to.meta.requireAuth) { //是否需要登入許可權
-        if (getToken) {
-            next();
-        } else {
-            next({
-                path: '/auth/login',
-            })
-        }
-    } else {
-        if (getToken) {
-            if (to.path == '/auth/login') {
-                next('/');
-            }
-        }
-        next();
-    }
-});
+function resetRoute() {
+    const newRouter = createRouter();
+    router.matcher = newRouter.matcher;
+}
 
 export default router;
+export {
+    resetRoute
+}

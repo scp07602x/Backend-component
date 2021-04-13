@@ -42,6 +42,8 @@
 
 <script>
 import { createPopper } from "@popperjs/core";
+import { resetRoute } from "@/router";
+import staticRoute from "@/router/staticRoute";
 
 import image from "@/assets/img/team-1-800x800.jpg";
 
@@ -66,7 +68,10 @@ export default {
   methods: {
     bodyCloseMenus(e) {
       let _this = this;
-      if (this.$refs.popoverDropdownRef && !this.$refs.btnDropdownRef.contains(e.target)) {
+      if (
+        this.$refs.popoverDropdownRef &&
+        !this.$refs.btnDropdownRef.contains(e.target)
+      ) {
         if (_this.dropdownPopoverShow == true) {
           _this.dropdownPopoverShow = false;
         }
@@ -87,10 +92,12 @@ export default {
 
     logout() {
       this.$storage.removeitem("token");
-      this.$router.replace({
-        path: "/auth/login",
+      this.$router.push("/auth/login").then((res) => {
+        if (res) {
+          resetRoute();
+          this.$router.options.routes = staticRoute;
+        }
       });
-      this.$router.go(0);
     },
   },
 };

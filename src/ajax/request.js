@@ -14,9 +14,8 @@ const Service = axios.create({
 Service.interceptors.request.use(config => {
   let token = localStorage.getItem('token'); // 如果有token每一個請求都加上token;
   if (token) {
-    config.headers.Authorization = token;
+    config.headers.Authorization = `Bearer ${token}`;
   }
-
   return config;
 }, error => {
   return Promise.reject(error);
@@ -26,28 +25,24 @@ Service.interceptors.request.use(config => {
 Service.interceptors.response.use(response => {
   return response;
 }, error => {
+  errorLog(error);
+})
+
+const errorLog = (error) => {
   const {
     response
   } = error;
 
-  if (response == undefined) {
-    alert('資料取得錯誤。\r\n請洽資訊部協助辦理。');
+  if (!response) {
+    console.log("api faild");
   } else {
-    errorHandle(response.status, response.data.message);
+    switch (response.status) {
+      default:
+        console.log(response.data);
+        break;
+    }
   }
-})
 
-const errorHandle = (status, msg) => {
-  switch (status) {
-    // case 400:
-    //   localStorage.removeItem('token');
-    //   router.replace({
-    //     path: '/auth/login',
-    //   })
-    //   break;
-    default:
-      console.log(status, msg);
-  }
 }
 
 export default Service;

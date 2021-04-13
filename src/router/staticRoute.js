@@ -28,6 +28,6 @@ const staticRoute = [{
   meta: {
     transition: 'fade-in-up',
   }
-}, ];
+}];
 
 export default staticRoute;

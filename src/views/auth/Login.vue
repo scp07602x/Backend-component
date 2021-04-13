@@ -79,13 +79,12 @@ export default {
             this.password.replace(/\s*/g, "")
           )
           .then((response) => {
-            let token = `Bearer ${response.token}`;
-            this.$storage.setitem("token", token);
-            this.$store.dispatch("common/token", token);
+            this.$storage.setitem("token", response.token);
+            this.$store.dispatch("common/token", response.token);
           })
           .finally(async () => {
             if (this.$storage.getitem("token")) {
-              this.$utility.necessaryParams();
+              this.$utility.init();
               this.$router.replace({
                 path: "/",
               });
