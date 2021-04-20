@@ -38,7 +38,15 @@ function getRoute() {
 }
 
 function getSiderbar() {
-  api.serviceSidebar().then(response => store.dispatch('sidebar/list', response));
+  api.serviceSidebar().then(response => {
+    response.forEach(firstStep => {
+      firstStep.children = firstStep.children.map(secondStep => {
+        secondStep.category_route = secondStep.category_route.strReplace('/', ':', secondStep.subject_id)
+        return secondStep;
+      })
+    })
+    store.dispatch('sidebar/list', response)
+  });
 }
 
 function formatRoute(data) {

@@ -2,12 +2,12 @@ Array.prototype.first = function () {
   return this[0];
 }
 
-String.prototype.strReplace = function (symbol, keyWord, replaceStr) {
-  return this.split(symbol).map(element => {
-    if (element.indexOf(keyWord) !== -1) {
-      return replaceStr;
+String.prototype.strReplace = function (separatingSymbols, key, replacement) {
+  return this.split(separatingSymbols).map(element => {
+    if (element.indexOf(key) !== -1) {
+      return replacement;
     } else {
       return element
     }
-  }).join(symbol);
+  }).join(separatingSymbols);
 }
