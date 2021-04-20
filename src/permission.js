@@ -11,7 +11,7 @@ router.beforeEach((to, from, next) => {
     router.addRoutes(errorRoute);
     once = true;
   }
-
+  
   if (Object.keys(store.state.common.loginInfomation).lenght !== 0) {
     if (to.meta.requireAuth) { //是否需要登入許可權
       if (storage.getitem('token')) {

@@ -98,7 +98,7 @@
                   分頁名稱
                 </th>
                 <th
-                  class="w-40 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
+                  class="w-1/4 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
                 >
                   路由名稱
                 </th>
@@ -108,7 +108,7 @@
                   系統權限
                 </th>
                 <th
-                  class="w-24 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
+                  class="w-20 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
                 >
                   icon 圖示
                 </th>
@@ -118,7 +118,7 @@
                   最後修改時間
                 </th> -->
                 <th
-                  class="w-32 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
+                  class="w-24 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
                 >
                   啟用狀態
                 </th>
@@ -219,9 +219,11 @@ export default {
   data() {
     return {};
   },
+  beforeCreate() {
+    this.$store.dispatch("common/fullLoading", true);
+  },
 
   mounted() {
-    this.$store.dispatch("common/isLoading", false);
     this.getMenu();
   },
 
@@ -236,18 +238,11 @@ export default {
   },
 
   methods: {
-    // menu() {
-    //   if (this.menus.length == 0) {
-    //     this.getMenu();
-    //   } else {
-    //     this.$store.dispatch("common/isLoading", false);
-    //   }
-    // },
-
     getMenu() {
       this.$api.serviceMenu().then((response) => {
         this.$store.dispatch("menu/list", response);
         this.$store.dispatch("common/isLoading", false);
+        this.$store.dispatch("common/fullLoading", false);
       });
     },
 

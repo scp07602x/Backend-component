@@ -32,8 +32,12 @@ export default {
     CardSocialTraffic,
   },
 
+  created() {
+    this.$store.dispatch("common/fullLoading", true);
+  },
+
   mounted() {
-    // this.$store.dispatch("isLoading", true);
+    this.$store.dispatch("common/fullLoading", false);
   },
 
   // beforeDestroy() {

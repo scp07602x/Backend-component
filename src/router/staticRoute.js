@@ -14,7 +14,10 @@ const staticRoute = [{
       transition: 'fade-in-up',
       requireAuth: true,
     }
-  }, ],
+  }],
+  meta: {
+    requireAuth: true,
+  }
 }, {
   name: "auth",
   path: "/auth",

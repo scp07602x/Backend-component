@@ -16,14 +16,17 @@ import * as validate from '@/plugins/validate';
 // editor
 import * as tinymce from '@/plugins/tinymce';
 
+// loading
+import * as VLoading from '@/plugins/loading';
+// import 'vue-loading-overlay/dist/vue-loading.css';
+
+// multiselect
+import * as multiselect from '@/plugins/multiselect';
+
 // utility
 import * as utility from '@/utility';
 import * as common from '@/utility/common';
 import storage from '@/utility/storage'
-
-// loading
-import VLoading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
 
 // styles
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -36,7 +39,7 @@ Vue.prototype.$api = api;
 Vue.prototype.$storage = storage;
 Vue.prototype.$utility = utility;
 Vue.prototype.$common = common;
-Vue.component('VLoading', VLoading);
+// Vue.component('VLoading', VLoading);
 
 new Vue({
   router,
@@ -50,5 +53,7 @@ new Vue({
   storage,
   tinymce,
   common,
+  VLoading,
+  multiselect,
   render: (h) => h(App)
 }).$mount("#app");

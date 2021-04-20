@@ -45,7 +45,6 @@ export default {
   },
 
   patch(url, data = {}, config = {}) {
-    console.log(url, data, config)
     return new Promise((resolve) => {
       service.patch(url, data, config).then(
         response => {

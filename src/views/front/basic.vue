@@ -664,7 +664,11 @@ export default {
     };
   },
 
-  beforeMount() {
+  beforeCreate() {
+    this.$store.dispatch("common/fullLoading", true);
+  },
+
+  mounted() {
     this.getWebsiteBasic();
   },
 
@@ -697,6 +701,7 @@ export default {
         this.websiteData = response;
         this.$store.dispatch("common/isLoading", false);
         this.componentKey += 1;
+        this.$store.dispatch("common/fullLoading", false);
       });
     },
 

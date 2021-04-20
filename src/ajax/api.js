@@ -145,5 +145,45 @@ export default {
     // WS4 更新website系統參數
     serviceWebsiteSocialIdEdit(id, params) {
         return ajax.patch(`service/website/social/${id}/edit`, params)
-    }
+    },
+
+
+
+    // ---------- service/carticle ---------- //
+    // CA1 文章主分類列表
+    serviceCarticleTopIndex() {
+        return ajax.post('service/carticle/top/index')
+    },
+    // CA2 取得主分類{id}資訊
+    serviceCarticleTopId(id) {
+        return ajax.post(`service/carticle/top/${id}`)
+    },
+    // CA3 新增文章主分類
+    serviceCarticleTopAdd(params) {
+        return ajax.put('service/carticle/top/add', params)
+    },
+    // CA4 更新文章主分類{id}資訊
+    serviceCarticleTopIdEdit(id, params) {
+        return ajax.patch(`service/carticle/top/${id}/edit`, params)
+    },
+    // CA5 刪除{id}與以下子分類
+    serviceCarticleIdDelete(id) {
+        return ajax.delete(`service/carticle/${id}/delete`)
+    },
+    // CA6 取得{id}之下子分類列表
+    serviceCarticleIdIndex(id) {
+        return ajax.post(`service/carticle/${id}/index`)
+    },
+    // CA7 取得{id}資訊
+    serviceCarticleId(id) {
+        return ajax.post(`service/carticle/${id}`)
+    },
+    // CA8 新增{id}的子分類
+    serviceCarticleIdAdd(id, params) {
+        return ajax.put(`service/carticle/${id}/add`, params)
+    },
+    // CA9 編輯{id}的分類
+    serviceCarticleIdEdit(id, params) {
+        return ajax.patch(`service/carticle/${id}/edit`, params)
+    },
 }

@@ -2,6 +2,7 @@ export default {
   namespaced: true,
   state: {
     isLoading: false,
+    fullLoading: true,
     token: '',
     loginInfomation: {},
     breadcrumbs: {},
@@ -10,6 +11,9 @@ export default {
   mutations: {
     isLoading(state, status) {
       state.isLoading = status;
+    },
+    fullLoading(state, status) {
+      state.fullLoading = status;
     },
     token(state, resultToken) {
       state.token = resultToken;
@@ -24,6 +28,9 @@ export default {
   actions: {
     isLoading(context, status) {
       context.commit('isLoading', status);
+    },
+    fullLoading(context, status) {
+      context.commit('fullLoading', status);
     },
     token(context, token) {
       context.commit('token', token);

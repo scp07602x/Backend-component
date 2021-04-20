@@ -8,13 +8,15 @@ import routers from './modules/routers'
 import sidebar from './modules/sidebar'
 import menu from './modules/system/menu'
 import paramGroup from './modules/system/param/group'
+import carticle from './modules/system/carticle'
 
 const modules = {
   common,
   routers,
   sidebar,
   menu,
-  paramGroup
+  paramGroup,
+  carticle
 }
 
 export default new Vuex.Store({

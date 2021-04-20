@@ -137,6 +137,10 @@ export default {
     return { websiteSocial: [], componentKey: 0 };
   },
 
+  created() {
+    this.$store.dispatch("common/fullLoading", true);
+  },
+
   mounted() {
     this.getWebsiteSocial();
   },
@@ -153,6 +157,7 @@ export default {
         this.websiteSocial = response;
         this.componentKey++;
         this.$store.dispatch("common/isLoading", false);
+        this.$store.dispatch("common/fullLoading", false);
       });
     },
 

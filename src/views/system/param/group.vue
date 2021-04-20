@@ -161,6 +161,10 @@ export default {
     this.paramGroup();
   },
 
+  beforeCreate() {
+    this.$store.dispatch("common/fullLoading", true);
+  },
+
   computed: {
     title() {
       return this.$route.name.split("-").first();
@@ -174,7 +178,7 @@ export default {
     paramGroup() {
       this.$api.serviceParamGroupIndex().then((response) => {
         this.$store.dispatch("paramGroup/list", response);
-        this.$store.dispatch("common/isLoading", false);
+        this.$store.dispatch("common/fullLoading", false);
       });
     },
 

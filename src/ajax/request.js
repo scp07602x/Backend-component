@@ -1,5 +1,7 @@
 import axios from 'axios';
-// import router from '@/router';
+import router from '@/router';
+import storage from '@/utility/storage';
+
 
 const Service = axios.create({
   // baseURL: 'http://base.laraveldev.com/',
@@ -35,14 +37,20 @@ const errorLog = (error) => {
 
   if (!response) {
     console.log("api faild");
+    router.replace('auth');
   } else {
     switch (response.status) {
+      case 500:
+        //   alert('server error');
+        //   router.replace('auth');
+        storage.removeitem('token');
+        location.reload();
+        break;
       default:
         console.log(response.data);
         break;
     }
   }
-
 }
 
 export default Service;
