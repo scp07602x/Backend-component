@@ -9,8 +9,8 @@ import {
 import staticRoute from "@/router/staticRoute";
 import errorRoute from '@/router/errorRoute';
 
+const token = storage.getitem('token');
 
-let token = storage.getitem('token');
 if (token) {
   store.dispatch('common/token', token);
   init();
@@ -28,116 +28,185 @@ function getloginInfomation() {
 
 function getRoute() {
   api.serviceRouter().then(response => {
+
     let routes = formatRoute(response); // 處理加入路由格式
-    resetRoute();
-    router.options.routes = [...staticRoute, ...routes, ...errorRoute]; // 加入路由
-    router.addRoutes(routes);
-    router.addRoutes(errorRoute);
+
+    resetRoute(); // 每次執行前清空動態路由
+
+    router.options.routes = [...staticRoute, ...routes, ...errorRoute]; // 加到devtools路由清單
+
+    router.addRoutes([...routes, ...errorRoute]); // 加入路由
+
     store.dispatch('routers/list', routes); // 路由推到store
   });
 }
 
 function getSiderbar() {
   api.serviceSidebar().then(response => {
+
     response.forEach(firstStep => {
+
       firstStep.children = firstStep.children.map(secondStep => {
-        secondStep.category_route = secondStep.category_route.strReplace('/', ':', secondStep.subject_id)
+
+        secondStep.category_route = secondStep.category_route.strReplace('/', ':', secondStep.subject_id);
+
         return secondStep;
       })
     })
-    store.dispatch('sidebar/list', response)
+
+    store.dispatch('sidebar/list', response);
   });
 }
 
+/**
+ * 
+ * @param {Array} data 
+ * @returns 
+ */
 function formatRoute(data) {
-  const routeMap = new Map();
   const breadMap = new Map();
-  const routes = data.map(element => {
-    breadMap.set(element.id, element);
-    getChildRoute(element.children, routeMap, breadMap);
 
-    const result = {};
-    result.name = element.combine_id;
-    result.path = element.children ? `/${element.children.first().category_route}` : '';
-    result.component = setting;
-    result.meta = {};
-    result.meta.requireAuth = true;
-    if (element.parent_id !== null) {
-      result.meta.parent = element.parent_id;
+  const routes = data.map(element => {
+
+    const result = getFormatRoute(element);
+
+    result.component = setting; // getFormatRoute會判斷物件內有沒有component，預設取出來沒有所以另外加
+
+    breadMap.set(element.id, element); // 資料塞進Map待用
+
+    if (element.children.length > 0) {
+
+      const childs = getChildRoute(element.children, breadMap);
+
+      result.children = childs.map(child => {
+        return getFormatRoute(child)
+      });
     }
 
     return result;
   });
 
   store.dispatch('common/breadcrumbs', breadMap);
+
   routes.forEach(element => {
-    element.children = Array.from(routeMap.values()).filter(element => element.path !== '').filter(subElement => {
-      const breads = [];
-      getBreadcrumbsWithRoute(subElement.meta.id, breadMap, breads);
-      subElement.meta.breadcrumbs = breads.reverse();
-      if ((subElement.path).match(element.name)) {
-        delete subElement.children;
-        return subElement;
-      }
+
+    element.children.forEach(el => {
+      const breads = getBreadcrumbsWithRoute(el.meta.selfId, breadMap);
+      el.meta.breadcrumbs = breads.reverse();
     })
-  });
+  })
 
   return routes;
 }
 
-function getBreadcrumbsWithRoute(id, breadMap, breads) {
-  breadMap.forEach((v, k) => {
-    if (id == k && v.parent_id !== null) {
-      if (v.category_route !== null) {
-        breads.push({
-          name: v.name,
-          path: `/${v.category_route}`
-        });
-      }
+/**
+ * 
+ * @param {Object} route 
+ * @returns 
+ */
+function getFormatRoute(route) {
 
-      breadMap.forEach((vv, kk) => {
-        if (v.parent_id == vv.combine_id && v.category !== "index" && v.category !== "indexTeb") {
-          getBreadcrumbsWithRoute(kk, breadMap, breads);
-        }
-      })
+  const result = {};
+
+  result.name = `${route.name}-${route.combine_id}`;
+
+  if (route.category_route) {
+
+    result.path = `/${route.category_route}`;
+  } else {
+
+    result.path = route.children.length ? `/${route.children.first().category_route}` : '';
+  }
+
+  if (route.component) {
+    result.component = route.component;
+  }
+
+  result.meta = {};
+
+  result.meta.requireAuth = true;
+
+  result.meta.selfId = route.id;
+
+  if (route.parent_id) {
+    result.meta.parent = route.parent_id;
+  }
+
+  return result;
+}
+
+/**
+ * 
+ * @param {String} id 
+ * @param {Map} breadMap 
+ * @param {Array} breads 
+ * @returns 
+ */
+function getBreadcrumbsWithRoute(id, breadMap, breads = []) {
+
+  const { parent_id , category , category_route , name } =  breadMap.get(id);
+
+  if (category_route) {
+    breads.push({
+      name: name,
+      path: `/${category_route}`
+    });
+  }
+
+  breadMap.forEach((value, key) => {
+    if (parent_id == value.combine_id && category !== "index" && category !== "indexTeb") {
+      getBreadcrumbsWithRoute(key, breadMap, breads);
     }
   })
+
+  return breads;
 }
 
-function getChildRoute(data, routeMap, breadMap) {
-  return data.map(element => {
-    breadMap.set(element.id, element);
+/**
+ * 
+ * @param {Object} data 
+ * @param {Map} breadMap 
+ * @param {Array} childs 
+ * @returns 
+ */
+function getChildRoute(data, breadMap, childs = []) {
+  data.forEach(element => {
+    breadMap.set(element.id, element); // 需要所有階層資料所以不能過去沒有路由的選項
 
-    let subRoute = {};
-    subRoute.name = `${element.name}-${element.combine_id}`;
-    subRoute.path = element.category_route ? `/${element.category_route}` : '';
-    if (element.category_route !== null) {
-      let path = checkFileExists(element.category_route);
-      subRoute.component = () => import(`@/views/${path}`);
+    if (element.category_route) {
+
+      const result = {}
+
+      result.component = () => import(`@/views/${checkFileExists(element.category_route)}`);
+
+      childs.push({
+        ...element,
+        ...result
+      })
     }
+
     if (element.children.length > 0) {
-      subRoute.children = getChildRoute(element.children, routeMap, breadMap);
+      getChildRoute(element.children, breadMap, childs);
     }
-    subRoute.meta = {};
-    subRoute.meta.requireAuth = true;
-    subRoute.meta.id = element.id;
-    if (element.parent_id !== null) {
-      subRoute.meta.parent = element.parent_id;
-    }
-    subRoute.meta.transition = 'fade-in-up';
+  })
 
-    routeMap.set(element.id, subRoute);
-    return subRoute;
-  });
+  return childs;
 }
 
+/**
+ * 
+ * @param {String} path 
+ * @returns 
+ */
 function checkFileExists(path) {
   let filePath = `${path.replace(":", "_")}.vue`;
+
   try {
     require(`@/views/${filePath}`);
   } catch (e) {
     filePath = `error/building.vue`;
   }
+  
   return filePath;
 }
 
