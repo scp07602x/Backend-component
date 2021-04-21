@@ -41,8 +41,6 @@ const errorLog = (error) => {
   } else {
     switch (response.status) {
       case 500:
-        //   alert('server error');
-        //   router.replace('auth');
         storage.removeitem('token');
         location.reload();
         break;

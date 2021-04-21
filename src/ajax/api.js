@@ -186,4 +186,10 @@ export default {
     serviceCarticleIdEdit(id, params) {
         return ajax.patch(`service/carticle/${id}/edit`, params)
     },
+
+    // ---------- article/category ---------- //
+    // AWC1 分類列表
+    serviceArticleCategoryCombineIdIndex(combine_id) {
+        return ajax.post(`service/article/category/${combine_id}/index`)
+    },
 }

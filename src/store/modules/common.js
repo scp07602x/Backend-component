@@ -2,7 +2,7 @@ export default {
   namespaced: true,
   state: {
     isLoading: false,
-    fullLoading: true,
+    fullLoading: false,
     token: '',
     loginInfomation: {},
     breadcrumbs: {},

@@ -9,8 +9,7 @@ export default {
 
   get(url, data = {}, config = {}) {
     return new Promise((resolve) => {
-      service
-        .get(url, data, config)
+      service.get(url, data, config)
         .then(response => {
           resolve(this.resultData(response));
         });
