@@ -25,7 +25,8 @@ import * as multiselect from '@/plugins/multiselect';
 
 // utility
 import * as utility from '@/utility';
-import * as common from '@/utility/common';
+import common from '@/utility/common';
+import * as prototype from '@/utility/prototype';
 import storage from '@/utility/storage'
 
 // styles
@@ -53,6 +54,7 @@ new Vue({
   storage,
   tinymce,
   common,
+  prototype,
   VLoading,
   multiselect,
   render: (h) => h(App)

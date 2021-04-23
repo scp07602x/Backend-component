@@ -211,19 +211,21 @@ export default {
     };
   },
 
+  beforeCreate() {
+    this.$store.dispatch("common/fullLoading", true);
+  },
+
+  mounted() {
+    this.$store.dispatch("common/fullLoading", false);
+  },
+
   computed: {
     title() {
-      return this.$route.name.split("-").first();
+      return this.$common.getTitleByRoute(this.$route);
     },
 
     statusSelect() {
-      return {
-        title: "請選擇必要狀態",
-        options: [
-          { type: "0", description: "0 : 非必要" },
-          { type: "1", description: "1 : 必要" },
-        ],
-      };
+      return this.$common.getRequireSelect();
     },
   },
 

@@ -137,17 +137,17 @@ export default {
     return { websiteSocial: [], componentKey: 0 };
   },
 
-  created() {
+  beforeCreate() {
     this.$store.dispatch("common/fullLoading", true);
   },
 
-  mounted() {
+  created() {
     this.getWebsiteSocial();
   },
 
   computed: {
-    title() {
-      return this.$route.name.split("-").first();
+   title() {
+      return this.$common.getTitleByRoute(this.$route);
     },
   },
 

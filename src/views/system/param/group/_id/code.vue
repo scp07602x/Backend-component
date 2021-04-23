@@ -145,14 +145,18 @@ export default {
     return { groupList: [] };
   },
 
-  mounted() {
+  beforeCreate() {
+    this.$store.dispatch("common/fullLoading", true);
     this.$store.dispatch("common/isLoading", false);
+  },
+
+  created() {
     this.getGroupList();
   },
 
   computed: {
     title() {
-      return this.$route.name.split("-").first();
+      return this.$common.getTitleByRoute(this.$route);
     },
 
     pageId() {
@@ -167,6 +171,7 @@ export default {
         .then((response) => {
           this.groupList = response;
           this.$store.dispatch("common/isLoading", false);
+          this.$store.dispatch("common/fullLoading", false);
         });
     },
 

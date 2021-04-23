@@ -217,21 +217,19 @@ export default {
 
   computed: {
     title() {
-      return this.$route.name.split("-").first();
+      return this.$common.getTitleByRoute(this.$route);
     },
 
     statusSelect() {
-      return {
-        title: "請選擇必要狀態",
-        options: [
-          { type: "0", description: "0 : 非必要" },
-          { type: "1", description: "1 : 必要" },
-        ],
-      };
+      return this.$common.getRequireSelect();
     },
   },
 
-  mounted() {
+  beforeCreate() {
+    this.$store.dispatch("common/fullLoading", true);
+  },
+
+  created() {
     this.getGroupsWithId();
   },
 
@@ -241,6 +239,7 @@ export default {
         this.group = response;
         this.componentKey++;
         this.$store.dispatch("common/isLoading", false);
+        this.$store.dispatch("common/fullLoading", false);
       });
     },
 

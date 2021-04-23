@@ -157,7 +157,7 @@
 
 <script>
 export default {
-  mounted() {
+  created() {
     this.paramGroup();
   },
 
@@ -167,8 +167,9 @@ export default {
 
   computed: {
     title() {
-      return this.$route.name.split("-").first();
+      return this.$common.getTitleByRoute(this.$route);
     },
+
     groups() {
       return this.$store.state.paramGroup.list;
     },

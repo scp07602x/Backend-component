@@ -108,7 +108,7 @@ function getFormatRoute(route) {
 
   const result = {};
 
-  result.name = `${route.name}-${route.combine_id}`;
+  result.name = route.id;
 
   if (route.category_route) {
 
@@ -127,6 +127,8 @@ function getFormatRoute(route) {
   result.meta.requireAuth = true;
 
   result.meta.selfId = route.id;
+  
+  result.meta.name = route.name;
 
   if (route.parent_id) {
     result.meta.parent = route.parent_id;
@@ -144,12 +146,13 @@ function getFormatRoute(route) {
  */
 function getBreadcrumbsWithRoute(id, breadMap, breads = []) {
 
-  const { parent_id , category , category_route , name } =  breadMap.get(id);
+  const { parent_id , category , category_route , name , subject_id} =  breadMap.get(id);
 
   if (category_route) {
     breads.push({
       name: name,
-      path: `/${category_route}`
+      path: `/${category_route}`,
+      subjectId : subject_id
     });
   }
 

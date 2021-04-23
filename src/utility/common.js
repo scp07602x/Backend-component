@@ -1,13 +1,39 @@
-Array.prototype.first = function () {
-  return this[0];
-}
+export default {
+  getTitleByRoute(route) {
+    return route.meta.name;
+  },
 
-String.prototype.strReplace = function (separatingSymbols, key, replacement) {
-  return this.split(separatingSymbols).map(element => {
-    if (element.indexOf(key) !== -1) {
-      return replacement;
-    } else {
-      return element
-    }
-  }).join(separatingSymbols);
+  getRequireSelect() {
+    return {
+      title: "請選擇必要狀態",
+      options: [{
+          type: "0",
+          description: "0 : 非必要"
+        },
+        {
+          type: "1",
+          description: "1 : 必要"
+        },
+      ],
+    };
+  },
+
+  getStatusSelect() {
+    return {
+      title: "請選擇啟用狀態",
+      options: [{
+          type: "0",
+          description: "0 : 未啟用"
+        },
+        {
+          type: "1",
+          description: "1 : 啟用"
+        },
+        {
+          type: "2",
+          description: "2 : 開發中"
+        },
+      ],
+    };
+  },
 }

@@ -202,14 +202,18 @@ export default {
     return { menus: [], pageInfo: [] };
   },
 
-  mounted() {
+  beforeCreate() {
+    this.$store.dispatch("common/fullLoading", true);
+  },
+
+  created() {
     this.getMenuWithId();
     this.getMenuCategory();
   },
 
   computed: {
     title() {
-      return this.$route.name.split("-").first();
+      return this.$common.getTitleByRoute(this.$route);
     },
 
     pageId() {
@@ -221,6 +225,7 @@ export default {
     getMenuWithId() {
       this.$api.serviceMenuId(this.$route.params.id).then((response) => {
         this.pageInfo = response;
+        this.$store.dispatch("common/fullLoading", false);
       });
     },
 

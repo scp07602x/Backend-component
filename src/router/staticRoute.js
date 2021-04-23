@@ -8,7 +8,7 @@ const staticRoute = [{
   component: setting,
   children: [{
     path: "/admin/dashboard",
-    name: "後台首頁",
+    name: "dashboard",
     component: () => import("@/views/admin/Dashboard.vue"),
     meta: {
       transition: 'fade-in-up',
@@ -24,7 +24,7 @@ const staticRoute = [{
   redirect: "/auth/login",
   component: Auth,
   children: [{
-    name: "後台登入",
+    name: "login",
     path: "/auth/login",
     component: () => import("@/views/auth/Login.vue"),
   }],

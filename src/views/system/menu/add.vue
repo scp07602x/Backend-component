@@ -255,20 +255,17 @@ export default {
     },
   },
 
+  beforeCreate() {
+    this.$store.dispatch("common/fullLoading", true);
+  },
+
   computed: {
     title() {
-      return this.$route.name.split("-").first();
+      return this.$common.getTitleByRoute(this.$route);
     },
 
     statusSelect() {
-      return {
-        title: "請選擇啟用狀態",
-        options: [
-          { type: "0", description: "0 : 未啟用" },
-          { type: "1", description: "1 : 啟用" },
-          { type: "2", description: "2 : 開發中" },
-        ],
-      };
+      return this.$common.getStatusSelect();
     },
 
     permissionsSelect() {
@@ -282,6 +279,10 @@ export default {
     },
   },
 
+  mounted() {
+    this.$store.dispatch("common/fullLoading", false);
+  },
+
   methods: {
     menuAdd() {
       this.$store.dispatch("common/isLoading", true);
@@ -292,7 +293,7 @@ export default {
         is_useful: this.is_useful,
         default_type: this.default_type,
       };
-      
+
       this.$api.serviceMenuAdd(params).then((element) => {
         if (element) {
           this.$router.replace({

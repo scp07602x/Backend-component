@@ -275,9 +275,8 @@ export default {
   },
 
   computed: {
-    title() {
-      let listLength = this.$route.meta.breadcrumb;
-      return listLength[listLength.length - 1].name;
+     title() {
+      return this.$common.getTitleByRoute(this.$route);
     },
   },
 

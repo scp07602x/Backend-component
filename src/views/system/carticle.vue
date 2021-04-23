@@ -538,7 +538,7 @@ export default {
 
   computed: {
     title() {
-      return this.$route.name.split("-").first();
+      return this.$common.getTitleByRoute(this.$route);
     },
 
     categoryList() {
@@ -546,13 +546,7 @@ export default {
     },
 
     statusSelect() {
-      return {
-        title: "請選擇啟用狀態",
-        options: [
-          { type: "0", description: "0 : 上線" },
-          { type: "1", description: "1 : 下線" },
-        ],
-      };
+      return this.$common.getRequireSelect();
     },
   },
 

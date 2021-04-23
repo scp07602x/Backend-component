@@ -348,24 +348,21 @@ export default {
     },
   },
 
-  beforeMount() {
+  beforeCreate() {
+    this.$store.dispatch("common/fullLoading", true);
+  },
+
+  created() {
     this.getMenuWithId(this.$route.params.id);
   },
 
   computed: {
     title() {
-      return this.$route.name.split("-").first();
+      return this.$common.getTitleByRoute(this.$route);
     },
 
     statusSelect() {
-      return {
-        title: "請選擇啟用狀態",
-        options: [
-          { type: "0", description: "0 : 未啟用" },
-          { type: "1", description: "1 : 啟用" },
-          { type: "2", description: "2 : 開發中" },
-        ],
-      };
+      return this.$common.getStatusSelect();
     },
 
     categorySelect() {
@@ -384,6 +381,7 @@ export default {
       this.$api.serviceMenuId(id).then((element) => {
         this.parentRoute = `${element.subject_id}/`;
         this.componentKey++;
+        this.$store.dispatch("common/fullLoading", false);
         this.$store.dispatch("common/isLoading", false);
       });
     },

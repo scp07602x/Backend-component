@@ -235,25 +235,26 @@ export default {
     return { menus: {}, categoryNumber: 0 };
   },
 
-  mounted() {
-    this.getMenuCategory(this.$route.params.id);
+  beforeCreate() {
+    this.$store.dispatch("common/fullLoading", true);
   },
 
   computed: {
     title() {
-      return this.$route.name.split("-").first();
+      return this.$common.getTitleByRoute(this.$route);
     },
   },
 
-  beforeMount() {
-    // console.log(this)
+  created() {
     this.getMenuWithId(this.$route.params.id);
+    this.getMenuCategory(this.$route.params.id);
   },
 
   methods: {
     getMenuWithId(id) {
       this.$api.serviceMenuId(id).then((element) => {
         this.$store.dispatch("menu/subPagePath", `${element.category_route}/`);
+        this.$store.dispatch("common/fullLoading", false);
       });
     },
 

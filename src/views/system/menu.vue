@@ -223,13 +223,13 @@ export default {
     this.$store.dispatch("common/fullLoading", true);
   },
 
-  mounted() {
+  created() {
     this.getMenu();
   },
 
   computed: {
     title() {
-      return this.$route.name.split("-").first();
+      return this.$common.getTitleByRoute(this.$route);
     },
 
     menus() {

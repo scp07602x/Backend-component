@@ -54,9 +54,33 @@
               v-for="tag in item.children"
               :key="tag.name"
             >
-              <router-link
+              <!-- <router-link
                 v-slot="{ href, navigate, isActive }"
                 :to="`/${tag.category_route}`"
+              >
+                <a
+                  :href="href"
+                  @click="navigate"
+                  class="text-sm uppercase py-3 font-bold block"
+                  :class="[
+                    isActive
+                      ? 'text-green-500 hover:text-green-600'
+                      : 'text-gray-800 hover:text-gray-600',
+                  ]"
+                >
+                  <i
+                    class="mr-2 text-base"
+                    :class="[
+                      tag.icon,
+                      isActive ? 'opacity-75' : 'text-gray-400',
+                    ]"
+                  ></i>
+                  {{ tag.name }}
+                </a>
+              </router-link> -->
+              <router-link
+                v-slot="{ href, navigate, isActive }"
+                :to="{ name: tag.id, params: { combine_id: tag.subject_id } }"
               >
                 <a
                   :href="href"

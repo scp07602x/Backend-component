@@ -23,17 +23,17 @@ export default {
     };
   },
   mounted() {
-    this.updateBreadcrumbsList();
+    this.getBreadcrumbs();
   },
 
   watch: {
     $route() {
-      this.updateBreadcrumbsList();
+      this.getBreadcrumbs();
     },
   },
 
   computed: {
-    mapBreads() {
+    breadsMap() {
       return this.$store.state.common.breadcrumbs;
     },
 
@@ -43,10 +43,12 @@ export default {
   },
 
   methods: {
-    updateBreadcrumbsList() {
+    getBreadcrumbs() {
       this.labelId = [];
-      if (this.$route.meta.breadcrumbs !== undefined) {
-        if (this.pathId !== undefined) {
+      if (this.$route.name == "dashboard") {
+        this.breadcrumbs = this.defaultbreadcrumbs;
+      } else {
+        if (this.pathId) {
           this.findParentId(this.$route.params.id);
         }
 
@@ -66,19 +68,19 @@ export default {
       }
     },
 
-    findParentId(id) {
-      this.mapBreads.forEach((v, k) => {
-        if (id == k) {
-          this.labelId.push(k);
-          if (v.parent_id !== null) {
-            this.mapBreads.forEach((vv, kk) => {
-              if (v.parent_id == vv.combine_id) {
-                this.findParentId(kk);
-              }
-            });
-          }
+    findParentId(paramsId) {
+      const { id, parent_id } = this.breadsMap.get(paramsId);
+
+      if (id == paramsId) {
+        this.labelId.push(id);
+        if (parent_id) {
+          this.breadsMap.forEach((values, key) => {
+            if (parent_id == values.combine_id) {
+              this.findParentId(key);
+            }
+          });
         }
-      });
+      }
     },
   },
 };
