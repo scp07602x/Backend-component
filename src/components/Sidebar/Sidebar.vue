@@ -1,11 +1,17 @@
 <template>
   <nav
     class="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-no-wrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-40 py-4 px-6"
-    v-if="isShow"
   >
     <div
       class="md:flex-col md:items-stretch md:min-h-full md:flex-no-wrap px-0 flex flex-wrap items-center justify-between w-full mx-auto"
     >
+      <button
+        class="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"
+        type="button"
+        v-on:click="toggleCollapseShow('bg-white m-2 py-3 px-6')"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
       <router-link
         class="md:block text-left md:pb-2 text-gray-700 mr-0 inline-block whitespace-no-wrap text-base uppercase font-bold p-4 px-0"
         to="/admin/dashboard"
@@ -21,12 +27,7 @@
         >
           <div class="flex flex-wrap">
             <div class="w-6/12">
-              <router-link
-                class="md:block text-left md:pb-2 text-gray-700 mr-0 inline-block whitespace-no-wrap text-base uppercase font-bold p-4 px-0"
-                to="/admin/dashboard"
-              >
-                <img :src="logo" alt="" />
-              </router-link>
+              <img :src="logo" alt="" />
             </div>
             <div class="w-6/12 flex justify-end">
               <button
@@ -42,19 +43,21 @@
         <!-- <hr class="my-4 md:min-w-full" /> -->
 
         <div v-for="item in sidebar" :key="item.name">
-          <hr class="my-4 md:min-w-full" />
           <h6
             class="md:min-w-full text-gray-600 text-sm uppercase font-bold block pt-1 pb-4 no-underline"
           >
             {{ item.name }}
           </h6>
-          <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-            <li
-              class="items-center"
-              v-for="tag in item.children"
-              :key="tag.name"
+          <div class="siderbar show">
+            <ul
+              class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4"
             >
-              <!-- <router-link
+              <li
+                class="items-center"
+                v-for="tag in item.children"
+                :key="tag.name"
+              >
+                <!-- <router-link
                 v-slot="{ href, navigate, isActive }"
                 :to="`/${tag.category_route}`"
               >
@@ -78,32 +81,33 @@
                   {{ tag.name }}
                 </a>
               </router-link> -->
-              <router-link
-                v-slot="{ href, navigate, isActive }"
-                :to="{ name: tag.id, params: { combine_id: tag.subject_id } }"
-              >
-                <a
-                  :href="href"
-                  @click="navigate"
-                  class="text-sm uppercase py-3 font-bold block"
-                  :class="[
-                    isActive
-                      ? 'text-green-500 hover:text-green-600'
-                      : 'text-gray-800 hover:text-gray-600',
-                  ]"
+                <router-link
+                  v-slot="{ href, navigate, isActive }"
+                  :to="{ name: tag.id, params: { combine_id: tag.subject_id } }"
                 >
-                  <i
-                    class="mr-2 text-base"
+                  <a
+                    :href="href"
+                    @click="navigate"
+                    class="text-sm uppercase py-3 font-bold block"
                     :class="[
-                      tag.icon,
-                      isActive ? 'opacity-75' : 'text-gray-400',
+                      isActive
+                        ? 'text-green-500 hover:text-green-600'
+                        : 'text-gray-800 hover:text-gray-600',
                     ]"
-                  ></i>
-                  {{ tag.name }}
-                </a>
-              </router-link>
-            </li>
-          </ul>
+                  >
+                    <i
+                      class="mr-2 text-base"
+                      :class="[
+                        tag.icon,
+                        isActive ? 'opacity-75' : 'text-gray-400',
+                      ]"
+                    ></i>
+                    {{ tag.name }}
+                  </a>
+                </router-link>
+              </li>
+            </ul>
+          </div>
         </div>
 
         <hr class="my-4 md:min-w-full" />
@@ -178,7 +182,6 @@ export default {
   data() {
     return {
       collapseShow: "hidden",
-      isShow: false,
       logo,
     };
   },
@@ -189,9 +192,7 @@ export default {
     },
   },
 
-  mounted() {
-    this.isShow = true;
-  },
+  mounted() {},
 
   methods: {
     toggleCollapseShow: function (classes) {
@@ -200,3 +201,15 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.siderbar {
+  height: 0;
+  overflow: hidden;
+}
+
+.show {
+  height: auto;
+  overflow: block;
+}
+</style>

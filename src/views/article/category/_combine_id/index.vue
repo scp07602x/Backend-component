@@ -97,8 +97,8 @@
             </thead>
             <tbody>
               <tr
-                v-for="(group, index) in groups"
-                :key="group.id"
+                v-for="(category, index) in categories"
+                :key="category.id"
                 :class="[(index + 1) % 2 == 0 ? 'bg-gray-100' : '']"
               >
                 <td
@@ -109,24 +109,24 @@
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-left"
                 >
-                  {{ group.group_code }}
+                  {{ category.name }}
                 </td>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-left"
                 >
-                  {{ group.memo }}
+                  {{ category.subject_id }}
                 </td>
-                <!-- <td
+                <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-center"
                 >
-                  <span>{{ useful(group.is_useful) }}</span>
-                </td> -->
+                  <!-- <span>{{ useful(category.is_useful) }}</span> -->
+                </td>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-center text-left"
                 >
                   <router-link
                     class="text-orange-500 bg-transparent border border-solid border-orange-500 active:bg-orange-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                    :to="`/system/param/group/${group.id}/code`"
+                    :to="`/system/param/category/${category.id}/code`"
                   >
                     <i class="far fa-edit text-orange-500 text-base"></i>
                     參數列表
@@ -134,14 +134,14 @@
                   <router-link
                     class="text-blue-400 bg-transparent border border-solid border-blue-400 active:bg-blue-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                     type="button"
-                    :to="`/system/param/group/${group.id}/edit`"
+                    :to="`/system/param/category/${category.id}/edit`"
                   >
                     <i class="far fa-edit text-blue-400 text-base"></i> 編輯
                   </router-link>
                   <button
                     class="text-red-500 bg-transparent border border-solid border-red-500 active:bg-red-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                     type="button"
-                    @click="deleteGroup(group.id)"
+                    @click="deletecategory(category.id)"
                   >
                     <i class="far fa-trash-alt text-red-500 text-base"></i> 刪除
                   </button>
@@ -158,7 +158,9 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      categories: [],
+    };
   },
 
   created() {
@@ -173,10 +175,6 @@ export default {
   },
 
   computed: {
-    groups() {
-      return this.$store.state.paramGroup.list;
-    },
-
     title() {
       return this.$common.getTitleByRoute(this.$route);
     },
@@ -184,9 +182,8 @@ export default {
 
   methods: {
     getDataWithCategoryId(id) {
-      console.log(this.$route);
-      this.$api.serviceArticleCategoryCombineIdIndex(id).then(() => {
-        // console.log(response);
+       this.$api.serviceArticleCategoryCombineIdIndex(id).then((response) => {
+        this.categories = response;
         this.$store.dispatch("common/fullLoading", false);
       });
     },
