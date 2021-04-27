@@ -5,6 +5,7 @@
     :name="name"
     :vid="vid"
     v-slot="{ errors }"
+    :class="[styleClass]"
   >
     <input
       :type="type"
@@ -65,7 +66,7 @@ export default {
     this.currentValue = this.value;
     this.styleClass = this.classStyle;
   },
-  
+
   watch: {
     currentValue(val) {
       this.$emit("input", val);

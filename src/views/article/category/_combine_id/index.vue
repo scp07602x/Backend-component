@@ -13,15 +13,13 @@
             </div>
             <router-link
               class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-              to="/system/param/group/add"
+              :to="{
+                name: addRoute.id,
+                params: { combine_id: pageNode.combine_id },
+              }"
             >
-              新增主分類
+              新增文章
             </router-link>
-            <button
-              class="bg-yellow-500 text-white active:bg-yellow-400 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 cursor-pointer"
-            >
-              匯出Excel-未完成
-            </button>
           </div>
         </div>
         <div class="block w-full overflow-x-auto px-6 pb-6">
@@ -35,34 +33,8 @@
                   >{{ title }}列表</span
                 >
               </div>
-              <!-- <button
-                type="button"
-                class="w-28 bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 text-center"
-                @click="goSubCategory()"
-              >
-                {{ title }}列表
-              </button> -->
-              <!-- <router-link
-                class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                :to="`/system/menu/${menu.id}/category/add`"
-              >
-                新增子分類
-              </router-link>
-              <router-link
-                class="bg-blue-400 text-white active:bg-blue-500 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                :to="`/system/menu/${menu.id}/edit`"
-              >
-                編輯主分類
-              </router-link>
-              <button
-                class="bg-red-400 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                @click="deleteGroup(menu.id)"
-              >
-                刪除
-              </button> -->
             </div>
           </div>
-          <!-- Projects table -->
           <table
             class="items-center w-full bg-transparent border-collapse table-fixed border-r border-l border-b"
           >
@@ -74,19 +46,29 @@
                   項次
                 </th>
                 <th
-                  class="w-40 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
+                  class="w-1/4 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
                 >
-                  群組代碼
+                  文章標題
                 </th>
                 <th
-                  class="w-1/2 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
-                >
-                  備註說明
-                </th>
-                <th
-                  class="w-32 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
+                  class="w-20 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
                 >
                   啟用狀態
+                </th>
+                <th
+                  class="w-20 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
+                >
+                  是否置頂
+                </th>
+                <th
+                  class="w-40 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
+                >
+                  文章建立日期
+                </th>
+                <th
+                  class="w-40 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
+                >
+                  最後修改日期
                 </th>
                 <th
                   class="w-1/4 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
@@ -109,41 +91,51 @@
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-left"
                 >
-                  {{ category.name }}
-                </td>
-                <td
-                  class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-left"
-                >
-                  {{ category.subject_id }}
+                  {{ category.title }}
                 </td>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-center"
                 >
-                  <!-- <span>{{ useful(category.is_useful) }}</span> -->
+                  111
+                </td>
+                <td
+                  class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-center"
+                >
+                  222
+                </td>
+                <td
+                  class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-center"
+                >
+                  {{ category.created_at }}
+                </td>
+                <td
+                  class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-center"
+                >
+                  {{ category.updated_at }}
                 </td>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-center text-left"
                 >
                   <router-link
-                    class="text-orange-500 bg-transparent border border-solid border-orange-500 active:bg-orange-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                    :to="`/system/param/category/${category.id}/code`"
-                  >
-                    <i class="far fa-edit text-orange-500 text-base"></i>
-                    參數列表
-                  </router-link>
-                  <router-link
                     class="text-blue-400 bg-transparent border border-solid border-blue-400 active:bg-blue-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                     type="button"
-                    :to="`/system/param/category/${category.id}/edit`"
+                    :to="{
+                      name: editRoute.id,
+                      params: {
+                        combine_id: pageNode.combine_id,
+                        article_id: category.id,
+                      },
+                    }"
                   >
-                    <i class="far fa-edit text-blue-400 text-base"></i> 編輯
+                    <i class="far fa-edit text-blue-400 text-base"></i> 編輯文章
                   </router-link>
                   <button
                     class="text-red-500 bg-transparent border border-solid border-red-500 active:bg-red-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                     type="button"
                     @click="deletecategory(category.id)"
                   >
-                    <i class="far fa-trash-alt text-red-500 text-base"></i> 刪除
+                    <i class="far fa-trash-alt text-red-500 text-base"></i>
+                    刪除文章
                   </button>
                 </td>
               </tr>
@@ -160,17 +152,23 @@ export default {
   data() {
     return {
       categories: [],
+      addRoute: {},
+      pageNode: {},
+      editRoute: {},
     };
   },
 
   created() {
     this.$store.dispatch("common/fullLoading", true);
     this.getDataWithCategoryId(this.$route.params.combine_id);
+    this.getAddAdndEditId();
   },
 
   watch: {
     $route() {
+      this.$store.dispatch("common/fullLoading", true);
       this.getDataWithCategoryId(this.$route.params.combine_id);
+      this.getAddAdndEditId();
     },
   },
 
@@ -178,14 +176,48 @@ export default {
     title() {
       return this.$common.getTitleByRoute(this.$route);
     },
+
+    combine_id() {
+      return this.$route.params.combine_id;
+    },
+
+    breadMap() {
+      return this.$store.state.common.breadcrumbs;
+    },
   },
 
   methods: {
     getDataWithCategoryId(id) {
-       this.$api.serviceArticleCategoryCombineIdIndex(id).then((response) => {
+      this.$api.serviceArticleCategoryCombineIdIndex(id).then((response) => {
         this.categories = response;
         this.$store.dispatch("common/fullLoading", false);
       });
+    },
+
+    getAddAdndEditId() {
+      const newMap = this.$store.state.common.breadcrumbs;
+      const { combine_id, subject_id } = newMap.get(this.$route.name);
+      this.$api.serviceCarticleTopIndex().then((response) => {
+        this.pageNode = response.find((child) => {
+          return child.combine_id == subject_id;
+        });
+      });
+      const add = Array.from(newMap.values()).find((child) => {
+        return (
+          child.combine_id.match(combine_id) &&
+          child.combine_id.match("add") &&
+          child.category_route
+        );
+      });
+      const edit = Array.from(newMap.values()).find((child) => {
+        return (
+          child.combine_id.match(combine_id) &&
+          child.combine_id.match("edit") &&
+          child.category_route
+        );
+      });
+      this.addRoute = add;
+      this.editRoute = edit;
     },
   },
 };

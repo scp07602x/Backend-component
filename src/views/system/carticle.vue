@@ -96,12 +96,12 @@
               <button
                 class="text-white font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                 :class="[
-                  firstChilds.length !== 0 ? 'bg-yellow-500' : 'bg-green-500',
+                  category ? 'bg-yellow-500' : 'bg-green-500',
                 ]"
                 type="button"
                 @click="showAndCloseModal()"
               >
-                {{firstChilds.length !== 0
+                {{category
                     ? '新增文章子分類'
                     : '新增文章主分類',
                 }}
@@ -250,7 +250,7 @@
       >
         <div class="flex items-start justify-between p-3 rounded-t">
           <h3 class="text-lg font-semibold px-4 py-2">
-            {{firstChilds.length !== 0
+            {{category
                     ? '新增文章子分類'
                     : '新增文章主分類',
             }}
@@ -628,7 +628,7 @@ export default {
       params.sort = params.sort ? params.sort : 0;
 
       // 代表新增主分類
-      if (this.category !== "" && Object.keys(this.category).length == 0) {
+      if (this.category == "") {
         this.$api.serviceCarticleTopAdd(params).then((response) => {
           alert("新增主分類成功，您可關閉視窗或繼續新增");
           if (response) {

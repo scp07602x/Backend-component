@@ -192,4 +192,8 @@ export default {
     serviceArticleCategoryCombineIdIndex(combine_id) {
         return ajax.post(`service/article/category/${combine_id}/index`)
     },
+    // AWC2 新增文章
+    systemArticleCategoryCombineIdAdd(combine_id, params) {
+        return ajax.put(`service/article/category/${combine_id}/add`, params)
+    },
 }

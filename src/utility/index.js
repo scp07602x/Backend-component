@@ -127,7 +127,7 @@ function getFormatRoute(route) {
   result.meta.requireAuth = true;
 
   result.meta.selfId = route.id;
-  
+
   result.meta.name = route.name;
 
   if (route.parent_id) {
@@ -146,13 +146,19 @@ function getFormatRoute(route) {
  */
 function getBreadcrumbsWithRoute(id, breadMap, breads = []) {
 
-  const { parent_id , category , category_route , name , subject_id} =  breadMap.get(id);
+  const {
+    parent_id,
+    category,
+    category_route,
+    name,
+    subject_id
+  } = breadMap.get(id);
 
   if (category_route) {
     breads.push({
       name: name,
       path: `/${category_route}`,
-      subjectId : subject_id
+      subjectId: subject_id
     });
   }
 
@@ -202,14 +208,14 @@ function getChildRoute(data, breadMap, childs = []) {
  * @returns 
  */
 function checkFileExists(path) {
-  let filePath = `${path.replace(":", "_")}.vue`;
+  let filePath = `${path.replace(/:/g, "_")}.vue`;
 
   try {
     require(`@/views/${filePath}`);
   } catch (e) {
     filePath = `error/building.vue`;
   }
-  
+
   return filePath;
 }
 

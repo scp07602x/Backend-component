@@ -1,6 +1,6 @@
 <template>
-  <editor
-    v-model="editorHtml"
+  <Tinymce
+    v-model="currentValue"
     api-key="x31d29o1vpv6jn32urvl3v0dl0nzmtomwk2gblbldoot4yyq"
     :init="{
       height: 300,
@@ -17,31 +17,34 @@
 </template>
 
 <script>
-import Editor from "@tinymce/tinymce-vue";
+import Tinymce from "@tinymce/tinymce-vue";
 
 export default {
-  name: "EditorExample",
+  name: "Editor",
   components: {
-    editor: Editor,
+    Tinymce,
   },
 
-  props: {},
-
-  data() {
-    return {
-      editorHtml: "",
-    };
-  },
-
-  watch: {
-    editorHtml: function () {
-      this.$emit("editor", this.editorHtml);
+  props: {
+    content: {
+      type: String,
+      default: "",
     },
   },
 
-  methods: {
-    clearEditor(data) {
-      this.editorHtml = data;
+  data() {
+    return {
+      currentValue: "",
+    };
+  },
+
+  mounted() {
+    this.currentValue = this.content;
+  },
+
+  watch: {
+    currentValue(val) {
+      this.$emit("input", val);
     },
   },
 };
