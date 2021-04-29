@@ -132,7 +132,7 @@
                   <button
                     class="text-red-500 bg-transparent border border-solid border-red-500 active:bg-red-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                     type="button"
-                    @click="deletecategory(category.id)"
+                    @click="deleteArticle(category)"
                   >
                     <i class="far fa-trash-alt text-red-500 text-base"></i>
                     刪除文章
@@ -144,6 +144,104 @@
         </div>
       </div>
     </div>
+    <div
+      class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex"
+      style="width: 20%; margin: 5vh 0 0 30%"
+      v-if="showModal"
+    >
+      <div
+        class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+      >
+        <div class="flex items-start justify-between px-3 py-2 rounded-t">
+          <h3 class="text-lg font-semibold px-4 py-2">再次確認</h3>
+          <button
+            class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+            type="button"
+            @click="showModal = false"
+          >
+            <span
+              class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none"
+            >
+              ×
+            </span>
+          </button>
+        </div>
+        <hr class="md:min-w-full" />
+        <div class="relative px-6 py-4 flex-auto">
+          <div class="block w-full overflow-x-auto pb-6">
+            <div class="flex flex-wrap items-center justify-between">
+              <div
+                class="relative w-full max-w-full flex-grow flex-1 inline-block"
+              >
+                <span
+                  class="align-middle py-1 text-base uppercase border-l-0 border-r-0 font-semibold text-left text-red-500 border-gray-200 text-center"
+                  >是否刪除文章 :
+                </span>
+                <span
+                  class="align-middle py-1 text-base uppercase border-l-0 border-r-0 font-semibold text-leftborder-gray-200 text-center"
+                >
+                  {{ deleteItem.title }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="relative flex-auto">
+          <div class="block w-full overflow-x-auto pb-4">
+            <div class="flex flex-wrap items-center justify-between">
+              <div class="w-full max-w-full flex justify-end">
+                <button
+                  type="button"
+                  class="text-blue-400 bg-transparent border border-solid border-blue-400 active:bg-blue-200 font-bold uppercase text-base px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 m-2"
+                  @click="showModal = false"
+                >
+                  取消刪除
+                </button>
+                <button
+                  class="text-red-500 bg-transparent border border-solid border-red-500 active:bg-red-200 font-bold uppercase text-base px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 m-2 mr-4"
+                  type="button"
+                  @click="comfirmDelete()"
+                >
+                  確認刪除
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="showModal"
+      class="opacity-25 fixed inset-0 bg-black w-full"
+      style="
+        background: rgba(0, 0, 0, 0.3);
+        height: 100%;
+        weight: 100%;
+        top: 0;
+        left: 0;
+        z-index: 40;
+      "
+    ></div>
+    <div
+      class="text-white px-6 py-4 border-0 rounded fixed mb-4 bg-red-500"
+      style="width: 82.5%; z-index: 500; transition: all 0.3s"
+      :style="{ 'margin-top': [alertOpen ? '-7.7%' : '-12%'] }"
+    >
+      <span class="text-xl inline-block mr-4 align-middle">
+        <i class="fas fa-bell"></i>
+      </span>
+      <span class="inline-block align-middle">
+        <b class="capitalize">lightBlue!</b> This is a lightBlue alert - check
+        it out!
+      </span>
+      <!-- <button
+        class="absolute bg-transparent text-2xl font-semibold leading-none right-0 top-0 mt-4 mr-4 outline-none focus:outline-none"
+        v-on:click="closeAlert()"
+      >
+        <span>×</span>
+      </button> -->
+    </div>
+    <button @click="alertOpen = !alertOpen">點我</button>
   </div>
 </template>
 
@@ -155,6 +253,9 @@ export default {
       addRoute: {},
       pageNode: {},
       editRoute: {},
+      deleteItem: {},
+      showModal: false,
+      alertOpen: true,
     };
   },
 
@@ -205,19 +306,40 @@ export default {
       const add = Array.from(newMap.values()).find((child) => {
         return (
           child.combine_id.match(combine_id) &&
-          child.combine_id.match("add") &&
+          child.combine_id.match(/add$/i) &&
           child.category_route
         );
       });
       const edit = Array.from(newMap.values()).find((child) => {
         return (
           child.combine_id.match(combine_id) &&
-          child.combine_id.match("edit") &&
+          child.combine_id.match(/edit$/i) &&
           child.category_route
         );
       });
+
       this.addRoute = add;
       this.editRoute = edit;
+    },
+
+    deleteArticle(data) {
+      this.deleteItem = data;
+      this.showModal = true;
+    },
+
+    comfirmDelete() {
+      this.$store.dispatch("common/isLoading", true);
+      this.$api
+        .serviceArticleCategoryCombineIdArticleIdDelete(
+          this.$route.params.combine_id,
+          this.deleteItem.id
+        )
+        .then((response) => {
+          console.log(response);
+          this.getDataWithCategoryId(this.$route.params.combine_id);
+          this.showModal = false;
+          this.$store.dispatch("common/isLoading", false);
+        });
     },
   },
 };

@@ -21,7 +21,7 @@
         </div>
         <div>
           <ValidationObserver v-slot="{ handleSubmit }">
-            <form @submit.prevent="handleSubmit(articleAdd)">
+            <form @submit.prevent="handleSubmit(articleEdit)">
               <div class="block w-full overflow-x-auto px-6 pb-6">
                 <div class="rounded-t mb-0 px-4 py-3 border bg-gray-300">
                   <div class="flex flex-wrap items-center justify-between">
@@ -93,44 +93,6 @@
                       :key="componentKey"
                       rules="required"
                     />
-                  </div>
-                </div>
-              </div>
-              <div class="block w-full overflow-x-auto px-6 pb-6">
-                <div class="rounded-t mb-0 px-4 py-3 border bg-gray-300">
-                  <div class="flex flex-wrap items-center justify-between">
-                    <div
-                      class="relative w-full px-2 max-w-full flex-grow flex-1 inline-block"
-                    >
-                      <span
-                        class="align-middle py-1 text-sm uppercase border-l-0 border-r-0 font-semibold text-left text-gray-600 border-gray-200 text-center"
-                        >文章分類</span
-                      >
-                      <span class="px-2 text-red-500 text-xs font-bold">
-                        *對應欄位 : category_id。
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="items-center w-full bg-transparent border-collapse border-r border-l border-b"
-                >
-                  <div
-                    class="w-full px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
-                  >
-                    <span
-                      class="inline-block uppercase text-gray-700 text-xs font-bold mb-2"
-                    >
-                      文章分類 :
-                    </span>
-                    <SelectValidate
-                      :select="articleCategory"
-                      v-model="params.category_id"
-                      class="inline-block px-4"
-                      :key="componentKey"
-                      rules="required"
-                      name="文章分類"
-                    ></SelectValidate>
                   </div>
                 </div>
               </div>
@@ -366,7 +328,7 @@
                   <div
                     class="w-full px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
                   >
-                    <Editor v-model="params.content" />
+                    <Editor v-model="params.content" :key="componentKey" />
                   </div>
                 </div>
               </div>
@@ -375,7 +337,7 @@
                   class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="submit"
                 >
-                  儲存
+                  更新
                 </button>
               </div>
             </form>
@@ -408,7 +370,6 @@ export default {
         main_pic: "",
         content: "",
         meta_keywords: "",
-        category_id: "",
         seo_description: "",
       },
       categories: [],
@@ -460,9 +421,20 @@ export default {
 
   mounted() {
     this.getArticleCategory();
+    this.getArticleContent();
   },
 
   methods: {
+    getArticleContent() {
+      const { combine_id, article_id } = this.$route.params;
+      this.$api
+        .serviceArticleCategoryCombineIdArticleId(combine_id, article_id)
+        .then((response) => {
+          this.params = response;
+          this.componentKey++;
+        });
+    },
+
     getArticleCategory() {
       this.$api.serviceCarticleTopIndex().then((response) => {
         const { id } = response.find(
@@ -477,17 +449,26 @@ export default {
       });
     },
 
-    articleAdd() {
+    articleEdit() {
       this.$store.dispatch("common/isLoading", true);
 
+      this.params.content = this.params.content = this.params.content.replace(
+        /[\r\n]/g,
+        ""
+      );
+
       this.$api
-        .systemArticleCategoryCombineIdAdd(
+        .serviceArticleCategoryCombineIdArticleIdEdit(
           this.$route.params.combine_id,
+          this.$route.params.article_id,
           this.params
         )
-        .then((element) => {
-          console.log(element);
-          this.$store.dispatch("common/isLoading", true);
+        .then((response) => {
+          if (response) {
+            alert("修改成功");
+            this.$store.dispatch("common/isLoading", false);
+          }
+          console.log(response);
         });
     },
 

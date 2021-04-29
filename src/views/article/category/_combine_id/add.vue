@@ -366,7 +366,7 @@
                   <div
                     class="w-full px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
                   >
-                    <Editor v-model="params.content" />
+                    <Editor v-model="params.content" :key="componentKey" />
                   </div>
                 </div>
               </div>
@@ -446,7 +446,7 @@ export default {
     articleCategory() {
       const categories = this.categories.map((element) => {
         return {
-          type: element.combine_id,
+          type: element.id,
           description: element.name,
         };
       });
@@ -479,16 +479,19 @@ export default {
 
     articleAdd() {
       this.$store.dispatch("common/isLoading", true);
-      // console.log(this.$route.params.combine_id);
-      // console.log(this.params);
+
+      this.params.content = this.params.content.replace(/[\r\n]/g, "");
+
       this.$api
         .systemArticleCategoryCombineIdAdd(
           this.$route.params.combine_id,
           this.params
         )
-        .then((element) => {
-          console.log(element);
-          this.$store.dispatch("common/isLoading", true);
+        .then((response) => {
+          if (response) {
+            alert("新增成功");
+            this.$store.dispatch("common/isLoading", false);
+          }
         });
     },
 

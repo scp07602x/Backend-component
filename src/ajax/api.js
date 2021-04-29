@@ -196,4 +196,16 @@ export default {
     systemArticleCategoryCombineIdAdd(combine_id, params) {
         return ajax.put(`service/article/category/${combine_id}/add`, params)
     },
+    // AWC3 article_id 文章內容
+    serviceArticleCategoryCombineIdArticleId(combine_id, article_id) {
+        return ajax.post(`service/article/category/${combine_id}/${article_id}`)
+    },
+    // AWC4 編輯文章
+    serviceArticleCategoryCombineIdArticleIdEdit(combine_id, article_id, params) {
+        return ajax.patch(`service/article/category/${combine_id}/${article_id}/edit`, params)
+    },
+    // CA5 刪除{id}與以下子分類
+    serviceArticleCategoryCombineIdArticleIdDelete(combine_id, article_id) {
+        return ajax.delete(`service/article/category/${combine_id}/${article_id}/delete`)
+    },
 }

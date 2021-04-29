@@ -2,8 +2,9 @@
   <Tinymce
     v-model="currentValue"
     api-key="x31d29o1vpv6jn32urvl3v0dl0nzmtomwk2gblbldoot4yyq"
+    :value="currentValue"
     :init="{
-      height: 300,
+      height: 500,
       menubar: false,
       plugins: [
         'advlist autolink lists link image charmap print preview anchor',
@@ -26,7 +27,7 @@ export default {
   },
 
   props: {
-    content: {
+    value: {
       type: String,
       default: "",
     },
@@ -39,7 +40,7 @@ export default {
   },
 
   mounted() {
-    this.currentValue = this.content;
+    this.currentValue = this.value;
   },
 
   watch: {
