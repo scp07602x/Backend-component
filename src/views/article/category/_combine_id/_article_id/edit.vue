@@ -55,6 +55,7 @@
                       name="文章主標題"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -92,6 +93,7 @@
                       name="文章副標題"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -334,7 +336,7 @@
               </div>
               <div class="text-right mb-4 px-6 m w-full">
                 <button
-                  class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  class="bg-blue-400 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="submit"
                 >
                   更新
@@ -450,8 +452,6 @@ export default {
     },
 
     articleEdit() {
-      this.$store.dispatch("common/isLoading", true);
-
       this.params.content = this.params.content = this.params.content.replace(
         /[\r\n]/g,
         ""
@@ -465,20 +465,17 @@ export default {
         )
         .then((response) => {
           if (response) {
-            alert("修改成功");
-            this.$store.dispatch("common/isLoading", false);
+            this.$store.dispatch("common/EDIT_DIALOG");
           }
-          console.log(response);
         });
     },
 
     clearAdd() {
-      Object.keys(this._data).forEach((element) => {
-        if (element !== "componentKey") {
-          this[element] = "";
-        }
+      Object.keys(this.params).forEach((element) => {
+        this.params[element] = "";
       });
-      this.componentKey += 1;
+
+      this.componentKey++;
     },
   },
 };

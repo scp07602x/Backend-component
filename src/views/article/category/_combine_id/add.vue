@@ -55,6 +55,7 @@
                       name="文章主標題"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -92,6 +93,7 @@
                       name="文章副標題"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -145,8 +147,7 @@
                         >啟用狀態</span
                       >
                       <span class="px-2 text-red-500 text-xs font-bold">
-                        *對應欄位 : is_useful ; 0 : 未啟用 、 1 : 啟用 、 2 :
-                        開發中。
+                        *對應欄位 : is_useful ; 0 : 未啟用 、 1 : 啟用 。
                       </span>
                     </div>
                   </div>
@@ -184,8 +185,7 @@
                         >是否置頂</span
                       >
                       <span class="px-2 text-red-500 text-xs font-bold">
-                        *對應欄位 : is_top ; 0 : 未啟用 、 1 : 啟用 、 2 :
-                        開發中。
+                        *對應欄位 : is_top ; 0 : 非置頂 、 1 : 置頂。
                       </span>
                     </div>
                   </div>
@@ -375,7 +375,7 @@
                   class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="submit"
                 >
-                  儲存
+                  確認新增
                 </button>
               </div>
             </form>
@@ -413,6 +413,7 @@ export default {
       },
       categories: [],
       componentKey: 0,
+      page: {},
     };
   },
 
@@ -424,6 +425,10 @@ export default {
 
   beforeCreate() {
     this.$store.dispatch("common/fullLoading", true);
+  },
+
+  created() {
+    this.getPageRoute();
   },
 
   computed: {
@@ -456,6 +461,10 @@ export default {
         options: categories,
       };
     },
+
+    breadMap() {
+      return this.$store.state.common.breadcrumbs;
+    },
   },
 
   mounted() {
@@ -463,6 +472,20 @@ export default {
   },
 
   methods: {
+    getPageRoute() {
+      const { path, params } = this.$route;
+      const realPath = path
+        .replace(Object.values(params).join(), `:${Object.keys(params).join()}`)
+        .substring(1);
+      const combineId = Object.values(params).join();
+
+      this.page = Array.from(this.breadMap.values()).find((element) => {
+        return (
+          element.category_route == realPath && element.subject_id == combineId
+        );
+      });
+    },
+
     getArticleCategory() {
       this.$api.serviceCarticleTopIndex().then((response) => {
         const { id } = response.find(
@@ -478,8 +501,6 @@ export default {
     },
 
     articleAdd() {
-      this.$store.dispatch("common/isLoading", true);
-
       this.params.content = this.params.content.replace(/[\r\n]/g, "");
 
       this.$api
@@ -489,19 +510,23 @@ export default {
         )
         .then((response) => {
           if (response) {
-            alert("新增成功");
-            this.$store.dispatch("common/isLoading", false);
+            this.$store.dispatch("common/ADD_DIALOG");
           }
         });
     },
 
     clearAdd() {
-      Object.keys(this._data).forEach((element) => {
-        if (element !== "componentKey") {
-          this[element] = "";
-        }
+      // Object.keys(this._data).forEach((element) => {
+      //   if (element !== "componentKey" && element !== "params") {
+      //     this[element] = "";
+      //   }
+      // });
+
+      Object.keys(this.params).forEach((element) => {
+        this.params[element] = "";
       });
-      this.componentKey += 1;
+
+      this.componentKey++;
     },
   },
 };

@@ -56,7 +56,7 @@
                       name="參數代碼"
                       :key="componentKey"
                       rules="required"
-                      classStyle="w-full"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -94,7 +94,8 @@
                       name="備註說明"
                       :key="componentKey"
                       type="text-area"
-                      classStyle="w-full"
+                      rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -184,10 +185,10 @@
                   返回參數列表
                 </button>
                 <button
-                  class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  class="bg-blue-400 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="submit"
                 >
-                  更新
+                  更新參數
                 </button>
               </div>
             </form>
@@ -238,13 +239,11 @@ export default {
       this.$api.serviceParamId(this.$route.params.id).then((response) => {
         this.group = response;
         this.componentKey++;
-        this.$store.dispatch("common/isLoading", false);
         this.$store.dispatch("common/fullLoading", false);
       });
     },
 
     codeAdd() {
-      this.$store.dispatch("common/isLoading", true);
       let params = {
         code: this.group.code,
         is_required: this.group.is_required,
@@ -254,10 +253,10 @@ export default {
 
       this.$api
         .serviceParamGroupCodeIdEdit(this.$route.params.id, params)
-        .then((element) => {
-          if (element) {
-            alert("更新成功");
+        .then((response) => {
+          if (response) {
             this.getGroupsWithId();
+            this.$store.dispatch("common/EDIT_DIALOG");
           }
         });
     },

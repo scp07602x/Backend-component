@@ -13,17 +13,6 @@
                 {{ title }}
               </h3>
             </div>
-            <!-- <router-link
-              class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-              to="/system/menu/add"
-            >
-              新增主分類
-            </router-link> -->
-            <!-- <button
-              class="bg-blue-400 text-white active:bg-blue-500 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-            >
-              編輯
-            </button> -->
           </div>
         </div>
         <div class="block w-full overflow-x-auto px-6 pb-6">
@@ -34,13 +23,11 @@
               >
                 <span
                   class="align-middle py-1 text-sm uppercase border-l-0 border-r-0 font-semibold text-left text-gray-600 border-gray-200 text-center"
-                  >功能目錄子分類</span
+                  >全部分頁</span
                 >
               </div>
             </div>
           </div>
-          <!-- Projects table -->
-          <!-- <div class="overflow-x-auto"> -->
           <table
             class="items-center bg-transparent border-collapse table-fixed border-r border-l border-b w-full"
           >
@@ -277,9 +264,9 @@ export default {
     },
 
     deleteCategory(id) {
-      this.$store.dispatch("common/isLoading", true);
       this.$api.serviceMenuIdDelete(id).then(() => {
         this.getMenuCategory(this.$route.params.id);
+        this.$store.dispatch("common/DELETE_DIALOG");
       });
     },
 

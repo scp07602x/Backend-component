@@ -5,9 +5,7 @@
     <div
       class="w-full mx-autp items-center flex justify-between md:flex-no-wrap flex-wrap md:px-10 px-4"
     >
-      <transition name="fade" mode="out-in">
-        <BreadCrumb />
-      </transition>
+        <!-- <BreadCrumb /> -->
       <form
         class="md:flex hidden flex-row flex-wrap items-center lg:ml-auto mr-3"
       ></form>
@@ -20,12 +18,12 @@
 
 <script>
 import UserDropdown from "@/components/Dropdowns/UserDropdown.vue";
-import BreadCrumb from "@/components/Breadcrumb/Breadcrumb.vue";
+// import BreadCrumb from "@/components/Breadcrumb/Breadcrumb.vue";
 
 export default {
   components: {
     UserDropdown,
-    BreadCrumb,
+    // BreadCrumb,
   },
 };
 </script>

@@ -11,6 +11,12 @@
             >
               <h3 class="font-semibold text-lg text-gray-800">{{ title }}</h3>
             </div>
+            <router-link
+              class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+              :to="`/system/param/group/${groups.id}a/code/add`"
+            >
+              新增參數代碼
+            </router-link>
             <button
               class="bg-red-400 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
               @click="clearAdd()"
@@ -55,7 +61,7 @@
                       name="群組代碼"
                       :key="componentKey"
                       rules="required"
-                      classStyle="w-full"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -93,7 +99,7 @@
                       name="備註說明"
                       :key="componentKey"
                       type="text-area"
-                      classStyle="w-full"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -140,14 +146,15 @@
               <div class="text-right mb-4 px-6 m w-full">
                 <router-link
                   class="bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  type="button"
                   to="/system/param/group"
-                  >返回系統參數</router-link
+                  >返回系統參數群組列表</router-link
                 >
                 <button
-                  class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  class="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="submit"
                 >
-                  更新
+                  更新參數群組
                 </button>
               </div>
             </form>
@@ -198,13 +205,11 @@ export default {
       this.$api.serviceParamId(id).then((response) => {
         this.groups = response;
         this.componentKey++;
-        this.$store.dispatch("common/isLoading", false);
         this.$store.dispatch("common/fullLoading", false);
       });
     },
 
     groupEdit() {
-      this.$store.dispatch("common/isLoading", true);
       let params = {
         group_code: this.groups.group_code,
         memo: this.groups.memo,
@@ -215,8 +220,7 @@ export default {
         .serviceParamGroupIdEdit(this.$route.params.id, params)
         .then((response) => {
           this.groups = response;
-          this.$store.dispatch("common/isLoading", false);
-          alert("更新成功");
+          this.$store.dispatch("common/EDIT_DIALOG");
         });
     },
 

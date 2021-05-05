@@ -9,7 +9,7 @@
             <div
               class="relative w-full px-4 max-w-full flex-grow flex-1 inline-block"
             >
-              <h3 class="font-semibold text-lg text-gray-800">{{ title }}</h3>
+              <h3 class="font-semibold text-lg text-gray-800">{{ title }}主分類</h3>
             </div>
             <button
               class="bg-red-400 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
@@ -56,6 +56,7 @@
                       name="分類id"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -93,6 +94,7 @@
                       name="分類名稱"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -213,11 +215,16 @@
                 </div>
               </div>
               <div class="text-right mb-4 px-6 m w-full">
+                <div
+                  class="inline-block bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                >
+                  <router-link to="/system/menu">返回功能目錄</router-link>
+                </div>
                 <button
                   class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="submit"
                 >
-                  儲存
+                  確認新增
                 </button>
               </div>
             </form>
@@ -269,13 +276,7 @@ export default {
     },
 
     permissionsSelect() {
-      return {
-        title: "請選擇權限類別",
-        options: [
-          { type: "admin", description: "admin" },
-          { type: "system", description: "system" },
-        ],
-      };
+      return this.$common.getPermissionsSelect();
     },
   },
 
@@ -285,7 +286,6 @@ export default {
 
   methods: {
     menuAdd() {
-      this.$store.dispatch("common/isLoading", true);
       let params = {
         subject_id: this.subject_id,
         name: this.name,
@@ -294,10 +294,11 @@ export default {
         default_type: this.default_type,
       };
 
-      this.$api.serviceMenuAdd(params).then((element) => {
-        if (element) {
-          this.$router.replace({
-            path: "/system/menu",
+      this.$api.serviceMenuAdd(params).then((response) => {
+        if (response) {
+          this.$store.dispatch("common/ADD_DIALOG");
+          this.$router.push({
+            path: `/system/menu/${response.id}/edit`,
           });
         }
       });

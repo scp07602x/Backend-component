@@ -56,6 +56,7 @@
                       name="分類id"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -93,6 +94,7 @@
                       name="分類名稱"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -139,6 +141,7 @@
                       name="分類路由"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -177,6 +180,7 @@
                       name="分類小圖"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                     <span
                       class="inline-block uppercase text-gray-700 text-xs font-bold mb-2"
@@ -273,7 +277,7 @@
                 </button>
 
                 <button
-                  class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  class="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="submit"
                 >
                   更新
@@ -352,9 +356,7 @@ export default {
       });
     },
 
-    menuCategoryEdit() {
-      this.$store.dispatch("common/isLoading", true);
-      let params = {
+    menuCategoryEdit() {      let params = {
         subject_id: this.menu.subject_id,
         name: this.menu.name,
         category_route: this.parentRoute + this.menu.category_route,
@@ -367,8 +369,8 @@ export default {
         .serviceMenuCategoryIdEdit(this.$route.params.id, params)
         .then(() => {
           this.getMenuWithId(this.$route.params.id);
-          this.$store.dispatch("common/isLoading", false);
-          alert("更新成功");
+          this.$store.dispatch("common/EDIT_DIALOG");
+          // alert("更新成功");
         });
     },
 

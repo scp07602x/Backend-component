@@ -9,8 +9,16 @@
             <div
               class="relative w-full px-4 max-w-full flex-grow flex-1 inline-block"
             >
-              <h3 class="font-semibold text-lg text-gray-800">{{ title }}</h3>
+              <h3 class="font-semibold text-lg text-gray-800">
+                編輯{{ title }}
+              </h3>
             </div>
+            <router-link
+              class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+              :to="`/system/menu/${menu.id}/category/add`"
+            >
+              新增子分類
+            </router-link>
             <button
               class="bg-red-400 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
               @click="clearAdd()"
@@ -57,6 +65,7 @@
                       name="分類id"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -95,6 +104,7 @@
                       name="分類名稱"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -180,18 +190,17 @@
               </div>
 
               <div class="text-right mb-4 px-6 m w-full">
-                <button
-                  type="button"
-                  class="bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                <div
+                  class="inline-block bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                 >
                   <router-link to="/system/menu">返回功能目錄</router-link>
-                </button>
+                </div>
 
                 <button
-                  class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  class="bg-blue-400 text-white font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="submit"
                 >
-                  更新
+                  更新主分類
                 </button>
               </div>
             </form>
@@ -250,20 +259,20 @@ export default {
   },
 
   created() {
+    console.log(this.$route.params.id);
     this.getMenuWithId(this.$route.params.id);
   },
 
   methods: {
     getMenuWithId(id) {
-      this.$api.serviceMenuId(id).then((element) => {
-        this.menu = element;
+      this.$api.serviceMenuId(id).then((response) => {
+        this.menu = response;
         this.componentKey++;
         this.$store.dispatch("common/fullLoading", false);
       });
     },
 
     menuEdit() {
-      this.$store.dispatch("common/isLoading", true);
       let params = {
         subject_id: this.menu.subject_id,
         name: this.menu.name,
@@ -273,10 +282,9 @@ export default {
 
       this.$api
         .serviceMenuIdEdit(this.$route.params.id, params)
-        .then((element) => {
-          this.menu = element;
-          this.$store.dispatch("common/isLoading", false);
-          alert("更新成功");
+        .then((response) => {
+          this.menu = response;
+          this.$store.dispatch("common/EDIT_DIALOG");
         });
     },
 

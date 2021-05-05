@@ -95,9 +95,7 @@
               </div>
               <button
                 class="text-white font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                :class="[
-                  category ? 'bg-yellow-500' : 'bg-green-500',
-                ]"
+                :class="[category ? 'bg-yellow-500' : 'bg-green-500']"
                 type="button"
                 @click="showAndCloseModal()"
               >
@@ -224,14 +222,15 @@
                     type="button"
                     @click="showAndCloseModal('edit', category.id)"
                   >
-                    <i class="far fa-edit text-blue-400 text-base"></i> 編輯
+                    <i class="far fa-edit text-blue-400 text-base"></i> 編輯分類
                   </button>
                   <button
                     class="text-red-500 bg-transparent border border-solid border-red-500 active:bg-red-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                     type="button"
                     @click="deleteCategory(category.id)"
                   >
-                    <i class="far fa-trash-alt text-red-500 text-base"></i> 刪除
+                    <i class="far fa-trash-alt text-red-500 text-base"></i>
+                    刪除分類
                   </button>
                 </td>
               </tr>
@@ -310,6 +309,7 @@
                       name="分類id"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -347,6 +347,7 @@
                       name="分類名稱"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -400,8 +401,7 @@
                         >啟用狀態</span
                       >
                       <span class="px-2 text-red-500 text-xs font-bold">
-                        *對應欄位 : is_useful ; 0 : 未啟用 、 1 : 啟用 、 2 :
-                        開發中。
+                        *對應欄位 : is_useful ; 0 : 未啟用 、 1 : 啟用 。
                       </span>
                     </div>
                   </div>
@@ -449,7 +449,7 @@
                   class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="submit"
                 >
-                  儲存
+                  確認新增
                 </button>
               </div>
             </form>
@@ -546,7 +546,7 @@ export default {
     },
 
     statusSelect() {
-      return this.$common.getRequireSelect();
+      return this.$common.getIsUsefulSelect();
     },
   },
 
@@ -555,7 +555,6 @@ export default {
       this.$api.serviceCarticleTopIndex().then((response) => {
         this.menus = response;
         this.$store.dispatch("carticle/articleCategory", response);
-        this.$store.dispatch("common/isLoading", false);
         this.$store.dispatch("common/fullLoading", false);
       });
     },
@@ -567,7 +566,6 @@ export default {
           .then((response) => {
             this.$store.dispatch("carticle/articleCategory", response);
             this.secondChilds = response;
-            this.$store.dispatch("common/isLoading", false);
           });
       } else if (this.category) {
         this.firstCategory = "";
@@ -576,7 +574,6 @@ export default {
         this.$api.serviceCarticleIdIndex(this.category.id).then((response) => {
           this.$store.dispatch("carticle/articleCategory", response);
           this.firstChilds = response;
-          this.$store.dispatch("common/isLoading", false);
         });
       }
     },
@@ -595,9 +592,9 @@ export default {
     useful(data) {
       switch (data) {
         case 0:
-          return "上線";
+          return "未啟用";
         case 1:
-          return "下線";
+          return "啟用";
       }
     },
 
@@ -630,7 +627,10 @@ export default {
       // 代表新增主分類
       if (this.category == "") {
         this.$api.serviceCarticleTopAdd(params).then((response) => {
-          alert("新增主分類成功，您可關閉視窗或繼續新增");
+          this.$store.dispatch(
+            "common/ADD_DIALOG",
+            "新增主分類成功，您可關閉視窗或繼續新增"
+          );
           if (response) {
             this.clearModal();
             this.getcarticle();
@@ -656,6 +656,7 @@ export default {
           if (response) {
             this.clearModal();
             this.getCarticleChilds();
+            this.$store.dispatch("common/ADD_DIALOG", category.returnMessage);
           }
         });
       }
@@ -691,7 +692,7 @@ export default {
       if (this.category == "") {
         this.$api.serviceCarticleTopIdEdit(id, this.params).then((response) => {
           if (response) {
-            alert(`主分類 : ${response.name}，更新成功`);
+            this.$store.dispatch("common/EDIT_DIALOG");
             this.params = {
               id: response.id,
               subject_id: response.subject_id,
@@ -706,7 +707,7 @@ export default {
       } else {
         this.$api.serviceCarticleIdEdit(id, this.params).then((response) => {
           if (response) {
-            alert(`子分類 : ${response.name}，更新成功`);
+            this.$store.dispatch("common/EDIT_DIALOG");
             this.params = {
               id: response.id,
               subject_id: response.subject_id,
@@ -721,13 +722,13 @@ export default {
       }
     },
     deleteCategory(id) {
-      this.$store.dispatch("common/isLoading", true);
       this.$api.serviceCarticleIdDelete(id).then(() => {
         if (this.category == "") {
           this.getcarticle();
         } else {
           this.getCarticleChilds();
         }
+        this.$store.dispatch("common/DELETE_DIALOG");
       });
     },
   },

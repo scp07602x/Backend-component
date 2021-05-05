@@ -26,33 +26,14 @@
                   >{{ pageInfo.name }}</span
                 >
               </div>
-              <!-- <router-link
-                class="w-28 bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 text-center"
-                :to="`/system/menu/${menu.id}/category`"
-              >
-                {{ subCategory.name }}清單
-              </router-link> -->
               <router-link
                 class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                 :to="`/system/menu/${pageId}/category/add`"
               >
                 新增子分類
               </router-link>
-              <!-- <router-link
-                class="bg-blue-400 text-white active:bg-blue-500 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                :to="`/system/menu/${subCategory.id}/edit`"
-              >
-                編輯主分類
-              </router-link> -->
-              <!-- <button
-                class="bg-red-400 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                @click="deleteMenu(subCategory.id)"
-              >
-                刪除
-              </button> -->
             </div>
           </div>
-          <!-- Projects table -->
           <table
             class="items-center w-full bg-transparent border-collapse table-fixed border-r border-l border-b"
           >
@@ -69,17 +50,12 @@
                   分類id
                 </th>
                 <th
-                  class="w-44 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
-                >
-                  鍵值
-                </th>
-                <th
                   class="w-32 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
                 >
                   分頁名稱
                 </th>
                 <th
-                  class="w-40 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
+                  class="w-1/4 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
                 >
                   路由名稱
                 </th>
@@ -89,17 +65,12 @@
                   系統權限
                 </th>
                 <th
-                  class="w-24 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
+                  class="w-20 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
                 >
                   icon 圖示
                 </th>
-                <!-- <th
-                  class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
-                >
-                  最後修改時間
-                </th> -->
                 <th
-                  class="w-32 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
+                  class="w-24 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
                 >
                   啟用狀態
                 </th>
@@ -127,11 +98,6 @@
                   {{ menu.subject_id }}
                 </td>
                 <td
-                  class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-left"
-                >
-                  {{ menu.combine_id }}
-                </td>
-                <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-center"
                 >
                   {{ menu.name }}
@@ -151,11 +117,6 @@
                 >
                   <i class="w-8" :class="menu.icon"></i>
                 </td>
-                <!-- <td
-                  class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-center"
-                >
-                  {{ menu.updated_at }}
-                </td> -->
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-center"
                 >
@@ -165,27 +126,27 @@
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-center text-left"
                 >
                   <router-link
-                    class="text-orange-500 bg-transparent border border-solid border-orange-500 active:bg-orange-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                    type="button"
-                    :to="`/system/menu/category/${menu.id}/tab`"
-                  >
-                    <i class="far fa-edit text-orange-500 text-base"></i>
-                    查閱子頁面
-                  </router-link>
-                  <router-link
                     class="text-blue-400 bg-transparent border border-solid border-blue-400 active:bg-blue-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                     type="button"
                     :to="`/system/menu/category/${menu.id}/edit`"
                   >
-                    <i class="far fa-edit text-blue-400 text-base"></i> 編輯
+                    <i class="far fa-edit text-blue-400 text-base"></i> 編輯子分類
                   </router-link>
                   <button
                     class="text-red-500 bg-transparent border border-solid border-red-500 active:bg-red-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                     type="button"
                     @click="deleteMenu(menu.id)"
                   >
-                    <i class="far fa-trash-alt text-red-500 text-base"></i> 刪除
+                    <i class="far fa-trash-alt text-red-500 text-base"></i> 刪除子分類
                   </button>
+                  <router-link
+                    class="text-orange-500 bg-transparent border border-solid border-orange-500 active:bg-orange-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                    type="button"
+                    :to="`/system/menu/category/${menu.id}/tab`"
+                  >
+                    <i class="fas fa-glasses text-base"></i>
+                    全部分頁
+                  </router-link>
                 </td>
               </tr>
             </tbody>

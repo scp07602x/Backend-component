@@ -55,8 +55,13 @@ export default {
         let breadIds = this.labelId.reverse();
         let num = 0;
         let breads = this.$route.meta.breadcrumbs.map((element) => {
-          if (element.path.match(":") !== null) {
-            let pathWithId = element.path.strReplace("/", ":", breadIds[num]);
+          if (element.path.match(/:/) !== null) {
+            let pathWithId = this.$common.stringReplace(
+              element.path,
+              breadIds[num],
+              "/",
+              ":"
+            );
             num++;
             return { path: pathWithId, name: element.name };
           } else {
@@ -94,7 +99,6 @@ ul {
 }
 li {
   cursor: pointer;
-  /* color: #42b983; */
 }
 li:last-child {
   cursor: default;

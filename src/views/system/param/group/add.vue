@@ -55,7 +55,7 @@
                       name="群組代碼"
                       :key="componentKey"
                       rules="required"
-                      classStyle="w-full"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -93,7 +93,7 @@
                       name="備註說明"
                       :key="componentKey"
                       type="text-area"
-                      classStyle="w-full"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -142,7 +142,7 @@
                   class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="submit"
                 >
-                  儲存
+                  確認新增
                 </button>
               </div>
             </form>
@@ -175,7 +175,7 @@ export default {
   beforeCreate() {
     this.$store.dispatch("common/fullLoading", true);
   },
-  
+
   mounted() {
     this.$store.dispatch("common/fullLoading", false);
   },
@@ -192,18 +192,18 @@ export default {
 
   methods: {
     groupAdd() {
-      this.$store.dispatch("common/isLoading", true);
       let params = {
         group_code: this.group_code,
         is_useful: this.is_useful,
         memo: this.memo,
       };
 
-      this.$api.serviceParamGroupAdd(params).then((element) => {
-        if (element) {
-          this.$router.replace({
-            path: "/system/param/group",
+      this.$api.serviceParamGroupAdd(params).then((response) => {
+        if (response) {
+          this.$router.push({
+            path: `/system/param/group/${response.id}/edit`,
           });
+          this.$store.dispatch("common/ADD_DIALOG");
         }
       });
     },

@@ -30,7 +30,7 @@
               >
                 <span
                   class="align-middle py-1 text-sm uppercase border-l-0 border-r-0 font-semibold text-left text-gray-600 border-gray-200 text-center"
-                  >{{ title }}列表</span
+                  >文章列表</span
                 >
               </div>
             </div>
@@ -41,12 +41,12 @@
             <thead>
               <tr>
                 <th
-                  class="w-20 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
+                  class="w-24 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
                 >
                   項次
                 </th>
                 <th
-                  class="w-1/4 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
+                  class="w-1/3 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
                 >
                   文章標題
                 </th>
@@ -71,7 +71,7 @@
                   最後修改日期
                 </th>
                 <th
-                  class="w-1/4 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
+                  class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
                 >
                   功能選項
                 </th>
@@ -106,12 +106,12 @@
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-center"
                 >
-                  {{ category.created_at }}
+                  {{ category.created_at | moment("YYYY-MM-DD HH:mm:ss") }}
                 </td>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-center"
                 >
-                  {{ category.updated_at }}
+                  {{ category.updated_at | moment("YYYY-MM-DD HH:mm:ss") }}
                 </td>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-center text-left"
@@ -219,29 +219,9 @@
         weight: 100%;
         top: 0;
         left: 0;
-        z-index: 40;
+        z-index: 30;
       "
     ></div>
-    <div
-      class="text-white px-6 py-4 border-0 rounded fixed mb-4 bg-red-500"
-      style="width: 82.5%; z-index: 500; transition: all 0.3s"
-      :style="{ 'margin-top': [alertOpen ? '-7.7%' : '-12%'] }"
-    >
-      <span class="text-xl inline-block mr-4 align-middle">
-        <i class="fas fa-bell"></i>
-      </span>
-      <span class="inline-block align-middle">
-        <b class="capitalize">lightBlue!</b> This is a lightBlue alert - check
-        it out!
-      </span>
-      <!-- <button
-        class="absolute bg-transparent text-2xl font-semibold leading-none right-0 top-0 mt-4 mr-4 outline-none focus:outline-none"
-        v-on:click="closeAlert()"
-      >
-        <span>×</span>
-      </button> -->
-    </div>
-    <button @click="alertOpen = !alertOpen">點我</button>
   </div>
 </template>
 
@@ -256,6 +236,7 @@ export default {
       deleteItem: {},
       showModal: false,
       alertOpen: true,
+      page: {},
     };
   },
 
@@ -263,10 +244,12 @@ export default {
     this.$store.dispatch("common/fullLoading", true);
     this.getDataWithCategoryId(this.$route.params.combine_id);
     this.getAddAdndEditId();
+    this.getPageRoute();
   },
 
   watch: {
     $route() {
+      this.getPageRoute();
       this.$store.dispatch("common/fullLoading", true);
       this.getDataWithCategoryId(this.$route.params.combine_id);
       this.getAddAdndEditId();
@@ -275,7 +258,7 @@ export default {
 
   computed: {
     title() {
-      return this.$common.getTitleByRoute(this.$route);
+      return this.page.name;
     },
 
     combine_id() {
@@ -288,6 +271,20 @@ export default {
   },
 
   methods: {
+    getPageRoute() {
+      const { path, params } = this.$route;
+      const realPath = path
+        .replace(Object.values(params).join(), `:${Object.keys(params).join()}`)
+        .substring(1);
+      const combineId = Object.values(params).join();
+
+      this.page = Array.from(this.breadMap.values()).find((element) => {
+        return (
+          element.category_route == realPath && element.subject_id == combineId
+        );
+      });
+    },
+    
     getDataWithCategoryId(id) {
       this.$api.serviceArticleCategoryCombineIdIndex(id).then((response) => {
         this.categories = response;
@@ -328,17 +325,17 @@ export default {
     },
 
     comfirmDelete() {
-      this.$store.dispatch("common/isLoading", true);
       this.$api
         .serviceArticleCategoryCombineIdArticleIdDelete(
           this.$route.params.combine_id,
           this.deleteItem.id
         )
         .then((response) => {
-          console.log(response);
-          this.getDataWithCategoryId(this.$route.params.combine_id);
-          this.showModal = false;
-          this.$store.dispatch("common/isLoading", false);
+          if (response) {
+            this.getDataWithCategoryId(this.$route.params.combine_id);
+            this.showModal = false;
+            this.$store.dispatch("common/DELETE_DIALOG");
+          }
         });
     },
   },

@@ -11,6 +11,12 @@
             >
               <h3 class="font-semibold text-lg text-gray-800">{{ title }}</h3>
             </div>
+            <router-link
+              class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+              :to="`/system/menu/category/tab/${menu.id}/page/add`"
+            >
+              新增子分類
+            </router-link>
             <button
               class="bg-red-400 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
               @click="clearAdd()"
@@ -57,6 +63,7 @@
                       name="分類id"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -95,6 +102,7 @@
                       name="分類名稱"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -218,19 +226,19 @@
               </div>
 
               <div class="text-right mb-4 px-6 m w-full">
-                <button
+                <!-- <button
                   type="button"
                   class="bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   @click="goBackPath()"
                 >
                   返回子類別目錄
-                </button>
+                </button> -->
 
                 <button
-                  class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  class="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="submit"
                 >
-                  更新
+                  更新頁籤
                 </button>
               </div>
             </form>
@@ -294,17 +302,14 @@ export default {
 
   methods: {
     getMenuWithId(id) {
-      this.$store.dispatch("common/isLoading", true);
       this.$api.serviceMenuId(id).then((element) => {
         this.menu = element;
         this.componentKey++;
-        this.$store.dispatch("common/isLoading", false);
         this.$store.dispatch("common/fullLoading", false);
       });
     },
 
     tabEdit() {
-      this.$store.dispatch("common/isLoading", true);
       let params = {
         subject_id: this.menu.subject_id,
         name: this.menu.name,
@@ -315,10 +320,9 @@ export default {
 
       this.$api
         .serviceMenuTabIdEdit(this.$route.params.id, params)
-        .then((element) => {
-          this.menu = element;
-          this.$store.dispatch("common/isLoading", false);
-          alert("更新成功");
+        .then((response) => {
+          this.menu = response;
+          this.$store.dispatch("common/EDIT_DIALOG");
         });
     },
 
@@ -331,9 +335,9 @@ export default {
       this.componentKey++;
     },
 
-    goBackPath() {
-      this.$router.go(-1);
-    },
+    // goBackPath() {
+    //   this.$router.go(-1);
+    // },
   },
 };
 </script>

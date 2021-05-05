@@ -56,6 +56,7 @@
                       name="分類id"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -93,6 +94,7 @@
                       name="分類名稱"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -138,6 +140,7 @@
                       :key="componentKey"
                       name="分類路由"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>

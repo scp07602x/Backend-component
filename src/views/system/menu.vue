@@ -22,11 +22,11 @@
             >
               編輯
             </button> -->
-            <button
+            <!-- <button
               class="bg-yellow-500 text-white active:bg-yellow-400 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 cursor-pointer"
             >
               匯出Excel-未完成
-            </button>
+            </button> -->
           </div>
         </div>
         <div
@@ -44,12 +44,24 @@
                   >{{ menu.name }}</span
                 >
               </div>
+              <router-link
+                class="bg-blue-400 text-white active:bg-blue-500 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                :to="`/system/menu/${menu.id}/edit`"
+              >
+                編輯{{ menu.name }}主分類
+              </router-link>
+              <button
+                class="bg-red-400 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                @click="deleteMenu(menu.id)"
+              >
+                刪除{{ menu.name }}主分類
+              </button>
               <button
                 type="button"
                 class="w-28 bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 text-center"
                 @click="goSubCategory(menu.id, menu)"
               >
-                {{ menu.name }}清單
+                {{ menu.name }}列表
               </button>
               <router-link
                 class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
@@ -57,18 +69,6 @@
               >
                 新增子分類
               </router-link>
-              <router-link
-                class="bg-blue-400 text-white active:bg-blue-500 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                :to="`/system/menu/${menu.id}/edit`"
-              >
-                編輯主分類
-              </router-link>
-              <button
-                class="bg-red-400 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                @click="deleteMenu(menu.id)"
-              >
-                刪除
-              </button>
             </div>
           </div>
           <!-- Projects table -->
@@ -86,11 +86,6 @@
                   class="w-32 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
                 >
                   分類id
-                </th>
-                <th
-                  class="w-44 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
-                >
-                  鍵值
                 </th>
                 <th
                   class="w-32 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
@@ -145,11 +140,11 @@
                 >
                   {{ data.subject_id }}
                 </td>
-                <td
+                <!-- <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-left"
                 >
                   {{ data.combine_id }}
-                </td>
+                </td> -->
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-center"
                 >
@@ -158,6 +153,7 @@
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-left"
                 >
+                  <!-- {{ data.created_at | moment("YYYY-MM-DD HH:mm:ss") }} -->
                   {{ data.category_route }}
                 </td>
                 <td
@@ -170,11 +166,6 @@
                 >
                   <i class="w-8" :class="data.icon"></i>
                 </td>
-                <!-- <td
-                  class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-center"
-                >
-                  {{ data.updated_at }}
-                </td> -->
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-center"
                 >
@@ -184,26 +175,29 @@
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-center text-left"
                 >
                   <router-link
-                    class="text-orange-500 bg-transparent border border-solid border-orange-500 active:bg-orange-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                    :to="`/system/menu/category/${data.id}/tab`"
-                  >
-                    <i class="far fa-edit text-orange-500 text-base"></i>
-                    查閱子頁面
-                  </router-link>
-                  <router-link
                     class="text-blue-400 bg-transparent border border-solid border-blue-400 active:bg-blue-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                     type="button"
                     :to="`/system/menu/category/${data.id}/edit`"
                   >
-                    <i class="far fa-edit text-blue-400 text-base"></i> 編輯
+                    <i class="far fa-edit text-blue-400 text-base"></i>
+                    編輯子分類
                   </router-link>
                   <button
                     class="text-red-500 bg-transparent border border-solid border-red-500 active:bg-red-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                     type="button"
                     @click="deleteMenu(data.id)"
                   >
-                    <i class="far fa-trash-alt text-red-500 text-base"></i> 刪除
+                    <i class="far fa-trash-alt text-red-500 text-base"></i>
+                    刪除子分類
                   </button>
+                  <router-link
+                    class="text-orange-500 bg-transparent border border-solid border-orange-500 active:bg-orange-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                    type="button"
+                    :to="`/system/menu/category/${data.id}/tab`"
+                  >
+                    <i class="fas fa-glasses text-base"></i>
+                    全部分頁
+                  </router-link>
                 </td>
               </tr>
             </tbody>
@@ -241,7 +235,6 @@ export default {
     getMenu() {
       this.$api.serviceMenu().then((response) => {
         this.$store.dispatch("menu/list", response);
-        this.$store.dispatch("common/isLoading", false);
         this.$store.dispatch("common/fullLoading", false);
       });
     },
@@ -253,21 +246,16 @@ export default {
       });
     },
 
-    useful(data) {
-      switch (data) {
-        case 0:
-          return "未啟用";
-        case 1:
-          return "啟用";
-        case 2:
-          return "開發中";
-      }
+    useful(param) {
+      return this.$common.isUseful(param);
     },
 
     deleteMenu(id) {
-      this.$store.dispatch("common/isLoading", true);
-      this.$api.serviceMenuIdDelete(id).then(() => {
-        this.getMenu();
+      this.$api.serviceMenuIdDelete(id).then((response) => {
+        if (response) {
+          this.$store.dispatch("common/DELETE_DIALOG");
+          this.getMenu();
+        }
       });
     },
   },

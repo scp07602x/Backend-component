@@ -21,10 +21,10 @@
               <div
                 class="relative w-full px-4 max-w-full flex-grow flex-1 inline-block"
               >
-                <!-- <span
+                <span
                   class="align-middle py-1 text-sm uppercase border-l-0 border-r-0 font-semibold text-left text-gray-600 border-gray-200 text-center"
-                  >{{ subCategory.name }}清單</span
-                > -->
+                  >參數列表</span
+                >
               </div>
               <router-link
                 class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
@@ -40,27 +40,22 @@
             <thead>
               <tr>
                 <th
-                  class="w-20 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
+                  class="w-24 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
                 >
                   項次
                 </th>
                 <th
-                  class="w-1/4 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
-                >
-                  id
-                </th>
-                <th
-                  class="w-28 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
+                  class="w-32 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
                 >
                   代碼
                 </th>
                 <th
-                  class="w-48 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
+                  class="w-1/2 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
                 >
                   說明
                 </th>
                 <th
-                  class="w-32 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
+                  class="w-32 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-center bg-gray-100 text-gray-600 border-gray-200 text-left"
                 >
                   排序
                 </th>
@@ -70,7 +65,7 @@
                   必要狀態
                 </th>
                 <th
-                  class="w-1/4 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
+                  class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
                 >
                   功能選項
                 </th>
@@ -86,11 +81,6 @@
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-center"
                 >
                   {{ index + 1 }}
-                </td>
-                <td
-                  class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-left"
-                >
-                  {{ group.id }}
                 </td>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-left"
@@ -120,14 +110,14 @@
                     type="button"
                     :to="`/system/param/group/code/${group.id}/edit`"
                   >
-                    <i class="far fa-edit text-blue-400 text-base"></i> 編輯
+                    <i class="far fa-edit text-blue-400 text-base"></i> 編輯代碼
                   </router-link>
                   <button
                     class="text-red-500 bg-transparent border border-solid border-red-500 active:bg-red-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                     type="button"
                     @click="deleteCode(group.id)"
                   >
-                    <i class="far fa-trash-alt text-red-500 text-base"></i> 刪除
+                    <i class="far fa-trash-alt text-red-500 text-base"></i> 刪除代碼
                   </button>
                 </td>
               </tr>
@@ -147,7 +137,6 @@ export default {
 
   beforeCreate() {
     this.$store.dispatch("common/fullLoading", true);
-    this.$store.dispatch("common/isLoading", false);
   },
 
   created() {
@@ -170,7 +159,6 @@ export default {
         .serviceParamGroupIdCodeIndex(this.$route.params.id)
         .then((response) => {
           this.groupList = response;
-          this.$store.dispatch("common/isLoading", false);
           this.$store.dispatch("common/fullLoading", false);
         });
     },
@@ -185,9 +173,9 @@ export default {
     },
 
     deleteCode(id) {
-      this.$store.dispatch("common/isLoading", true);
       this.$api.serviceParamIdDelete(id).then(() => {
         this.getGroupList();
+        this.$store.dispatch("common/DELETE_DIALOG");
       });
     },
   },

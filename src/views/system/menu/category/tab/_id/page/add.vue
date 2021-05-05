@@ -9,7 +9,9 @@
             <div
               class="relative w-full px-4 max-w-full flex-grow flex-1 inline-block"
             >
-              <h3 class="font-semibold text-lg text-gray-800">{{ title }}</h3>
+              <h3 class="font-semibold text-lg text-gray-800">
+                {{ title }}分頁
+              </h3>
             </div>
             <button
               class="bg-red-400 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
@@ -56,6 +58,7 @@
                       name="分類id"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -93,6 +96,7 @@
                       name="分類名稱"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -138,6 +142,7 @@
                       name="分類路由"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -224,7 +229,7 @@
                   class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="submit"
                 >
-                  儲存
+                  新增分頁
                 </button>
               </div>
             </form>
@@ -274,13 +279,7 @@ export default {
     },
 
     permissionsSelect() {
-      return {
-        title: "請選擇權限類別",
-        options: [
-          { type: "admin", description: "admin" },
-          { type: "system", description: "system" },
-        ],
-      };
+      return this.$common.getPermissionsSelect();
     },
 
     parentRoute() {
@@ -290,7 +289,6 @@ export default {
 
   methods: {
     pageAdd() {
-      this.$store.dispatch("common/isLoading", true);
       let params = {
         subject_id: this.subject_id,
         name: this.name,
@@ -302,10 +300,13 @@ export default {
 
       this.$api
         .serviceMenuTabIdPageAdd(this.$route.params.id, params)
-        .then((element) => {
-          if (element) {
-            alert("新增成功");
-            this.$router.go(-1);
+        .then((response) => {
+          if (response) {
+            this.$store.dispatch(
+              "common/ADD_DIALOG",
+              "您可以繼續新增頁面或是回到分頁列表"
+            );
+            this.clearAdd();
           }
         });
     },
@@ -316,7 +317,7 @@ export default {
           this[element] = "";
         }
       });
-      this.componentKey += 1;
+      this.componentKey++;
     },
   },
 };

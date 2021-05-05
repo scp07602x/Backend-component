@@ -10,8 +10,7 @@
     <input
       :type="type"
       v-model="currentValue"
-      class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline ease-linear transition-all duration-150"
-      :class="[styleClass]"
+      class="w-full px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline ease-linear transition-all duration-150"
     />
     <span
       class="text-xs font-bold mx-4"

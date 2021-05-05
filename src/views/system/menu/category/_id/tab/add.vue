@@ -56,6 +56,7 @@
                       name="分類id"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -93,6 +94,7 @@
                       name="分類名稱"
                       :key="componentKey"
                       rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -217,7 +219,7 @@
                   class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="submit"
                 >
-                  儲存
+                  新增頁籤
                 </button>
               </div>
             </form>
@@ -273,19 +275,12 @@ export default {
     },
 
     permissionsSelect() {
-      return {
-        title: "請選擇權限類別",
-        options: [
-          { type: "admin", description: "admin" },
-          { type: "system", description: "system" },
-        ],
-      };
+      return this.$common.getPermissionsSelect();
     },
   },
 
   methods: {
     categoryAdd() {
-      this.$store.dispatch("common/isLoading", true);
       let params = {
         subject_id: this.subject_id,
         name: this.name,
@@ -296,9 +291,12 @@ export default {
 
       this.$api
         .serviceMenuCategoryIdTabAdd(this.$route.params.id, params)
-        .then((element) => {
-          if (element) {
-            this.$router.go(-1);
+        .then((response) => {
+          if (response) {
+            this.$store.dispatch("common/ADD_DIALOG");
+            this.$router.push({
+              path: `/system/menu/category/tab/${response.id}/edit`,
+            });
           }
         });
     },

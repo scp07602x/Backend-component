@@ -41,27 +41,27 @@
             <thead>
               <tr>
                 <th
-                  class="w-20 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
+                  class="w-24 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
                 >
                   項次
                 </th>
                 <th
-                  class="w-40 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
+                  class="w-48 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
                 >
                   群組代碼
                 </th>
                 <th
-                  class="w-1/4 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
+                  class="w-1/3 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
                 >
                   系統參數值
                 </th>
                 <th
-                  class="w-48 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
+                  class="w-1/3 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
                 >
                   備註說明
                 </th>
                 <th
-                  class="w-1/4 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
+                  class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
                 >
                   功能選項
                 </th>
@@ -103,11 +103,12 @@
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-center text-left"
                 >
                   <button
-                    class="text-green-500 bg-transparent border border-solid border-green-500 active:bg-green-500 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                    class="text-blue-400 bg-transparent border border-solid border-blue-400 active:bg-blue-500 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                     type="button"
                     @click="updateSocial(data, data.id)"
                   >
-                    <i class="far fa-edit text-green-500 text-base"></i>更新
+                    <i class="far fa-edit text-blue-400 text-base"></i
+                    >更新參數值
                   </button>
                 </td>
               </tr>
@@ -146,7 +147,7 @@ export default {
   },
 
   computed: {
-   title() {
+    title() {
       return this.$common.getTitleByRoute(this.$route);
     },
   },
@@ -156,19 +157,20 @@ export default {
       this.$api.serviceWebsiteSocialIndex().then((response) => {
         this.websiteSocial = response;
         this.componentKey++;
-        this.$store.dispatch("common/isLoading", false);
         this.$store.dispatch("common/fullLoading", false);
       });
     },
 
     updateSocial(data, id) {
-      this.$store.dispatch("common/isLoading", true);
       let params = {
         value: data.value,
       };
 
-      this.$api.serviceWebsiteSocialIdEdit(id, params).then(() => {
-        this.getWebsiteSocial();
+      this.$api.serviceWebsiteSocialIdEdit(id, params).then((response) => {
+        if (response) {
+          this.getWebsiteSocial();
+          this.$store.dispatch("common/EDIT_DIALOG");
+        }
       });
     },
   },

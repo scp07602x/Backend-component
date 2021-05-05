@@ -56,7 +56,7 @@
                       name="參數代碼"
                       :key="componentKey"
                       rules="required"
-                      classStyle="w-full"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -94,7 +94,8 @@
                       name="備註說明"
                       :key="componentKey"
                       type="text-area"
-                      classStyle="w-full"
+                      rules="required"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -180,7 +181,7 @@
                   class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="submit"
                 >
-                  儲存
+                  確認新增
                 </button>
               </div>
             </form>
@@ -231,7 +232,6 @@ export default {
 
   methods: {
     codeAdd() {
-      this.$store.dispatch("common/isLoading", true);
       let params = {
         code: this.code,
         is_required: this.is_required,
@@ -241,9 +241,13 @@ export default {
 
       this.$api
         .serviceParamGroupIdCodeAdd(this.$route.params.id, params)
-        .then((element) => {
-          if (element) {
-            this.$router.go(-1);
+        .then((response) => {
+          if (response) {
+            this.$store.dispatch(
+              "common/ADD_DIALOG",
+              "您可以繼續新增參數，或返回參數列表"
+            );
+            this.clearAdd();
           }
         });
     },

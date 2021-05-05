@@ -17,7 +17,7 @@
               >前往社群設定</router-link
             >
             <button
-              class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+              class="bg-blue-400 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
               type="button"
               @click="groupEdit()"
             >
@@ -67,7 +67,7 @@
                       name="網站抬頭"
                       :key="componentKey"
                       rules="required"
-                      classStyle="w-full"
+                      classStyle="w-1/2"
                     />
                     <span
                       class="inline-block text-gray-700 text-xs font-bold mb-2"
@@ -110,7 +110,7 @@
                       name="網站抬頭"
                       :key="componentKey"
                       rules="required"
-                      classStyle="w-full"
+                      classStyle="w-1/2"
                     />
                     <span
                       class="inline-block text-gray-700 text-xs font-bold mb-2"
@@ -153,7 +153,7 @@
                       name="網站描述"
                       :key="componentKey"
                       rules="required"
-                      classStyle="w-full"
+                      classStyle="w-1/2"
                     />
                     <span
                       class="inline-block text-gray-700 text-xs font-bold mb-2"
@@ -196,7 +196,7 @@
                       name="網站描述"
                       :key="componentKey"
                       rules="required"
-                      classStyle="w-full"
+                      classStyle="w-1/2"
                     />
                     <span
                       class="inline-block text-gray-700 text-xs font-bold mb-2"
@@ -239,7 +239,7 @@
                       name="作者"
                       :key="componentKey"
                       rules="required"
-                      classStyle="w-full"
+                      classStyle="w-1/2"
                     />
                     <span
                       class="inline-block text-gray-700 text-xs font-bold mb-2"
@@ -282,7 +282,7 @@
                       name="版權宣告"
                       :key="componentKey"
                       rules="required"
-                      classStyle="w-full"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -320,7 +320,7 @@
                       name="客服 Email"
                       :key="componentKey"
                       type="email"
-                      classStyle="w-full"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -358,7 +358,7 @@
                       name="密件 Email"
                       :key="componentKey"
                       type="email"
-                      classStyle="w-full"
+                      classStyle="w-1/2"
                     />
                   </div>
                 </div>
@@ -634,7 +634,7 @@
                   >前往社群設定</router-link
                 >
                 <button
-                  class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  class="bg-blue-400 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="submit"
                 >
                   更新
@@ -692,14 +692,12 @@ export default {
           this.maintenance = true;
         }
         this.websiteData = response;
-        this.$store.dispatch("common/isLoading", false);
         this.componentKey += 1;
         this.$store.dispatch("common/fullLoading", false);
       });
     },
 
     groupEdit() {
-      this.$store.dispatch("common/isLoading", true);
       let formData = new FormData();
       formData.append("meta_title", this.websiteData.meta_title);
       formData.append("meta_subject", this.websiteData.meta_subject);
@@ -738,19 +736,17 @@ export default {
       }
 
       this.$api.serviceWebsiteEdit(formData).then(() => {
-        this.$store.dispatch("common/isLoading", false);
-        alert("更新成功");
+        this.$store.dispatch("common/EDIT_DIALOG");
         this.getWebsiteBasic();
       });
     },
 
     clearAdd() {
-      Object.keys(this._data).forEach((element) => {
-        if (element !== "componentKey") {
-          this[element] = "";
-        }
+     Object.keys(this.websiteData).forEach((element) => {
+        this.websiteData[element] = "";
       });
-      this.componentKey += 1;
+
+      this.componentKey++;
     },
   },
 };

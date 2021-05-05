@@ -8,6 +8,7 @@ import {
 } from '@/router';
 import staticRoute from "@/router/staticRoute";
 import errorRoute from '@/router/errorRoute';
+import common from '@/utility/common';
 
 const token = storage.getitem('token');
 
@@ -48,7 +49,7 @@ function getSiderbar() {
 
       firstStep.children = firstStep.children.map(secondStep => {
 
-        secondStep.category_route = secondStep.category_route.strReplace('/', ':', secondStep.subject_id);
+        secondStep.category_route = common.stringReplace(secondStep.category_route, secondStep.subject_id, '/', ':');
 
         return secondStep;
       })
@@ -115,7 +116,7 @@ function getFormatRoute(route) {
     result.path = `/${route.category_route}`;
   } else {
 
-    result.path = route.children.length ? `/${route.children.first().category_route}` : '';
+    result.path = route.children.length ? `/${common.arrayFirst(route.children).category_route}` : '';
   }
 
   if (route.component) {

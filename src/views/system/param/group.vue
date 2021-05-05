@@ -15,13 +15,13 @@
               class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
               to="/system/param/group/add"
             >
-              新增主分類
+              新增參數群組
             </router-link>
-            <button
+            <!-- <button
               class="bg-yellow-500 text-white active:bg-yellow-400 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 cursor-pointer"
             >
               匯出Excel-未完成
-            </button>
+            </button> -->
           </div>
         </div>
         <div class="block w-full overflow-x-auto px-6 pb-6">
@@ -32,7 +32,7 @@
               >
                 <span
                   class="align-middle py-1 text-sm uppercase border-l-0 border-r-0 font-semibold text-left text-gray-600 border-gray-200 text-center"
-                  >{{ title }}列表</span
+                  >{{ title }}群組列表</span
                 >
               </div>
               <!-- <button
@@ -69,12 +69,12 @@
             <thead>
               <tr>
                 <th
-                  class="w-20 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
+                  class="w-24 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
                 >
                   項次
                 </th>
                 <th
-                  class="w-40 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
+                  class="w-36 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-left"
                 >
                   群組代碼
                 </th>
@@ -84,12 +84,12 @@
                   備註說明
                 </th>
                 <th
-                  class="w-32 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
+                  class="w-24 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
                 >
                   啟用狀態
                 </th>
                 <th
-                  class="w-1/4 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
+                  class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200 text-center"
                 >
                   功能選項
                 </th>
@@ -125,26 +125,26 @@
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-2 text-gray-600 text-center text-left"
                 >
                   <router-link
-                    class="text-orange-500 bg-transparent border border-solid border-orange-500 active:bg-orange-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                    :to="`/system/param/group/${group.id}/code`"
-                  >
-                    <i class="far fa-edit text-orange-500 text-base"></i>
-                    參數列表
-                  </router-link>
-                  <router-link
                     class="text-blue-400 bg-transparent border border-solid border-blue-400 active:bg-blue-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                     type="button"
                     :to="`/system/param/group/${group.id}/edit`"
                   >
-                    <i class="far fa-edit text-blue-400 text-base"></i> 編輯
+                    <i class="far fa-edit text-blue-400 text-base"></i> 編輯參數群組
                   </router-link>
                   <button
                     class="text-red-500 bg-transparent border border-solid border-red-500 active:bg-red-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                     type="button"
                     @click="deleteGroup(group.id)"
                   >
-                    <i class="far fa-trash-alt text-red-500 text-base"></i> 刪除
+                    <i class="far fa-trash-alt text-red-500 text-base"></i> 刪除參數群組
                   </button>
+                  <router-link
+                    class="text-orange-500 bg-transparent border border-solid border-orange-500 active:bg-orange-200 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                    :to="`/system/param/group/${group.id}/code`"
+                  >
+                    <i class="far fa-edit text-orange-500 text-base"></i>
+                    參數列表
+                  </router-link>
                 </td>
               </tr>
             </tbody>
@@ -184,9 +184,9 @@ export default {
     },
 
     deleteGroup(id) {
-      this.$store.dispatch("common/isLoading", true);
       this.$api.serviceParamIdDelete(id).then(() => {
         this.paramGroup();
+        this.$store.dispatch("common/DELETE_DIALOG");
       });
     },
 

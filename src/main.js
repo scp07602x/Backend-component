@@ -18,15 +18,16 @@ import * as tinymce from '@/plugins/tinymce';
 
 // loading
 import * as VLoading from '@/plugins/loading';
-// import 'vue-loading-overlay/dist/vue-loading.css';
 
 // multiselect
 import * as multiselect from '@/plugins/multiselect';
 
+// multiselect
+import * as moment from '@/plugins/moment';
+
 // utility
 import * as utility from '@/utility';
 import common from '@/utility/common';
-import * as prototype from '@/utility/prototype';
 import storage from '@/utility/storage'
 
 // styles
@@ -40,7 +41,6 @@ Vue.prototype.$api = api;
 Vue.prototype.$storage = storage;
 Vue.prototype.$utility = utility;
 Vue.prototype.$common = common;
-// Vue.component('VLoading', VLoading);
 
 new Vue({
   router,
@@ -54,7 +54,7 @@ new Vue({
   storage,
   tinymce,
   common,
-  prototype,
+  moment,
   VLoading,
   multiselect,
   render: (h) => h(App)

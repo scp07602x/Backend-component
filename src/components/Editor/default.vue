@@ -12,7 +12,7 @@
         'insertdatetime media table paste code help wordcount',
       ],
       toolbar:
-        'undo redo | table | copy cut paste | formatselect | bold italic backcolor underline code| alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | removeformat wordcount | help',
+        'undo redo | table | copy cut paste | formatselect | bold italic backcolor underline | code | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | removeformat wordcount | help',
     }"
   />
 </template>

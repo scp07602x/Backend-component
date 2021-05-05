@@ -1,5 +1,23 @@
 <template>
   <div>
+    <div
+      class="text-white px-6 py-4 border-0 rounded fixed mb-4"
+      :class="[dialogStatus ? `${dialog.style}` : 'bg-gray-700']"
+      style="
+        width: 82.5%;
+        z-index: 500;
+        transition: all 0.5s;
+        margin-left: 18.5rem;
+      "
+      :style="{ 'margin-top': [dialogStatus ? '.5%' : '-5%'] }"
+    >
+      <span class="text-xl inline-block mr-4 align-middle">
+        <i class="fas fa-bell"></i>
+      </span>
+      <span class="inline-block align-middle">
+        <b class="capitalize">{{ dialog.mes }}{{ dialog.tips }}</b>
+      </span>
+    </div>
     <sidebar />
     <div class="relative md:ml-64 bg-gray-200">
       <admin-navbar />
@@ -65,6 +83,12 @@ export default {
     },
     fullLoading() {
       return this.$store.state.common.fullLoading;
+    },
+    dialog() {
+      return this.$store.state.common.dialog;
+    },
+    dialogStatus() {
+      return this.$store.state.common.dialogStatus;
     },
   },
 

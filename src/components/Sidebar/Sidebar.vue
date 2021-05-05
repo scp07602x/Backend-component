@@ -40,7 +40,6 @@
             </div>
           </div>
         </div>
-        <!-- <hr class="my-4 md:min-w-full" /> -->
 
         <div v-for="item in sidebar" :key="item.name">
           <h6
@@ -57,30 +56,6 @@
                 v-for="tag in item.children"
                 :key="tag.name"
               >
-                <!-- <router-link
-                v-slot="{ href, navigate, isActive }"
-                :to="`/${tag.category_route}`"
-              >
-                <a
-                  :href="href"
-                  @click="navigate"
-                  class="text-sm uppercase py-3 font-bold block"
-                  :class="[
-                    isActive
-                      ? 'text-green-500 hover:text-green-600'
-                      : 'text-gray-800 hover:text-gray-600',
-                  ]"
-                >
-                  <i
-                    class="mr-2 text-base"
-                    :class="[
-                      tag.icon,
-                      isActive ? 'opacity-75' : 'text-gray-400',
-                    ]"
-                  ></i>
-                  {{ tag.name }}
-                </a>
-              </router-link> -->
                 <router-link
                   v-slot="{ href, navigate, isActive }"
                   :to="{ name: tag.id, params: { combine_id: tag.subject_id } }"
@@ -91,7 +66,7 @@
                     class="text-sm uppercase py-3 font-bold block"
                     :class="[
                       isActive
-                        ? 'text-green-500 hover:text-green-600'
+                        ? 'text-orange-600 hover:text-orange-500'
                         : 'text-gray-800 hover:text-gray-600',
                     ]"
                   >
@@ -108,69 +83,72 @@
               </li>
             </ul>
           </div>
+          <!-- <hr class="my-4 md:min-w-full" /> -->
         </div>
 
         <hr class="my-4 md:min-w-full" />
         <!-- Heading -->
-        <h6
-          class="md:min-w-full text-gray-600 text-sm uppercase font-bold block pt-1 pb-4 no-underline"
-        >
-          參考文件
-        </h6>
-        <!-- Navigation -->
-        <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-          <li class="inline-flex">
-            <a
-              href="https://www.creative-tim.com/learning-lab/tailwind/vue/colors/notus"
-              target="_blank"
-              class="text-gray-800 hover:text-gray-600 text-sm block mb-4 no-underline font-semibold"
-            >
-              <i class="fas fa-paint-brush mr-2 text-gray-400 text-base"></i>
-              Styles
-            </a>
-          </li>
+        <div v-if="account == 'System'">
+          <h6
+            class="md:min-w-full text-gray-600 text-sm uppercase font-bold block pt-1 pb-4 no-underline"
+          >
+            參考文件
+          </h6>
+          <!-- Navigation -->
+          <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
+            <li class="inline-flex">
+              <a
+                href="https://www.creative-tim.com/learning-lab/tailwind/vue/colors/notus"
+                target="_blank"
+                class="text-gray-800 hover:text-gray-600 text-sm block mb-4 no-underline font-semibold"
+              >
+                <i class="fas fa-paint-brush mr-2 text-gray-400 text-base"></i>
+                Styles
+              </a>
+            </li>
 
-          <li class="inline-flex">
-            <a
-              href="https://www.creative-tim.com/learning-lab/tailwind/vue/alerts/notus"
-              target="_blank"
-              class="text-gray-800 hover:text-gray-600 text-sm block mb-4 no-underline font-semibold"
-            >
-              <i class="fab fa-css3-alt mr-2 text-gray-400 text-base"></i>
-              CSS Components
-            </a>
-          </li>
-          <li class="inline-flex">
-            <a
-              href="https://www.creative-tim.com/learning-lab/tailwind/vue/overview/notus"
-              target="_blank"
-              class="text-gray-800 hover:text-gray-600 text-sm block mb-4 no-underline font-semibold"
-            >
-              <i class="fab fa-vuejs mr-2 text-gray-400 text-base"></i>
-              VueJS
-            </a>
-          </li>
-          <li class="inline-flex">
-            <a
-              href="https://tailwindcss.com/"
-              target="_blank"
-              class="text-gray-800 hover:text-gray-600 text-sm block mb-4 no-underline font-semibold"
-            >
-              <i class="fab fa-css3-alt mr-2 text-gray-400 text-base"></i>
-              tailwindcss
-            </a>
-          </li>
-          <li class="inline-flex">
-            <a
-              href="https://fontawesome.com/"
-              target="_blank"
-              class="text-gray-800 hover:text-gray-600 text-sm block mb-4 no-underline font-semibold"
-            >
-              <i class="fab fa-font-awesome mr-2 text-gray-400 text-base"></i>
-              Font Awesome
-            </a>
-          </li>
-        </ul>
+            <li class="inline-flex">
+              <a
+                href="https://www.creative-tim.com/learning-lab/tailwind/vue/alerts/notus"
+                target="_blank"
+                class="text-gray-800 hover:text-gray-600 text-sm block mb-4 no-underline font-semibold"
+              >
+                <i class="fab fa-css3-alt mr-2 text-gray-400 text-base"></i>
+                CSS Components
+              </a>
+            </li>
+            <li class="inline-flex">
+              <a
+                href="https://www.creative-tim.com/learning-lab/tailwind/vue/overview/notus"
+                target="_blank"
+                class="text-gray-800 hover:text-gray-600 text-sm block mb-4 no-underline font-semibold"
+              >
+                <i class="fab fa-vuejs mr-2 text-gray-400 text-base"></i>
+                VueJS
+              </a>
+            </li>
+            <li class="inline-flex">
+              <a
+                href="https://tailwindcss.com/"
+                target="_blank"
+                class="text-gray-800 hover:text-gray-600 text-sm block mb-4 no-underline font-semibold"
+              >
+                <i class="fab fa-css3-alt mr-2 text-gray-400 text-base"></i>
+                tailwindcss
+              </a>
+            </li>
+            <li class="inline-flex">
+              <a
+                href="https://fontawesome.com/"
+                target="_blank"
+                class="text-gray-800 hover:text-gray-600 text-sm block mb-4 no-underline font-semibold"
+              >
+                <i class="fab fa-font-awesome mr-2 text-gray-400 text-base"></i>
+                Font Awesome
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>
@@ -189,6 +167,9 @@ export default {
   computed: {
     sidebar() {
       return this.$store.state.sidebar.list;
+    },
+    account() {
+      return this.$store.state.common.loginInfomation.account;
     },
   },
 

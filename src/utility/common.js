@@ -1,4 +1,20 @@
 export default {
+  arrayFirst(array) {
+    return array[0];
+  },
+
+  stringReplace(originalString, replaceString, separatingSymbols, key) {
+    if (originalString) {
+      return originalString.split(separatingSymbols).map(element => {
+        if (element.indexOf(key) !== -1) {
+          return replaceString;
+        } else {
+          return element
+        }
+      }).join(separatingSymbols);
+    } else originalString;
+  },
+
   getTitleByRoute(route) {
     return route.meta.name;
   },
@@ -65,5 +81,31 @@ export default {
         },
       ],
     };
+  },
+
+  getPermissionsSelect() {
+    return {
+      title: "請選擇權限類別",
+      options: [{
+          type: "admin",
+          description: "admin"
+        },
+        {
+          type: "system",
+          description: "system"
+        },
+      ],
+    };
+  },
+
+  isUseful(param) {
+    switch (param) {
+      case 0:
+        return "未啟用";
+      case 1:
+        return "啟用";
+      case 2:
+        return "開發中";
+    }
   },
 }
